@@ -1,10 +1,11 @@
 #include "KOCQPluginBase.h"
 
-KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source)
+KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name)
 {
     m_engine = engine;
     m_source = source;
     m_quickItemIcon = NULL;
+    m_pluginName = name;
     QObject::connect(parent, SIGNAL(qmlSignal(QVariant)),
                        this, SLOT(addIconSlot(QVariant)));
 }
@@ -17,6 +18,11 @@ QQmlEngine* KOCQPluginBase::getEngine() const
 QUrl KOCQPluginBase::getUrlSource() const
 {
     return m_source;
+}
+
+QString KOCQPluginBase::getPluginName() const
+{
+    return m_pluginName;
 }
 
 void KOCQPluginBase::addIcon(const QVariant &v, QString data)
