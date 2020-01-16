@@ -56,6 +56,10 @@ void KOCQPluginBase::addIcon(const QVariant &v)
                                  "anchors.margins: parent.height * 0.01; "
                                  "fillMode: Image.PreserveAspectFit; "
                                  "source: \"image/icon.png\"; "
+                                 "MouseArea {"
+                                    "anchors.fill: parent; "
+                                    "onClicked: { console.log(" + text + ") }"
+                                 "}"
                             "}"
 
                        "}";
