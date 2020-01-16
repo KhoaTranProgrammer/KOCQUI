@@ -19,7 +19,7 @@ public:
     QUrl getUrlSource() const;
     QString getPluginName() const;
 
-    void addIcon(const QVariant &v, QString data);
+    void addIcon(const QVariant &v);
 
 public slots:
     virtual void addIconSlot(const QVariant &v) = 0;

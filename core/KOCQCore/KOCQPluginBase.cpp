@@ -25,12 +25,41 @@ QString KOCQPluginBase::getPluginName() const
     return m_pluginName;
 }
 
-void KOCQPluginBase::addIcon(const QVariant &v, QString data)
+void KOCQPluginBase::addIcon(const QVariant &v)
 {
     QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
 
     if(m_quickItemIcon == NULL)
     {
+        QString text = "\"" + getPluginName() + "\"";
+        QString data = "import QtQuick 2.0; "
+                       "Item { "
+                            "anchors.fill: parent; "
+                            "Rectangle { "
+                                "id: id_name; "
+                                "color: \"transparent\";"
+                                "anchors.bottom: parent.bottom; "
+                                "anchors.left: parent.left; "
+                                "anchors.right: parent.right; "
+                                "height: parent.height * 0.15; "
+                                "Text {"
+                                    "anchors.centerIn: parent; "
+                                    "text: " + text + ";"
+                                    "font.pointSize: parent.height * 0.9; "
+                                "}"
+                            "}"
+                            "Image { "
+                                 "anchors.top: parent.top; "
+                                 "anchors.left: parent.left; "
+                                 "anchors.right: parent.right; "
+                                 "anchors.bottom: id_name.top; "
+                                 "anchors.margins: parent.height * 0.01; "
+                                 "fillMode: Image.PreserveAspectFit; "
+                                 "source: \"image/icon.png\"; "
+                            "}"
+
+                       "}";
+
         QQmlComponent *component = new QQmlComponent(getEngine());
         component->setData(data.toUtf8(), getUrlSource());
         m_quickItemIcon = qobject_cast<QQuickItem*>(component->create());
