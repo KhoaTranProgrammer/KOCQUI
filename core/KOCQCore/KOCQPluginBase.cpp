@@ -35,6 +35,7 @@ void KOCQPluginBase::addIcon(const QVariant &v)
         QString data = "import QtQuick 2.0; "
                        "Item { "
                             "anchors.fill: parent; "
+                            "signal iConClicked(); "
                             "Rectangle { "
                                 "id: id_name; "
                                 "color: \"transparent\";"
@@ -58,15 +59,16 @@ void KOCQPluginBase::addIcon(const QVariant &v)
                                  "source: \"image/icon.png\"; "
                                  "MouseArea {"
                                     "anchors.fill: parent; "
-                                    "onClicked: { console.log(" + text + ") }"
+                                    "onClicked: { iConClicked() }"
                                  "}"
                             "}"
-
                        "}";
 
         QQmlComponent *component = new QQmlComponent(getEngine());
         component->setData(data.toUtf8(), getUrlSource());
         m_quickItemIcon = qobject_cast<QQuickItem*>(component->create());
         m_quickItemIcon->setParentItem(parent);
+        QObject::connect(m_quickItemIcon, SIGNAL(iConClicked()),
+                           this, SLOT(iConClicked()));
     }
 }

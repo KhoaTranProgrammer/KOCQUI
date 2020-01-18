@@ -23,6 +23,7 @@ public:
 
 public slots:
     virtual void addIconSlot(const QVariant &v) = 0;
+    virtual void iConClicked() = 0;
 
 private:
     QQmlEngine* m_engine;
