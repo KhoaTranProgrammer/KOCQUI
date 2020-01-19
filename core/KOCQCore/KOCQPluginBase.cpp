@@ -6,8 +6,14 @@ KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source,
     m_source = source;
     m_quickItemIcon = NULL;
     m_pluginName = name;
+    m_parent = parent;
     QObject::connect(parent, SIGNAL(qmlSignal(QVariant)),
                        this, SLOT(addIconSlot(QVariant)));
+}
+
+QObject* KOCQPluginBase::getRootObject() const
+{
+    return m_parent;
 }
 
 QQmlEngine* KOCQPluginBase::getEngine() const
@@ -70,5 +76,16 @@ void KOCQPluginBase::addIcon(const QVariant &v)
         m_quickItemIcon->setParentItem(parent);
         QObject::connect(m_quickItemIcon, SIGNAL(iConClicked()),
                            this, SLOT(iConClicked()));
+    }
+}
+
+void KOCQPluginBase::loadPlugin(const QUrl qmlFile)
+{
+    m_component = new QQmlComponent(getEngine(), qmlFile);
+    m_component->create();
+    m_loader = getRootObject()->findChild<QObject*>("PluginLoader");
+    if (m_loader)
+    {
+        m_loader->setProperty("sourceComponent", QVariant::fromValue<QQmlComponent*>(m_component));
     }
 }
