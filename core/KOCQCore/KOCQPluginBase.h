@@ -11,7 +11,7 @@
 class KOCQCORESHARED_EXPORT KOCQPluginBase : public QObject
 {
     Q_OBJECT
-public:
+protected:
     KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name);
 
 public:
@@ -28,6 +28,10 @@ public slots:
     virtual void iConClicked() = 0;
 
 private:
+    KOCQPluginBase(); // private default constructor
+    KOCQPluginBase(const KOCQPluginBase&); // prevent copying
+    KOCQPluginBase& operator=(const KOCQPluginBase&);
+
     QQmlComponent* m_component;
     QQmlEngine* m_engine;
     QUrl m_source;
