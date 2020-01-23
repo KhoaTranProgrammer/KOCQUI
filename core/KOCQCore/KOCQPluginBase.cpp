@@ -66,7 +66,7 @@ void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
                                  "source: " + iconUrl + "; "
                                  "onStatusChanged: { "
                                     "if (status == Image.Error) {"
-                                        "source = \"image/default_icon.png\""
+                                        "source = \"image/380d597942266fe55226d719d98070a8.png\""
                                     "}"
                                  "}"
                                  "MouseArea {"
