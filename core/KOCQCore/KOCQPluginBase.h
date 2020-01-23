@@ -20,7 +20,7 @@ public:
     QUrl getUrlSource() const;
     QString getPluginName() const;
 
-    void addIcon(const QVariant &v);
+    void addIcon(const QVariant &v, const QString icon);
     void loadPlugin(const QUrl qmlFile);
 
 public slots:

@@ -31,13 +31,14 @@ QString KOCQPluginBase::getPluginName() const
     return m_pluginName;
 }
 
-void KOCQPluginBase::addIcon(const QVariant &v)
+void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
 {
     QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
 
     if(m_quickItemIcon == NULL)
     {
         QString text = "\"" + getPluginName() + "\"";
+        QString iconUrl = "\"" + icon + "\"";
         QString data = "import QtQuick 2.0; "
                        "Item { "
                             "anchors.fill: parent; "
@@ -62,7 +63,12 @@ void KOCQPluginBase::addIcon(const QVariant &v)
                                  "anchors.bottom: id_name.top; "
                                  "anchors.margins: parent.height * 0.01; "
                                  "fillMode: Image.PreserveAspectFit; "
-                                 "source: \"image/icon.png\"; "
+                                 "source: " + iconUrl + "; "
+                                 "onStatusChanged: { "
+                                    "if (status == Image.Error) {"
+                                        "source = \"image/default_icon.png\""
+                                    "}"
+                                 "}"
                                  "MouseArea {"
                                     "anchors.fill: parent; "
                                     "onClicked: { iConClicked() }"

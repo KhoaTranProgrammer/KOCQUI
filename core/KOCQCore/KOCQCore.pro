@@ -37,3 +37,6 @@ targetLibrary.path += $$PWD/../../lib
 CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/debug/*.dll
 CONFIG(release, debug|release):targetLibrary.files += $$OUT_PWD/release/*.dll
 INSTALLS += targetLibrary
+
+RESOURCES += \
+    qml.qrc
