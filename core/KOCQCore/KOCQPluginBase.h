@@ -36,6 +36,7 @@ public:
 public slots:
     virtual void addIconSlot(const QVariant &v) = 0;
     virtual void iConClicked() = 0;
+    void unloadPluginSlot();
 
 private:
     KOCQPluginBase(); // private default constructor

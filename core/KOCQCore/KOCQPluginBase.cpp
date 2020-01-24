@@ -8,7 +8,7 @@ KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source,
     m_pluginName = name;
     m_parent = parent;
     m_pluginstate = KOCQ_INIT;
-    QObject::connect(parent, SIGNAL(qmlSignal(QVariant)),
+    QObject::connect(parent, SIGNAL(addIconSignal(QVariant)),
                        this, SLOT(addIconSlot(QVariant)));
 }
 
@@ -99,6 +99,9 @@ void KOCQPluginBase::loadPlugin(const QUrl qmlFile)
             if (m_loader)
             {
                 m_loader->setProperty("sourceComponent", QVariant::fromValue<QQmlComponent*>(m_component));
+                m_pluginstate = KOCQ_PLUGINLOAD;
+                QObject::connect(getRootObject(), SIGNAL(homeSignal()),
+                                   this, SLOT(unloadPluginSlot()));
             }
             break;
         }
@@ -107,11 +110,20 @@ void KOCQPluginBase::loadPlugin(const QUrl qmlFile)
             if (m_loader)
             {
                 m_loader->setProperty("sourceComponent", QVariant::fromValue<QQmlComponent*>(m_component));
+                m_pluginstate = KOCQ_PLUGINLOAD;
+                QObject::connect(getRootObject(), SIGNAL(homeSignal()),
+                                   this, SLOT(unloadPluginSlot()));
             }
             break;
         }
         default:
             break;
     }
+}
 
+void KOCQPluginBase::unloadPluginSlot()
+{
+    m_loader->setProperty("sourceComponent", QVariant::fromValue<QQmlComponent*>(NULL));
+    QObject::disconnect(getRootObject(), SIGNAL(homeSignal()), 0, 0);
+    m_pluginstate = KOCQ_PLUGINUNLOAD;
 }
