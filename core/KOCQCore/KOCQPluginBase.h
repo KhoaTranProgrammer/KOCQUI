@@ -11,10 +11,20 @@
 class KOCQCORESHARED_EXPORT KOCQPluginBase : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(KOCQPLUGINSTATE)
 protected:
     KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name);
 
 public:
+    enum KOCQPLUGINSTATE
+    {
+        KOCQ_UNINIT,        // Default state when nothing load
+        KOCQ_INIT,          // Instance is created, nothing done
+        KOCQ_ICONLOAD,      // Icon is loaded
+        KOCQ_PLUGINLOAD,    // When plugin is loaded
+        KOCQ_PLUGINUNLOAD,  // Plugin is unloaded after loading
+    };
+
     QObject* getRootObject() const;
     QQmlEngine* getEngine() const;
     QUrl getUrlSource() const;
@@ -32,6 +42,7 @@ private:
     KOCQPluginBase(const KOCQPluginBase&); // prevent copying
     KOCQPluginBase& operator=(const KOCQPluginBase&);
 
+    KOCQPLUGINSTATE m_pluginstate = KOCQ_UNINIT;
     QQmlComponent* m_component;
     QQmlEngine* m_engine;
     QUrl m_source;

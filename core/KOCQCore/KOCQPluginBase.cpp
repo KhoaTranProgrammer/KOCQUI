@@ -7,6 +7,7 @@ KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source,
     m_quickItemIcon = NULL;
     m_pluginName = name;
     m_parent = parent;
+    m_pluginstate = KOCQ_INIT;
     QObject::connect(parent, SIGNAL(qmlSignal(QVariant)),
                        this, SLOT(addIconSlot(QVariant)));
 }
@@ -33,10 +34,9 @@ QString KOCQPluginBase::getPluginName() const
 
 void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
 {
-    QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
-
-    if(m_quickItemIcon == NULL)
+    if(m_pluginstate == KOCQ_INIT) // First time load Icon
     {
+        QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
         QString text = "\"" + getPluginName() + "\"";
         QString iconUrl = "\"" + icon + "\"";
         QString data = "import QtQuick 2.0; "
@@ -82,16 +82,36 @@ void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
         m_quickItemIcon->setParentItem(parent);
         QObject::connect(m_quickItemIcon, SIGNAL(iConClicked()),
                            this, SLOT(iConClicked()));
+
+        m_pluginstate = KOCQ_ICONLOAD;
     }
 }
 
 void KOCQPluginBase::loadPlugin(const QUrl qmlFile)
 {
-    m_component = new QQmlComponent(getEngine(), qmlFile);
-    m_component->create();
-    m_loader = getRootObject()->findChild<QObject*>("PluginLoader");
-    if (m_loader)
+    switch (m_pluginstate)
     {
-        m_loader->setProperty("sourceComponent", QVariant::fromValue<QQmlComponent*>(m_component));
+        case KOCQ_ICONLOAD:
+        {
+            m_component = new QQmlComponent(getEngine(), qmlFile);
+            m_component->create();
+            m_loader = getRootObject()->findChild<QObject*>("PluginLoader");
+            if (m_loader)
+            {
+                m_loader->setProperty("sourceComponent", QVariant::fromValue<QQmlComponent*>(m_component));
+            }
+            break;
+        }
+        case KOCQ_PLUGINUNLOAD:
+        {
+            if (m_loader)
+            {
+                m_loader->setProperty("sourceComponent", QVariant::fromValue<QQmlComponent*>(m_component));
+            }
+            break;
+        }
+        default:
+            break;
     }
+
 }
