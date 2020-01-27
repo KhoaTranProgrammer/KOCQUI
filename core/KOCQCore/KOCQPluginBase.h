@@ -13,7 +13,7 @@ class KOCQCORESHARED_EXPORT KOCQPluginBase : public QObject
     Q_OBJECT
     Q_ENUMS(KOCQPLUGINSTATE)
 protected:
-    KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name);
+    KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name, QString defaultPath);
 
 public:
     enum KOCQPLUGINSTATE
@@ -29,9 +29,10 @@ public:
     QQmlEngine* getEngine() const;
     QUrl getUrlSource() const;
     QString getPluginName() const;
+    QString getDefaultPath() const;
 
     void addIcon(const QVariant &v, const QString icon);
-    void loadPlugin(const QUrl qmlFile);
+    void loadPlugin(const QString qmlFile);
 
 public slots:
     virtual void addIconSlot(const QVariant &v) = 0;
@@ -51,6 +52,7 @@ private:
     QString m_pluginName;
     QObject* m_parent;
     QObject* m_loader;
+    QString m_defaultPath = NULL;
 };
 
 #endif // KOCQPLUGINBASE_H

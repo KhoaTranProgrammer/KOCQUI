@@ -1,6 +1,6 @@
 #include "KOCQPluginBase.h"
 
-KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name)
+KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name, QString defaultPath)
 {
     m_engine = engine;
     m_source = source;
@@ -8,6 +8,7 @@ KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source,
     m_pluginName = name;
     m_parent = parent;
     m_pluginstate = KOCQ_INIT;
+    m_defaultPath = defaultPath;
     QObject::connect(parent, SIGNAL(addIconSignal(QVariant)),
                        this, SLOT(addIconSlot(QVariant)));
 }
@@ -30,6 +31,11 @@ QUrl KOCQPluginBase::getUrlSource() const
 QString KOCQPluginBase::getPluginName() const
 {
     return m_pluginName;
+}
+
+QString KOCQPluginBase::getDefaultPath() const
+{
+    return m_defaultPath;
 }
 
 void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
@@ -87,13 +93,13 @@ void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
     }
 }
 
-void KOCQPluginBase::loadPlugin(const QUrl qmlFile)
+void KOCQPluginBase::loadPlugin(const QString qmlFile)
 {
     switch (m_pluginstate)
     {
         case KOCQ_ICONLOAD:
         {
-            m_component = new QQmlComponent(getEngine(), qmlFile);
+            m_component = new QQmlComponent(getEngine(), QUrl::fromLocalFile(getDefaultPath() + qmlFile));
             m_component->create();
             m_loader = getRootObject()->findChild<QObject*>("PluginLoader");
             if (m_loader)
