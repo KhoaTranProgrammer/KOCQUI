@@ -44,7 +44,7 @@ void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
     {
         QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
         QString text = "\"" + getPluginName() + "\"";
-        QString iconUrl = "\"" + icon + "\"";
+        QString iconUrl = "\"file:" + getDefaultPath() + "/" + icon + "\"";
         QString data = "import QtQuick 2.0; "
                        "Item { "
                             "anchors.fill: parent; "
@@ -99,7 +99,7 @@ void KOCQPluginBase::loadPlugin(const QString qmlFile)
     {
         case KOCQ_ICONLOAD:
         {
-            m_component = new QQmlComponent(getEngine(), QUrl::fromLocalFile(getDefaultPath() + qmlFile));
+            m_component = new QQmlComponent(getEngine(), QUrl::fromLocalFile(getDefaultPath() + "/" + qmlFile));
             m_component->create();
             m_loader = getRootObject()->findChild<QObject*>("PluginLoader");
             if (m_loader)
