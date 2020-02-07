@@ -6,7 +6,7 @@
 #include <QQmlComponent>
 #include <QQuickView>
 #include <QtQuick>
-#include "kocqcore_global.h"
+#include "KOCQCore_Global.h"
 
 class KOCQCORESHARED_EXPORT KOCQPluginBase : public QObject
 {

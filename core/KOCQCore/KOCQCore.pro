@@ -26,8 +26,8 @@ SOURCES += \
     KOCQPluginBase.cpp
 
 HEADERS += \
-    kocqcore_global.h \
-    KOCQPluginBase.h
+    KOCQPluginBase.h \
+    KOCQCore_Global.h
 
 targetHeader.path += $$PWD/../../include
 targetHeader.files += $$PWD/*.h
