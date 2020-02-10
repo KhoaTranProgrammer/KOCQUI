@@ -30,9 +30,12 @@ public:
     QUrl getUrlSource() const;
     QString getPluginName() const;
     QString getDefaultPath() const;
+    QQuickItem* getPluginQuickItem() const;
+    QQmlContext* getPluginContext() const;
 
     void addIcon(const QVariant &v, const QString icon);
     void loadPlugin(const QString qmlFile);
+    virtual void onPluginLoad() = 0;
 
 public slots:
     virtual void addIconSlot(const QVariant &v) = 0;
@@ -48,7 +51,9 @@ private:
     QQmlComponent* m_component;
     QQmlEngine* m_engine;
     QUrl m_source;
-    QQuickItem *m_quickItemIcon;
+    QQuickItem* m_quickItemIcon;
+    QQuickItem* m_quickItemPlugin;
+    QQmlContext* m_contextPlugin;
     QString m_pluginName;
     QObject* m_parent;
     QObject* m_loader;

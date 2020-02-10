@@ -38,6 +38,16 @@ QString KOCQPluginBase::getDefaultPath() const
     return m_defaultPath;
 }
 
+QQuickItem* KOCQPluginBase::getPluginQuickItem() const
+{
+    return m_quickItemPlugin;
+}
+
+QQmlContext* KOCQPluginBase::getPluginContext() const
+{
+    return m_contextPlugin;
+}
+
 void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
 {
     if(m_pluginstate == KOCQ_INIT) // First time load Icon
@@ -99,8 +109,10 @@ void KOCQPluginBase::loadPlugin(const QString qmlFile)
     {
         case KOCQ_ICONLOAD:
         {
+            m_contextPlugin = new QQmlContext(getEngine()->rootContext());
             m_component = new QQmlComponent(getEngine(), QUrl::fromLocalFile(getDefaultPath() + "/" + qmlFile));
-            m_component->create();
+            m_quickItemPlugin = qobject_cast<QQuickItem*>(m_component->create(m_contextPlugin));
+
             m_loader = getRootObject()->findChild<QObject*>("PluginLoader");
             if (m_loader)
             {
@@ -108,6 +120,7 @@ void KOCQPluginBase::loadPlugin(const QString qmlFile)
                 m_pluginstate = KOCQ_PLUGINLOAD;
                 QObject::connect(getRootObject(), SIGNAL(homeSignal()),
                                    this, SLOT(unloadPluginSlot()));
+                onPluginLoad();
             }
             break;
         }
@@ -119,6 +132,7 @@ void KOCQPluginBase::loadPlugin(const QString qmlFile)
                 m_pluginstate = KOCQ_PLUGINLOAD;
                 QObject::connect(getRootObject(), SIGNAL(homeSignal()),
                                    this, SLOT(unloadPluginSlot()));
+                onPluginLoad();
             }
             break;
         }
