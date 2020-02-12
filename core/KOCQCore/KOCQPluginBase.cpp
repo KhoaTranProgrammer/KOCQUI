@@ -109,9 +109,9 @@ void KOCQPluginBase::loadPlugin(const QString qmlFile)
     {
         case KOCQ_ICONLOAD:
         {
-            m_contextPlugin = new QQmlContext(getEngine()->rootContext());
+            m_contextPlugin = getEngine()->rootContext();
             m_component = new QQmlComponent(getEngine(), QUrl::fromLocalFile(getDefaultPath() + "/" + qmlFile));
-            m_quickItemPlugin = qobject_cast<QQuickItem*>(m_component->create(m_contextPlugin));
+            m_quickItemPlugin = qobject_cast<QQuickItem*>(m_component->create());
 
             m_loader = getRootObject()->findChild<QObject*>("PluginLoader");
             if (m_loader)
