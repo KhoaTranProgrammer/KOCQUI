@@ -11,11 +11,13 @@ DESTDIR = $$PWD/../../lib/KOCQCoreGUI
 # Input
 SOURCES += \
         KOCQCoreGUI_Plugin.cpp \
-    CpuInfo.cpp
+    CpuInfo.cpp \
+    KOCQMatImage.cpp
 
 HEADERS += \
         KOCQCoreGUI_Plugin.h \
-    CpuInfo.h
+    CpuInfo.h \
+    KOCQMatImage.h
 
 DISTFILES = qmldir
 
