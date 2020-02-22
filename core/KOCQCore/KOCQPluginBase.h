@@ -13,7 +13,7 @@ class KOCQCORESHARED_EXPORT KOCQPluginBase : public QObject
     Q_OBJECT
     Q_ENUMS(KOCQPLUGINSTATE)
 protected:
-    KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name, QString defaultPath);
+    KOCQPluginBase(QQmlEngine* engine, QObject* rootObject, QUrl source, QString name, QString defaultPath, QObject* pluginManagerObject);
 
 public:
     enum KOCQPLUGINSTATE
@@ -55,7 +55,8 @@ private:
     QQuickItem* m_quickItemPlugin;
     QQmlContext* m_contextPlugin;
     QString m_pluginName;
-    QObject* m_parent;
+    QObject* m_qmlRootObject;
+    QObject* m_pluginManagerObject;
     QObject* m_loader;
     QString m_defaultPath = NULL;
 };

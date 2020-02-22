@@ -1,21 +1,22 @@
 #include "KOCQPluginBase.h"
 
-KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* parent, QUrl source, QString name, QString defaultPath)
+KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* rootObject, QUrl source, QString name, QString defaultPath, QObject* pluginManagerObject)
 {
     m_engine = engine;
     m_source = source;
     m_quickItemIcon = NULL;
     m_pluginName = name;
-    m_parent = parent;
+    m_qmlRootObject = rootObject;
+    m_pluginManagerObject = pluginManagerObject;
     m_pluginstate = KOCQ_INIT;
     m_defaultPath = defaultPath;
-    QObject::connect(parent, SIGNAL(addIconSignal(QVariant)),
+    QObject::connect(m_pluginManagerObject, SIGNAL(addIconSignal(QVariant)),
                        this, SLOT(addIconSlot(QVariant)));
 }
 
 QObject* KOCQPluginBase::getRootObject() const
 {
-    return m_parent;
+    return m_qmlRootObject;
 }
 
 QQmlEngine* KOCQPluginBase::getEngine() const
@@ -98,6 +99,7 @@ void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
         m_quickItemIcon->setParentItem(parent);
         QObject::connect(m_quickItemIcon, SIGNAL(iConClicked()),
                            this, SLOT(iConClicked()));
+        m_pluginManagerObject->disconnect(this);
 
         m_pluginstate = KOCQ_ICONLOAD;
     }
