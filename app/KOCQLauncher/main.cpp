@@ -4,8 +4,7 @@
 #include <QQmlComponent>
 #include <QQmlContext>
 #include <QtQuick>
-
-typedef void (*CreateWidgetFunction)(QQmlEngine* engine, QObject* parent, QUrl source);
+#include "KOCQPluginManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +14,16 @@ int main(int argc, char *argv[])
     view.setSource(QUrl("qrc:///main.qml"));
     view.resize(720, 480);
     view.show();
+
+    QString libLocation = LIBRARY_PATH;
+    libLocation = libLocation.left(libLocation.size() - 16);
+    libLocation += "lib/plugins/";
+
+    KOCQPluginManager::getInstance()->setQmlEngine(view.engine());
+    KOCQPluginManager::getInstance()->setRootObject(view.rootObject());
+    KOCQPluginManager::getInstance()->setSource(view.source());
+    KOCQPluginManager::getInstance()->setPluinPath(libLocation);
+    KOCQPluginManager::getInstance()->loadAllPlugins();
 
     return app.exec();
 }

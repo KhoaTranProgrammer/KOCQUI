@@ -32,7 +32,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 INCLUDEPATH += $$PWD/../../include
 DEPENDPATH += $$PWD/../../include
-LIBS += -L$$PWD/../../lib -lKOCQCore
+LIBS += -L$$PWD/../../lib -lKOCQCore -lKOCQPluginManager
 
 # Default location for library
 DEFINES += LIBRARY_PATH=\\\"$$PWD\\\"
