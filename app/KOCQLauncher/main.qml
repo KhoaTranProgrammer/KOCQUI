@@ -18,6 +18,7 @@ Rectangle {
             top: parent.top
         }
         height: parent.height * 0.1
+        color: "transparent"
 
         Image {
             anchors {
@@ -35,10 +36,28 @@ Rectangle {
                 }
             }
         }
+
+        Image {
+            anchors {
+                right: parent.right
+                top: parent.top
+                bottom: parent.bottom
+            }
+            fillMode: Image.PreserveAspectFit
+            source: "images/close.png"
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    Qt.quit()
+                }
+            }
+        }
     }
 
     Rectangle {
         id: id_pluginArea
+        color: "transparent"
 
         anchors {
             left: parent.left
@@ -46,6 +65,16 @@ Rectangle {
             top: id_menuArea.bottom
             bottom: parent.bottom
         }
+    }
+
+    // Background
+    gradient: Gradient {
+        GradientStop { position: 0.00; color: "#E8F5E9" }
+        GradientStop { position: 0.20; color: "#C8E6C9" }
+        GradientStop { position: 0.40; color: "#A5D6A7" }
+        GradientStop { position: 1.60; color: "#81C784" }
+        GradientStop { position: 0.80; color: "#66BB6A" }
+        GradientStop { position: 1.00; color: "#4CAF50" }
     }
 
     Loader {
@@ -82,7 +111,7 @@ Rectangle {
                 anchors {
                     fill: parent
                 }
-                color: "white"
+                color: "transparent"
 
                 Component.onCompleted: {
                     addIconSignal(parent)
@@ -95,11 +124,11 @@ Rectangle {
         id: id_gridView
         anchors.fill: id_pluginArea
         cellWidth: id_pluginArea.width / 6
-        cellHeight: id_pluginArea.height / 3
+        cellHeight: id_pluginArea.height / 4
 
         model: id_listPlugins
         delegate: id_displayPlugins
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+        //highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
         focus: true
     }
 

@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
 
     QQuickView view;
     view.setSource(QUrl("qrc:///main.qml"));
-    view.resize(720, 480);
-    view.show();
+    QObject::connect((QObject*)view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
+    view.showFullScreen();
 
     QString libLocation = LIBRARY_PATH;
     libLocation = libLocation.left(libLocation.size() - 16);
