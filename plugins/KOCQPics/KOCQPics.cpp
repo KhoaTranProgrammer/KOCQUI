@@ -38,6 +38,12 @@ void KOCQPics::onPluginLoad()
     getPluginContext()->setContextProperty("defaultinput", DEFAULT_PATH);
 }
 
+Mat KOCQPics::readImage(const QString &input)
+{
+    QByteArray byteArr = input.toLocal8Bit();
+    return imread(byteArr.data(), IMREAD_COLOR);
+}
+
 QImage KOCQPics::convertMat2QImage(const QString &input)
 {
     Mat image;
@@ -51,12 +57,17 @@ QImage KOCQPics::convertMat2QImage(const QString &input)
     return result.copy();
 }
 
+QImage KOCQPics::convertMat2QImage(Mat image)
+{
+    cv::Mat temp(image.cols, image.rows, image.type()); // make the same cv::Mat
+    cvtColor(image, temp, cv::COLOR_BGR2RGB); // cvtColor Makes a copt, that what i need
+    QImage result((uchar*)temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
+    return result.copy();
+}
+
 QImage KOCQPics::basicLinearTransforms(const QString &input, double alpha, int beta)
 {
-    Mat image;
-    QByteArray byteArr = input.toLocal8Bit();
-
-    image = imread(byteArr.data(), IMREAD_COLOR);
+    Mat image = readImage(input);
 
     Mat new_image = Mat::zeros( image.size(), image.type() );
 
@@ -69,8 +80,5 @@ QImage KOCQPics::basicLinearTransforms(const QString &input, double alpha, int b
         }
     }
 
-    Mat temp(new_image.cols, new_image.rows, new_image.type()); // make the same cv::Mat
-    cvtColor(new_image, temp, cv::COLOR_BGR2RGB); // cvtColor Makes a copt, that what i need
-    QImage result((uchar*)temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
-    return result.copy();
+    return convertMat2QImage(new_image);
 }

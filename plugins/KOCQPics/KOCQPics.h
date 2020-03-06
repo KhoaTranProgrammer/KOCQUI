@@ -33,6 +33,8 @@ public slots:
 
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
+    Mat readImage(const QString &input);
+    QImage convertMat2QImage(Mat image);
 };
 
 #endif // KOCQPICS_H
