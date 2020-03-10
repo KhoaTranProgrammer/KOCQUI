@@ -82,3 +82,29 @@ QImage KOCQPics::basicLinearTransforms(const QString &input, double alpha, int b
 
     return convertMat2QImage(new_image);
 }
+
+QImage KOCQPics::imageNegatives(const QString &input)
+{
+    Mat src = readImage(input);
+    Mat dst = Mat::zeros(src.size(), src.type());
+    bitwise_not(src, dst);
+    return convertMat2QImage(dst);
+}
+
+QImage KOCQPics::gammaCorrection(const QString &input, int gamma_cor)
+{
+    Mat src = readImage(input);
+    double gamma_ = gamma_cor / 100.0;
+
+    //! [changing-contrast-brightness-gamma-correction]
+    Mat lookUpTable(1, 256, CV_8U);
+    uchar* p = lookUpTable.ptr();
+    for( int i = 0; i < 256; ++i)
+        p[i] = saturate_cast<uchar>(pow(i / 255.0, gamma_) * 255.0);
+
+    Mat res = src.clone();
+    LUT(src, lookUpTable, res);
+    //! [changing-contrast-brightness-gamma-correction]
+
+    return convertMat2QImage(res);
+}

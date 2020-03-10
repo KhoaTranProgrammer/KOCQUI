@@ -31,6 +31,10 @@ public slots:
 
     QImage basicLinearTransforms(const QString &input, double alpha, int beta);
 
+    // Intensity Transformations and Spatial Filtering
+    QImage imageNegatives(const QString &input);
+    QImage gammaCorrection(const QString &input, int gamma_cor);
+
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
     Mat readImage(const QString &input);

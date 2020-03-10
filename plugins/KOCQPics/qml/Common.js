@@ -3,6 +3,10 @@
 var GroupItem = "GroupItem"
 var BaLiTrans = "BasicLinearTransforms"
 
+// Some Basic Intensity Transformation Functions
+var Negative = "ImageNegative"
+var GammaCor = "GammaCorrection"
+
 /*
  Group format
   + GroupItem: this is parent of group, just display group name
@@ -29,7 +33,15 @@ var group_convert = [
     /* FeatureItem */ BaLiTrans, "BasicLinearTransforms.qml", "Simple program to change contrast and brightness"
 ]
 
+// Group of Basic Intensity
+var group_basicintensity = [
+    /* GroupItem */ "Basic Intensity", GroupItem, "",
+    /* FeatureItem */ Negative, "", "Inverts every bit of an array",
+    /* FeatureItem */ GammaCor, "GammaCorrectionControl.qml", "Gamma correction can be used to correct the brightness of an image by using a non linear transformation between the input values and the mapped output values"
+]
+
 // List of all groups. It is directly used by application to add feature list
 var group_list = [
     /* Group of Transforms Features */ group_convert,
+    /* Group of Basic Intensity */ group_basicintensity,
 ]

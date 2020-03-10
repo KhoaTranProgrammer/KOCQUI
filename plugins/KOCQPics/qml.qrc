@@ -10,5 +10,6 @@
         <file>image/groupclose.png</file>
         <file>image/groupopen.png</file>
         <file>qml/control/BasicLinearTransforms.qml</file>
+        <file>qml/control/GammaCorrectionControl.qml</file>
     </qresource>
 </RCC>

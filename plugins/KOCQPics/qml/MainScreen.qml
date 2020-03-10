@@ -445,6 +445,10 @@ Rectangle {
         // The feature is decided by global property current_feature
         if(current_feature == Common.BaLiTrans){
             id_outputimage.image = dipObject.basicLinearTransforms(defaultinput + "/image/lena.jpg", scene.alpha, scene.beta)
+        } else if (current_feature == Common.Negative) {
+            id_outputimage.image = dipObject.imageNegatives(defaultinput + "/image/lena.jpg")
+        } else if (current_feature == Common.GammaCor) {
+            id_outputimage.image = dipObject.gammaCorrection(defaultinput + "/image/lena.jpg", scene.gamma_cor)
         }
     }
 
