@@ -1,7 +1,7 @@
 // Name of features are used by QML
 // current_feature will be updated each time user selects feature
 var GroupItem = "GroupItem"
-var BaLiTrans = "BasicLinearTransforms"
+var BaLiTrans = "Contrast&Brightness"
 
 // Some Basic Intensity Transformation Functions
 var Negative = "ImageNegative"
@@ -27,21 +27,15 @@ var GammaCor = "GammaCorrection"
   + Description: this is the introduction about Feature
 */
 
-// Group of Transforms Features
-var group_convert = [
-    /* GroupItem */ "Transforms", GroupItem, "",
-    /* FeatureItem */ BaLiTrans, "BasicLinearTransforms.qml", "Simple program to change contrast and brightness"
-]
-
 // Group of Basic Intensity
 var group_basicintensity = [
     /* GroupItem */ "Basic Intensity", GroupItem, "",
     /* FeatureItem */ Negative, "", "Inverts every bit of an array",
-    /* FeatureItem */ GammaCor, "GammaCorrectionControl.qml", "Gamma correction can be used to correct the brightness of an image by using a non linear transformation between the input values and the mapped output values"
+    /* FeatureItem */ GammaCor, "GammaCorrectionControl.qml", "Gamma correction can be used to correct the brightness of an image by using a non linear transformation between the input values and the mapped output values",
+    /* FeatureItem */ BaLiTrans, "ContrastBrightness.qml", "Simple program to change contrast and brightness"
 ]
 
 // List of all groups. It is directly used by application to add feature list
 var group_list = [
-    /* Group of Transforms Features */ group_convert,
     /* Group of Basic Intensity */ group_basicintensity,
 ]
