@@ -449,6 +449,10 @@ Rectangle {
             id_outputimage.image = dipObject.imageNegatives(defaultinput + "/image/lena.jpg")
         } else if (current_feature == Common.GammaCor) {
             id_outputimage.image = dipObject.gammaCorrection(defaultinput + "/image/lena.jpg", scene.gamma_cor)
+        } else if (current_feature == Common.Erosion) {
+            id_outputimage.image = dipObject.erosion(defaultinput + "/image/lena.jpg", scene.erosion_elem, scene.erosion_size)
+        } else if (current_feature == Common.Dilation) {
+            id_outputimage.image = dipObject.dilation(defaultinput + "/image/lena.jpg", scene.dilation_elem, scene.dilation_size)
         }
     }
 

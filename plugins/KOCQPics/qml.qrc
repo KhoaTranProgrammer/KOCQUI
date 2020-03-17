@@ -11,5 +11,7 @@
         <file>image/groupopen.png</file>
         <file>qml/control/GammaCorrectionControl.qml</file>
         <file>qml/control/ContrastBrightness.qml</file>
+        <file>qml/control/ErosionControl.qml</file>
+        <file>qml/control/DilationControl.qml</file>
     </qresource>
 </RCC>

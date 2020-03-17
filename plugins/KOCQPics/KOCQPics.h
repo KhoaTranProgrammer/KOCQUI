@@ -35,6 +35,10 @@ public slots:
     QImage imageNegatives(const QString &input);
     QImage gammaCorrection(const QString &input, int gamma_cor);
 
+    // Morphological Image Processing
+    QImage erosion(const QString &input, int erosion_elem, int erosion_size);
+    QImage dilation(const QString &input, int dilation_elem, int dilation_size);
+
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
     Mat readImage(const QString &input);

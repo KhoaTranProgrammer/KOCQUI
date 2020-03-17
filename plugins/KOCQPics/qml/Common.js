@@ -7,6 +7,10 @@ var BaLiTrans = "Contrast&Brightness"
 var Negative = "ImageNegative"
 var GammaCor = "GammaCorrection"
 
+// Morphological Image Processing
+var Erosion = "Erosion"
+var Dilation = "Dilation"
+
 /*
  Group format
   + GroupItem: this is parent of group, just display group name
@@ -35,7 +39,15 @@ var group_basicintensity = [
     /* FeatureItem */ BaLiTrans, "ContrastBrightness.qml", "Simple program to change contrast and brightness"
 ]
 
+// Group of Morphological
+var group_morphological = [
+    /* GroupItem */ "Morphological", GroupItem, "",
+    /* FeatureItem */ Erosion, "ErosionControl.qml", "The erosion operation usually uses a structuring element for probing and reducing the shapes contained in the input image",
+    /* FeatureItem */ Dilation, "DilationControl.qml", "The dilation operation usually uses a structuring element for probing and expanding the shapes contained in the input image",
+]
+
 // List of all groups. It is directly used by application to add feature list
 var group_list = [
     /* Group of Basic Intensity */ group_basicintensity,
+    /* Group of Morphological */ group_morphological,
 ]

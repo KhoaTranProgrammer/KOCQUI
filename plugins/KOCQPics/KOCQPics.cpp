@@ -108,3 +108,45 @@ QImage KOCQPics::gammaCorrection(const QString &input, int gamma_cor)
 
     return convertMat2QImage(res);
 }
+
+QImage KOCQPics::erosion(const QString &input, int erosion_elem, int erosion_size)
+{
+    Mat src = readImage(input);
+    Mat erosion_dst;
+
+    int erosion_type = 0;
+    if( erosion_elem == 0 ){ erosion_type = MORPH_RECT; }
+    else if( erosion_elem == 1 ){ erosion_type = MORPH_CROSS; }
+    else if( erosion_elem == 2) { erosion_type = MORPH_ELLIPSE; }
+
+    //![kernel]
+    Mat element = getStructuringElement( erosion_type,
+                  Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                  Point( erosion_size, erosion_size ) );
+    //![kernel]
+
+    // Apply the erosion operation
+    erode(src, erosion_dst, element);
+
+    return convertMat2QImage(erosion_dst);
+}
+
+QImage KOCQPics::dilation(const QString &input, int dilation_elem, int dilation_size)
+{
+    Mat src = readImage(input);
+    Mat dilation_dst;
+
+    int dilation_type = 0;
+    if( dilation_elem == 0 ){ dilation_type = MORPH_RECT; }
+    else if( dilation_elem == 1 ){ dilation_type = MORPH_CROSS; }
+    else if( dilation_elem == 2) { dilation_type = MORPH_ELLIPSE; }
+
+    Mat element = getStructuringElement( dilation_type,
+                       Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                       Point( dilation_size, dilation_size ) );
+
+    // Apply the dilation operation
+    dilate( src, dilation_dst, element );
+
+    return convertMat2QImage(dilation_dst);
+}
