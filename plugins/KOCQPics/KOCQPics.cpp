@@ -150,3 +150,21 @@ QImage KOCQPics::dilation(const QString &input, int dilation_elem, int dilation_
 
     return convertMat2QImage(dilation_dst);
 }
+
+QImage KOCQPics::morphologyOperations(const QString &input, int morph_elem, int morph_size, int morph_operator)
+{
+    Mat src = readImage(input);
+    Mat dst;
+
+    // Since MORPH_X : 2,3,4,5 and 6
+    //![operation]
+    int operation = morph_operator + 2;
+    //![operation]
+
+    Mat element = getStructuringElement( morph_elem, Size( 2*morph_size + 1, 2*morph_size+1 ), Point( morph_size, morph_size ) );
+
+    /// Apply the specified morphology operation
+    morphologyEx( src, dst, operation, element );
+
+    return convertMat2QImage(dst);
+}

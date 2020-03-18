@@ -453,6 +453,8 @@ Rectangle {
             id_outputimage.image = dipObject.erosion(defaultinput + "/image/lena.jpg", scene.erosion_elem, scene.erosion_size)
         } else if (current_feature == Common.Dilation) {
             id_outputimage.image = dipObject.dilation(defaultinput + "/image/lena.jpg", scene.dilation_elem, scene.dilation_size)
+        } else if (current_feature == Common.AdvMorpho) {
+            id_outputimage.image = dipObject.morphologyOperations(defaultinput + "/image/lena.jpg", scene.morph_elem, scene.morph_size, scene.morph_operator)
         }
     }
 

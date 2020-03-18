@@ -10,6 +10,7 @@ var GammaCor = "GammaCorrection"
 // Morphological Image Processing
 var Erosion = "Erosion"
 var Dilation = "Dilation"
+var AdvMorpho = "Advanced Morphology"
 
 /*
  Group format
@@ -44,6 +45,7 @@ var group_morphological = [
     /* GroupItem */ "Morphological", GroupItem, "",
     /* FeatureItem */ Erosion, "ErosionControl.qml", "The erosion operation usually uses a structuring element for probing and reducing the shapes contained in the input image",
     /* FeatureItem */ Dilation, "DilationControl.qml", "The dilation operation usually uses a structuring element for probing and expanding the shapes contained in the input image",
+    /* FeatureItem */ AdvMorpho, "AdvancedMorphologyControl.qml", "The function cv::morphologyEx can perform advanced morphological transformations using an erosion and dilation as basic operations",
 ]
 
 // List of all groups. It is directly used by application to add feature list

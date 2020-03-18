@@ -38,6 +38,7 @@ public slots:
     // Morphological Image Processing
     QImage erosion(const QString &input, int erosion_elem, int erosion_size);
     QImage dilation(const QString &input, int dilation_elem, int dilation_size);
+    QImage morphologyOperations(const QString &input, int morph_elem, int morph_size, int morph_operator);
 
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
