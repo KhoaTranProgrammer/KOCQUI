@@ -1,9 +1,13 @@
 // Name of features are used by QML
 // current_feature will be updated each time user selects feature
 var GroupItem = "GroupItem"
-var BaLiTrans = "Contrast&Brightness"
+
+// Basic drawing
+var Drawing1 = "Drawing 1"
+var Drawing2 = "Drawing 2"
 
 // Some Basic Intensity Transformation Functions
+var BaLiTrans = "Contrast&Brightness"
 var Negative = "ImageNegative"
 var GammaCor = "GammaCorrection"
 
@@ -32,6 +36,13 @@ var AdvMorpho = "Advanced Morphology"
   + Description: this is the introduction about Feature
 */
 
+// Group of Drawing
+var group_basicDrawing = [
+    /* GroupItem */ "Basic Drawing", GroupItem, "",
+    /* FeatureItem */ Drawing1, "", "Simple drawing 1",
+    /* FeatureItem */ Drawing2, "", "Simple drawing 2",
+]
+
 // Group of Basic Intensity
 var group_basicintensity = [
     /* GroupItem */ "Basic Intensity", GroupItem, "",
@@ -50,6 +61,7 @@ var group_morphological = [
 
 // List of all groups. It is directly used by application to add feature list
 var group_list = [
+    /* Group of Drawing */ group_basicDrawing,
     /* Group of Basic Intensity */ group_basicintensity,
     /* Group of Morphological */ group_morphological,
 ]

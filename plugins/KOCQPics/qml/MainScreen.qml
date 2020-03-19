@@ -455,6 +455,10 @@ Rectangle {
             id_outputimage.image = dipObject.dilation(defaultinput + "/image/lena.jpg", scene.dilation_elem, scene.dilation_size)
         } else if (current_feature == Common.AdvMorpho) {
             id_outputimage.image = dipObject.morphologyOperations(defaultinput + "/image/lena.jpg", scene.morph_elem, scene.morph_size, scene.morph_operator)
+        } else if (current_feature == Common.Drawing1) {
+            id_outputimage.image = dipObject.simpleDrawing1()
+        } else if (current_feature == Common.Drawing2) {
+            id_outputimage.image = dipObject.simpleDrawing2()
         }
     }
 

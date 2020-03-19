@@ -14,6 +14,7 @@
 #include "opencv2/highgui.hpp"
 
 using namespace cv;
+#define w 400
 
 extern "C" KOCQPICSSHARED_EXPORT void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
 
@@ -23,6 +24,12 @@ class KOCQPICSSHARED_EXPORT KOCQPics : public KOCQPluginBase
 public:
     static void createInstance(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
     void onPluginLoad();
+
+    // Internal functions of Drawing
+    void MyLine(Mat img, Point start, Point end);
+    void MyPolygon(Mat img);
+    void MyEllipse(Mat img, double angle);
+    void MyFilledCircle(Mat img, Point center);
 
 public slots:
     void addIconSlot(const QVariant &v);
@@ -39,6 +46,10 @@ public slots:
     QImage erosion(const QString &input, int erosion_elem, int erosion_size);
     QImage dilation(const QString &input, int dilation_elem, int dilation_size);
     QImage morphologyOperations(const QString &input, int morph_elem, int morph_size, int morph_operator);
+
+    // Drawings
+    QImage simpleDrawing1();
+    QImage simpleDrawing2();
 
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
