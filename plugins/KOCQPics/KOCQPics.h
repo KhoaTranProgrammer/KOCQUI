@@ -60,6 +60,9 @@ public slots:
     // Threshold
     QImage threshold_Demo(const QString &input, int threshold_value, int threshold_type);
 
+    // Image Transforms
+    QImage copyMakeBorder_Demo(const QString &input, int borderType);
+
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
     Mat readImage(const QString &input);

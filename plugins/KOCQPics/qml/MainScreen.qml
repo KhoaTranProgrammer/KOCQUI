@@ -469,6 +469,8 @@ Rectangle {
             id_outputimage.image = dipObject.bilateralFilterBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
         } else if (current_feature == Common.ThresholdDemo) {
             id_outputimage.image = dipObject.threshold_Demo(defaultinput + "/image/lena.jpg", scene.threshold_value, scene.threshold_type)
+        } else if (current_feature == Common.CopyMakeBorder) {
+            id_outputimage.image = dipObject.copyMakeBorder_Demo(defaultinput + "/image/lena.jpg", scene.borderType)
         }
     }
 

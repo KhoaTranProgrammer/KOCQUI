@@ -25,6 +25,9 @@ var BilateralFilter = "Bilateral Filter"
 // Threshold Demo
 var ThresholdDemo = "Threshold Demo"
 
+// Transforms
+var CopyMakeBorder= "copyMakeBorder"
+
 /*
  Group format
   + GroupItem: this is parent of group, just display group name
@@ -83,6 +86,12 @@ var group_thresholdDemo = [
     /* FeatureItem */ ThresholdDemo, "ThresholdControl.qml", "The simplest segmentation method \nType: \n 0: Binary - 1: Binary Inverted - 2: Truncate - 3: To Zero - 4: To Zero Inverted",
 ]
 
+// Group of Transforms
+var group_Transforms = [
+    /* GroupItem */ "Transforms", GroupItem, "",
+    /* FeatureItem */ CopyMakeBorder, "CopyMakeBorderControl.qml", "Use the OpenCV function copyMakeBorder() to set the borders (extra padding to your image) \nBorder Type: 0 - BORDER_CONSTANT, 1 - BORDER_REPLICATE, 2 - BORDER_REFLECT, 3 - BORDER_WRAP",
+]
+
 // List of all groups. It is directly used by application to add feature list
 var group_list = [
     /* Group of Drawing */ group_basicDrawing,
@@ -90,4 +99,5 @@ var group_list = [
     /* Group of Morphological */ group_morphological,
     /* Group of Smoothing */ group_smoothing,
     /* Group of Threshold Demo */ group_thresholdDemo,
+    /* Group of Transforms */ group_Transforms,
 ]

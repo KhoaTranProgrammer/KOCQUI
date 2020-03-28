@@ -334,3 +334,37 @@ QImage KOCQPics::threshold_Demo(const QString &input, int threshold_value, int t
 
     return convertMat2QImage(dst);
 }
+
+QImage KOCQPics::copyMakeBorder_Demo(const QString &input, int borderType)
+{
+    Mat src = readImage(input);
+    Mat dst;
+    int top, bottom, left, right;
+    RNG rng(12345);
+    int borderTypeMacro = BORDER_CONSTANT;
+
+    switch (borderType)
+    {
+        case 0: borderTypeMacro = BORDER_CONSTANT; break;
+        case 1: borderTypeMacro = BORDER_REPLICATE; break;
+        case 2: borderTypeMacro = BORDER_REFLECT; break;
+        case 3: borderTypeMacro = BORDER_WRAP; break;
+        default: break;
+    }
+
+    //![init_arguments]
+    // Initialize arguments for the filter
+    top = (int) (0.05*src.rows); bottom = top;
+    left = (int) (0.05*src.cols); right = left;
+    //![init_arguments]
+
+    //![update_value]
+    Scalar value( rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255) );
+    //![update_value]
+
+    //![copymakeborder]
+    copyMakeBorder( src, dst, top, bottom, left, right, borderTypeMacro, value );
+    //![copymakeborder]
+
+    return convertMat2QImage(dst);
+}
