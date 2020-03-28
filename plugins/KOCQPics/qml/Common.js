@@ -22,6 +22,9 @@ var GaussianBlur = "Gaussian Blur"
 var MedianBlur = "Median Blur"
 var BilateralFilter = "Bilateral Filter"
 
+// Threshold Demo
+var ThresholdDemo = "Threshold Demo"
+
 /*
  Group format
   + GroupItem: this is parent of group, just display group name
@@ -74,10 +77,17 @@ var group_smoothing = [
     /* FeatureItem */ BilateralFilter, "SmoothingControl.qml", "bilateralFilter can reduce unwanted noise very well while keeping edges fairly sharp",
 ]
 
+// Group of Threshold Demo
+var group_thresholdDemo = [
+    /* GroupItem */ "ThresholdDemo", GroupItem, "",
+    /* FeatureItem */ ThresholdDemo, "ThresholdControl.qml", "The simplest segmentation method \nType: \n 0: Binary - 1: Binary Inverted - 2: Truncate - 3: To Zero - 4: To Zero Inverted",
+]
+
 // List of all groups. It is directly used by application to add feature list
 var group_list = [
     /* Group of Drawing */ group_basicDrawing,
     /* Group of Basic Intensity */ group_basicintensity,
     /* Group of Morphological */ group_morphological,
     /* Group of Smoothing */ group_smoothing,
+    /* Group of Threshold Demo */ group_thresholdDemo,
 ]

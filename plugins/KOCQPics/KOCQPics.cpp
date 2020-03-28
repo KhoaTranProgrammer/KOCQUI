@@ -322,3 +322,15 @@ QImage KOCQPics::bilateralFilterBlur(const QString &input, int kernel_length)
 
     return convertMat2QImage(dst);
 }
+
+QImage KOCQPics::threshold_Demo(const QString &input, int threshold_value, int threshold_type)
+{
+    Mat src = readImage(input);
+    Mat src_gray, dst;
+
+    cvtColor( src, src_gray, COLOR_BGR2GRAY ); // Convert the image to Gray
+
+    threshold( src_gray, dst, threshold_value, 255, threshold_type );
+
+    return convertMat2QImage(dst);
+}

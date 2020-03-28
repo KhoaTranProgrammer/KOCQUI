@@ -57,6 +57,9 @@ public slots:
     QImage medianFilterBlur(const QString &input, int kernel_length);
     QImage bilateralFilterBlur(const QString &input, int kernel_length);
 
+    // Threshold
+    QImage threshold_Demo(const QString &input, int threshold_value, int threshold_type);
+
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
     Mat readImage(const QString &input);
