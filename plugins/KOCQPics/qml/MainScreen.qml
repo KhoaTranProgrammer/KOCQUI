@@ -133,6 +133,7 @@ Rectangle {
 
             // Text to display full input image location
             Text {
+                id: id_inputlocation
                 anchors {
                     left: parent.left
                     leftMargin: parent.height * 0.2
@@ -435,6 +436,22 @@ Rectangle {
     // Using to open control
     Loader {
         id: id_loaderControl
+    }
+
+    // FileDialog to select file
+    FileDialog {
+        id: id_fileDialog
+        title: "Please choose a file"
+        folder: shortcuts.home
+        onAccepted: {
+            var path = id_fileDialog.fileUrl.toString()
+            path = path.replace(/^(file:\/{3})/, "")
+            // Update Input image location
+            inputimage = decodeURIComponent(path)
+            isUsedDefaultInput = false
+            id_inputimage.source = id_fileDialog.fileUrl
+            id_inputlocation.text = inputimage
+        }
     }
 
     // Function to call Digital Image Processing features
