@@ -22,6 +22,7 @@ Rectangle {
 
     // Default input image
     property string inputimage: ""
+    property bool isUsedDefaultInput: true
 
     QtObject {
         id: id_data
@@ -438,39 +439,44 @@ Rectangle {
 
     // Function to call Digital Image Processing features
     function executeDIPFeatures() {
+        // In case of use default input image
+        if(isUsedDefaultInput){
+            inputimage = defaultinput + "/image/lena.jpg"
+        }
+
         // Variable to get input arguments for DIP features
         var scene = null
         scene = id_loaderControl.item
 
         // The feature is decided by global property current_feature
         if(current_feature == Common.BaLiTrans){
-            id_outputimage.image = dipObject.basicLinearTransforms(defaultinput + "/image/lena.jpg", scene.alpha, scene.beta)
+            id_outputimage.image = dipObject.basicLinearTransforms(inputimage, scene.alpha, scene.beta)
         } else if (current_feature == Common.Negative) {
-            id_outputimage.image = dipObject.imageNegatives(defaultinput + "/image/lena.jpg")
+            id_outputimage.image = dipObject.imageNegatives(inputimage)
         } else if (current_feature == Common.GammaCor) {
-            id_outputimage.image = dipObject.gammaCorrection(defaultinput + "/image/lena.jpg", scene.gamma_cor)
+            id_outputimage.image = dipObject.gammaCorrection(inputimage, scene.gamma_cor)
         } else if (current_feature == Common.Erosion) {
-            id_outputimage.image = dipObject.erosion(defaultinput + "/image/lena.jpg", scene.erosion_elem, scene.erosion_size)
+            id_outputimage.image = dipObject.erosion(inputimage, scene.erosion_elem, scene.erosion_size)
         } else if (current_feature == Common.Dilation) {
-            id_outputimage.image = dipObject.dilation(defaultinput + "/image/lena.jpg", scene.dilation_elem, scene.dilation_size)
+            id_outputimage.image = dipObject.dilation(inputimage, scene.dilation_elem, scene.dilation_size)
         } else if (current_feature == Common.AdvMorpho) {
-            id_outputimage.image = dipObject.morphologyOperations(defaultinput + "/image/lena.jpg", scene.morph_elem, scene.morph_size, scene.morph_operator)
+            id_outputimage.image = dipObject.morphologyOperations(inputimage, scene.morph_elem, scene.morph_size, scene.morph_operator)
         } else if (current_feature == Common.Drawing1) {
             id_outputimage.image = dipObject.simpleDrawing1()
         } else if (current_feature == Common.Drawing2) {
             id_outputimage.image = dipObject.simpleDrawing2()
         } else if (current_feature == Common.HomogeneousBlur) {
-            id_outputimage.image = dipObject.homogeneousBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
+            id_outputimage.image = dipObject.homogeneousBlur(inputimage, scene.kernel_length)
         } else if (current_feature == Common.GaussianBlur) {
-            id_outputimage.image = dipObject.gaussianBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
+            id_outputimage.image = dipObject.gaussianBlur(inputimage, scene.kernel_length)
         } else if (current_feature == Common.MedianBlur) {
-            id_outputimage.image = dipObject.medianFilterBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
+            id_outputimage.image = dipObject.medianFilterBlur(inputimage, scene.kernel_length)
         } else if (current_feature == Common.BilateralFilter) {
-            id_outputimage.image = dipObject.bilateralFilterBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
+            id_outputimage.image = dipObject.bilateralFilterBlur(inputimage, scene.kernel_length)
         } else if (current_feature == Common.ThresholdDemo) {
-            id_outputimage.image = dipObject.threshold_Demo(defaultinput + "/image/lena.jpg", scene.threshold_value, scene.threshold_type)
+            id_outputimage.image = dipObject.threshold_Demo(inputimage, scene.threshold_value, scene.threshold_type)
         } else if (current_feature == Common.CopyMakeBorder) {
-            id_outputimage.image = dipObject.copyMakeBorder_Demo(defaultinput + "/image/lena.jpg", scene.borderType)
+            id_outputimage.image = dipObject.copyMakeBorder_Demo(inputimage, scene.borderType)
         }
     }
 
