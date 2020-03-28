@@ -14,5 +14,6 @@
         <file>qml/control/ErosionControl.qml</file>
         <file>qml/control/DilationControl.qml</file>
         <file>qml/control/AdvancedMorphologyControl.qml</file>
+        <file>qml/control/SmoothingControl.qml</file>
     </qresource>
 </RCC>

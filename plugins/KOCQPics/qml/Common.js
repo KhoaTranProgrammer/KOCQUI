@@ -16,6 +16,12 @@ var Erosion = "Erosion"
 var Dilation = "Dilation"
 var AdvMorpho = "Advanced Morphology"
 
+// Spatial Filtering
+var HomogeneousBlur = "Homogeneous Blur"
+var GaussianBlur = "Gaussian Blur"
+var MedianBlur = "Median Blur"
+var BilateralFilter = "Bilateral Filter"
+
 /*
  Group format
   + GroupItem: this is parent of group, just display group name
@@ -59,9 +65,19 @@ var group_morphological = [
     /* FeatureItem */ AdvMorpho, "AdvancedMorphologyControl.qml", "The function cv::morphologyEx can perform advanced morphological transformations using an erosion and dilation as basic operations",
 ]
 
+// Group of Smoothing
+var group_smoothing = [
+    /* GroupItem */ "Smoothing", GroupItem, "",
+    /* FeatureItem */ HomogeneousBlur, "SmoothingControl.qml", "Applying Homogeneous Blur for smoothing image",
+    /* FeatureItem */ GaussianBlur, "SmoothingControl.qml", "Applying Gaussian Blur for smoothing image",
+    /* FeatureItem */ MedianBlur, "SmoothingControl.qml", "Applying Median Blur for smoothing image",
+    /* FeatureItem */ BilateralFilter, "SmoothingControl.qml", "bilateralFilter can reduce unwanted noise very well while keeping edges fairly sharp",
+]
+
 // List of all groups. It is directly used by application to add feature list
 var group_list = [
     /* Group of Drawing */ group_basicDrawing,
     /* Group of Basic Intensity */ group_basicintensity,
     /* Group of Morphological */ group_morphological,
+    /* Group of Smoothing */ group_smoothing,
 ]

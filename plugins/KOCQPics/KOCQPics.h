@@ -51,6 +51,12 @@ public slots:
     QImage simpleDrawing1();
     QImage simpleDrawing2();
 
+    // Smoothing
+    QImage homogeneousBlur(const QString &input, int kernel_length);
+    QImage gaussianBlur(const QString &input, int kernel_length);
+    QImage medianFilterBlur(const QString &input, int kernel_length);
+    QImage bilateralFilterBlur(const QString &input, int kernel_length);
+
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
     Mat readImage(const QString &input);

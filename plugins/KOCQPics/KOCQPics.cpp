@@ -266,3 +266,59 @@ QImage KOCQPics::simpleDrawing2()
 
     return convertMat2QImage(atom_image);
 }
+
+QImage KOCQPics::homogeneousBlur(const QString &input, int kernel_length)
+{
+    Mat src = readImage(input);
+    Mat dst;
+
+    dst = src.clone();
+
+    //![blur]
+    blur( src, dst, Size( kernel_length, kernel_length ), Point( -1, -1));
+    //![blur]
+
+    return convertMat2QImage(dst);
+}
+
+QImage KOCQPics::gaussianBlur(const QString &input, int kernel_length)
+{
+    Mat src = readImage(input);
+    Mat dst;
+
+    dst = src.clone();
+
+    //![gaussianblur]
+    GaussianBlur( src, dst, Size( kernel_length, kernel_length ), 0, 0 );
+    //![gaussianblur]
+
+    return convertMat2QImage(dst);
+}
+
+QImage KOCQPics::medianFilterBlur(const QString &input, int kernel_length)
+{
+    Mat src = readImage(input);
+    Mat dst;
+
+    dst = src.clone();
+
+    //![gaussianblur]
+    medianBlur( src, dst, kernel_length );
+    //![gaussianblur]
+
+    return convertMat2QImage(dst);
+}
+
+QImage KOCQPics::bilateralFilterBlur(const QString &input, int kernel_length)
+{
+    Mat src = readImage(input);
+    Mat dst;
+
+    dst = src.clone();
+
+    //![bilateralfilter]
+    bilateralFilter ( src, dst, kernel_length, kernel_length*2, kernel_length/2 );
+    //![bilateralfilter]
+
+    return convertMat2QImage(dst);
+}

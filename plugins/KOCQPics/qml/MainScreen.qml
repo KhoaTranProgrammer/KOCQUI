@@ -459,6 +459,14 @@ Rectangle {
             id_outputimage.image = dipObject.simpleDrawing1()
         } else if (current_feature == Common.Drawing2) {
             id_outputimage.image = dipObject.simpleDrawing2()
+        } else if (current_feature == Common.HomogeneousBlur) {
+            id_outputimage.image = dipObject.homogeneousBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
+        } else if (current_feature == Common.GaussianBlur) {
+            id_outputimage.image = dipObject.gaussianBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
+        } else if (current_feature == Common.MedianBlur) {
+            id_outputimage.image = dipObject.medianFilterBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
+        } else if (current_feature == Common.BilateralFilter) {
+            id_outputimage.image = dipObject.bilateralFilterBlur(defaultinput + "/image/lena.jpg", scene.kernel_length)
         }
     }
 
