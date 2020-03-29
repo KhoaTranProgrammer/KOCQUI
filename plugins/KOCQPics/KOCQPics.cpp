@@ -416,3 +416,38 @@ QImage KOCQPics::sobel_Demo(const QString &input, int ksize, int scale, int delt
 
     return convertMat2QImage(grad);
 }
+
+QImage KOCQPics::laplacian_Demo(const QString &input, int kernel_size, int scale, int delta)
+{
+    //![variables]
+    // First we declare the variables we are going to use
+    Mat src_gray, dst;
+    int ddepth = CV_16S;
+    //![variables]
+
+    //![load]
+    Mat src = readImage(input);
+    //![load]
+
+    //![reduce_noise]
+    // Reduce noise by blurring with a Gaussian filter ( kernel size = 3 )
+    GaussianBlur( src, src, Size(3, 3), 0, 0, BORDER_DEFAULT );
+    //![reduce_noise]
+
+    //![convert_to_gray]
+    cvtColor( src, src_gray, COLOR_BGR2GRAY ); // Convert the image to grayscale
+    //![convert_to_gray]
+
+    /// Apply Laplace function
+    Mat abs_dst;
+    //![laplacian]
+    Laplacian( src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT );
+    //![laplacian]
+
+    //![convert]
+    // converting back to CV_8U
+    convertScaleAbs( dst, abs_dst );
+    //![convert]
+
+    return convertMat2QImage(abs_dst);
+}

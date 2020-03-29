@@ -496,6 +496,8 @@ Rectangle {
             id_outputimage.image = dipObject.copyMakeBorder_Demo(inputimage, scene.borderType)
         } else if (current_feature == Common.SobelDemo) {
             id_outputimage.image = dipObject.sobel_Demo(inputimage, scene.ksize, scene.scale, scene.delta)
+        } else if (current_feature == Common.LaplaceDemo) {
+            id_outputimage.image = dipObject.laplacian_Demo(inputimage, scene.ksize, scene.scale, scene.delta)
         }
     }
 
