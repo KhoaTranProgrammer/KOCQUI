@@ -27,6 +27,7 @@ var ThresholdDemo = "Threshold Demo"
 
 // Transforms
 var CopyMakeBorder= "copyMakeBorder"
+var SobelDemo = "Sobel"
 
 /*
  Group format
@@ -90,6 +91,7 @@ var group_thresholdDemo = [
 var group_Transforms = [
     /* GroupItem */ "Transforms", GroupItem, "",
     /* FeatureItem */ CopyMakeBorder, "CopyMakeBorderControl.qml", "Use the OpenCV function copyMakeBorder() to set the borders (extra padding to your image) \nBorder Type: 0 - BORDER_CONSTANT, 1 - BORDER_REPLICATE, 2 - BORDER_REFLECT, 3 - BORDER_WRAP",
+    /* FeatureItem */ SobelDemo, "SobelControl.qml", "Sample code uses Sobel or Scharr OpenCV functions for edge detection",
 ]
 
 // List of all groups. It is directly used by application to add feature list

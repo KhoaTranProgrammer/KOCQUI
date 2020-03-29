@@ -494,6 +494,8 @@ Rectangle {
             id_outputimage.image = dipObject.threshold_Demo(inputimage, scene.threshold_value, scene.threshold_type)
         } else if (current_feature == Common.CopyMakeBorder) {
             id_outputimage.image = dipObject.copyMakeBorder_Demo(inputimage, scene.borderType)
+        } else if (current_feature == Common.SobelDemo) {
+            id_outputimage.image = dipObject.sobel_Demo(inputimage, scene.ksize, scene.scale, scene.delta)
         }
     }
 
