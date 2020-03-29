@@ -64,6 +64,7 @@ public slots:
     QImage copyMakeBorder_Demo(const QString &input, int borderType);
     QImage sobel_Demo(const QString &input, int ksize, int scale, int delta);
     QImage laplacian_Demo(const QString &input, int kernel_size, int scale, int delta);
+    QImage canny_Demo(const QString &input, int threshold_value);
 
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);

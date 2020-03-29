@@ -451,3 +451,42 @@ QImage KOCQPics::laplacian_Demo(const QString &input, int kernel_size, int scale
 
     return convertMat2QImage(abs_dst);
 }
+
+QImage KOCQPics::canny_Demo(const QString &input, int threshold_value)
+{
+    Mat src_gray, dst, detected_edges;
+    const int ratio = 3;
+    const int kernel_size = 3;
+
+    Mat src = readImage(input);
+
+    //![create_mat]
+    /// Create a matrix of the same type and size as src (for dst)
+    dst.create( src.size(), src.type() );
+    //![create_mat]
+
+    //![convert_to_gray]
+    cvtColor( src, src_gray, COLOR_BGR2GRAY );
+    //![convert_to_gray]
+
+    //![reduce_noise]
+    /// Reduce noise with a kernel 3x3
+    blur( src_gray, detected_edges, Size(3,3) );
+    //![reduce_noise]
+
+    //![canny]
+    /// Canny detector
+    Canny( detected_edges, detected_edges, threshold_value,  threshold_value * ratio, kernel_size );
+    //![canny]
+
+    /// Using Canny's output as a mask, we display our result
+    //![fill]
+    dst = Scalar::all(0);
+    //![fill]
+
+    //![copyto]
+    src.copyTo( dst, detected_edges);
+    //![copyto]
+
+    return convertMat2QImage(dst);
+}

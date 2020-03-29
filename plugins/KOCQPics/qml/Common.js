@@ -29,6 +29,7 @@ var ThresholdDemo = "Threshold Demo"
 var CopyMakeBorder= "copyMakeBorder"
 var SobelDemo = "Sobel"
 var LaplaceDemo = "Laplace Demo"
+var CannyDetector = "CannyDetector Demo"
 
 /*
  Group format
@@ -94,6 +95,7 @@ var group_Transforms = [
     /* FeatureItem */ CopyMakeBorder, "CopyMakeBorderControl.qml", "Use the OpenCV function copyMakeBorder() to set the borders (extra padding to your image) \nBorder Type: 0 - BORDER_CONSTANT, 1 - BORDER_REPLICATE, 2 - BORDER_REFLECT, 3 - BORDER_WRAP",
     /* FeatureItem */ SobelDemo, "SobelControl.qml", "Sample code uses Sobel or Scharr OpenCV functions for edge detection",
     /* FeatureItem */ LaplaceDemo, "SobelControl.qml", "Sample code showing how to detect edges using the Laplace operator",
+    /* FeatureItem */ CannyDetector, "CannyControl.qml", "Sample code showing how to detect edges using the Canny Detector",
 ]
 
 // List of all groups. It is directly used by application to add feature list
