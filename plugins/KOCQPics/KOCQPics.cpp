@@ -490,3 +490,103 @@ QImage KOCQPics::canny_Demo(const QString &input, int threshold_value)
 
     return convertMat2QImage(dst);
 }
+
+QImage KOCQPics::standardHoughLines(const QString &input, int s_trackbar, int min_threshold)
+{
+    Mat src_gray, edges, standard_hough;
+    Mat src = readImage(input);
+
+    /// Pass the image to gray
+    cvtColor( src, src_gray, COLOR_RGB2GRAY );
+
+    /// Apply Canny edge detector
+    Canny( src_gray, edges, 50, 200, 3 );
+
+    vector<Vec2f> s_lines;
+    cvtColor( edges, standard_hough, COLOR_GRAY2BGR );
+
+    /// 1. Use Standard Hough Transform
+    HoughLines( edges, s_lines, 1, CV_PI/180, min_threshold + s_trackbar, 0, 0 );
+
+    /// Show the result
+    for( size_t i = 0; i < s_lines.size(); i++ )
+    {
+        float r = s_lines[i][0];
+        float t = s_lines[i][1];
+        double cos_t = cos(t);
+        double sin_t = sin(t);
+        double x0 = r*cos_t;
+        double y0 = r*sin_t;
+        double alpha = 1000;
+
+        Point pt1( cvRound(x0 + alpha*(-sin_t)), cvRound(y0 + alpha*cos_t) );
+        Point pt2( cvRound(x0 - alpha*(-sin_t)), cvRound(y0 - alpha*cos_t) );
+        line( standard_hough, pt1, pt2, Scalar(255,0,0), 3, LINE_AA);
+    }
+
+    return convertMat2QImage(standard_hough);
+}
+
+QImage KOCQPics::probabilisticHoughLines(const QString &input, int p_trackbar, int min_threshold)
+{
+    Mat src_gray, edges, probabilistic_hough;
+    Mat src = readImage(input);
+
+    /// Pass the image to gray
+    cvtColor( src, src_gray, COLOR_RGB2GRAY );
+
+    /// Apply Canny edge detector
+    Canny( src_gray, edges, 50, 200, 3 );
+
+    vector<Vec4i> p_lines;
+    cvtColor( edges, probabilistic_hough, COLOR_GRAY2BGR );
+
+    /// 2. Use Probabilistic Hough Transform
+    HoughLinesP( edges, p_lines, 1, CV_PI/180, min_threshold + p_trackbar, 30, 10 );
+
+    /// Show the result
+    for( size_t i = 0; i < p_lines.size(); i++ )
+    {
+        Vec4i l = p_lines[i];
+        line( probabilistic_hough, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,0,0), 3, LINE_AA);
+    }
+
+    return convertMat2QImage(probabilistic_hough);
+}
+
+QImage KOCQPics::houghCirclesDetection(const QString &input, int cannyThreshold, int accumulatorThreshold)
+{
+    Mat src_gray;
+    Mat src = readImage(input);
+    int cannyThres = cannyThreshold;
+    int accumulatorThres = accumulatorThreshold;
+
+    // Convert it to gray
+    cvtColor( src, src_gray, COLOR_BGR2GRAY );
+
+    // Reduce the noise so we avoid false circle detection
+    GaussianBlur( src_gray, src_gray, Size(9, 9), 2, 2 );
+
+    cannyThres = std::max(cannyThreshold, 1);
+    accumulatorThres = std::max(accumulatorThreshold, 1);
+
+    // will hold the results of the detection
+    std::vector<Vec3f> circles;
+
+    // runs the actual detection
+    HoughCircles( src_gray, circles, HOUGH_GRADIENT, 1, src_gray.rows/8, cannyThres, accumulatorThres, 0, 0 );
+
+    // clone the colour, input image for displaying purposes
+    Mat display = src.clone();
+    for( size_t i = 0; i < circles.size(); i++ )
+    {
+        Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+        int radius = cvRound(circles[i][2]);
+        // circle center
+        circle( display, center, 3, Scalar(0,255,0), -1, 8, 0 );
+        // circle outline
+        circle( display, center, radius, Scalar(0,0,255), 3, 8, 0 );
+    }
+
+    return convertMat2QImage(display);
+}

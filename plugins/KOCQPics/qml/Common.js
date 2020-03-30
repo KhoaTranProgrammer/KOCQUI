@@ -31,6 +31,11 @@ var SobelDemo = "Sobel"
 var LaplaceDemo = "Laplace Demo"
 var CannyDetector = "CannyDetector Demo"
 
+// Hough Transforms
+var HoughLineStandard = "Line Standard"
+var HoughLineProbabilistic = "Line Probabilistic"
+var HoughCircles = "Hough Circles"
+
 /*
  Group format
   + GroupItem: this is parent of group, just display group name
@@ -98,6 +103,14 @@ var group_Transforms = [
     /* FeatureItem */ CannyDetector, "CannyControl.qml", "Sample code showing how to detect edges using the Canny Detector",
 ]
 
+// Group of Hough Transforms
+var group_HoughTransforms = [
+    /* GroupItem */ "Hough Transforms", GroupItem, "",
+    /* FeatureItem */ HoughLineStandard, "HoughLineStandardControl.qml", "demonstrates line finding with the Standard Hough Line Transform",
+    /* FeatureItem */ HoughLineProbabilistic, "HoughLineProbabilisticControl.qml", "demonstrates line finding with the Probabilistic Hough Line Transform",
+    /* FeatureItem */ HoughCircles, "HoughCirclesControl.qml", "demonstrates circles finding with the Hough Circles Transform",
+]
+
 // List of all groups. It is directly used by application to add feature list
 var group_list = [
     /* Group of Drawing */ group_basicDrawing,
@@ -106,4 +119,5 @@ var group_list = [
     /* Group of Smoothing */ group_smoothing,
     /* Group of Threshold Demo */ group_thresholdDemo,
     /* Group of Transforms */ group_Transforms,
+    /* Group of Hough Transforms */ group_HoughTransforms,
 ]

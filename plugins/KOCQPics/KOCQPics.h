@@ -12,8 +12,11 @@
 #include "opencv2/core.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/highgui.hpp"
+#include <iostream>
 
 using namespace cv;
+using namespace std;
+
 #define w 400
 
 extern "C" KOCQPICSSHARED_EXPORT void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
@@ -65,6 +68,11 @@ public slots:
     QImage sobel_Demo(const QString &input, int ksize, int scale, int delta);
     QImage laplacian_Demo(const QString &input, int kernel_size, int scale, int delta);
     QImage canny_Demo(const QString &input, int threshold_value);
+
+    // Hough Transforms
+    QImage standardHoughLines(const QString &input, int s_trackbar, int min_threshold);
+    QImage probabilisticHoughLines(const QString &input, int p_trackbar, int min_threshold);
+    QImage houghCirclesDetection(const QString &input, int cannyThreshold, int accumulatorThreshold);
 
 private:
     KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);

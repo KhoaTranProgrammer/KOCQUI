@@ -500,6 +500,12 @@ Rectangle {
             id_outputimage.image = dipObject.laplacian_Demo(inputimage, scene.ksize, scene.scale, scene.delta)
         } else if (current_feature == Common.CannyDetector) {
             id_outputimage.image = dipObject.canny_Demo(inputimage, scene.threshold)
+        } else if (current_feature == Common.HoughLineStandard) {
+            id_outputimage.image = dipObject.standardHoughLines(inputimage, scene.s_trackbar, scene.min_threshold)
+        } else if (current_feature == Common.HoughLineProbabilistic) {
+            id_outputimage.image = dipObject.probabilisticHoughLines(inputimage, scene.p_trackbar, scene.min_threshold)
+        } else if (current_feature == Common.HoughCircles) {
+            id_outputimage.image = dipObject.houghCirclesDetection(inputimage, scene.cannyThreshold, scene.accumulatorThreshold)
         }
     }
 

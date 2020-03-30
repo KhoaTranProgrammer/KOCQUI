@@ -19,5 +19,8 @@
         <file>qml/control/CopyMakeBorderControl.qml</file>
         <file>qml/control/SobelControl.qml</file>
         <file>qml/control/CannyControl.qml</file>
+        <file>qml/control/HoughLineStandardControl.qml</file>
+        <file>qml/control/HoughLineProbabilisticControl.qml</file>
+        <file>qml/control/HoughCirclesControl.qml</file>
     </qresource>
 </RCC>
