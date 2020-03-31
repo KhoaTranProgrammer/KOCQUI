@@ -68,6 +68,7 @@ public slots:
     QImage sobel_Demo(const QString &input, int ksize, int scale, int delta);
     QImage laplacian_Demo(const QString &input, int kernel_size, int scale, int delta);
     QImage canny_Demo(const QString &input, int threshold_value);
+    QImage remapping(const QString &input, int types);
 
     // Hough Transforms
     QImage standardHoughLines(const QString &input, int s_trackbar, int min_threshold);

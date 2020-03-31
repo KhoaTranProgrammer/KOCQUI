@@ -590,3 +590,56 @@ QImage KOCQPics::houghCirclesDetection(const QString &input, int cannyThreshold,
 
     return convertMat2QImage(display);
 }
+
+QImage KOCQPics::remapping(const QString &input, int types)
+{
+    Mat src = readImage(input);
+
+    //! [Create]
+    /// Create dst, map_x and map_y with the same size as src:
+    Mat dst(src.size(), src.type());
+    Mat map_x(src.size(), CV_32FC1);
+    Mat map_y(src.size(), CV_32FC1);
+    //! [Create]
+
+    // Fill the map_x and map_y matrices with 4 types of mappings
+    for( int i = 0; i < map_x.rows; i++ )
+    {
+        for( int j = 0; j < map_x.cols; j++ )
+        {
+            switch( types )
+            {
+            case 0:
+                if( j > map_x.cols*0.25 && j < map_x.cols*0.75 && i > map_x.rows*0.25 && i < map_x.rows*0.75 )
+                {
+                    map_x.at<float>(i, j) = 2*( j - map_x.cols*0.25f ) + 0.5f;
+                    map_y.at<float>(i, j) = 2*( i - map_x.rows*0.25f ) + 0.5f;
+                }
+                else
+                {
+                    map_x.at<float>(i, j) = 0;
+                    map_y.at<float>(i, j) = 0;
+                }
+                break;
+            case 1:
+                map_x.at<float>(i, j) = (float)j;
+                map_y.at<float>(i, j) = (float)(map_x.rows - i);
+                break;
+            case 2:
+                map_x.at<float>(i, j) = (float)(map_x.cols - j);
+                map_y.at<float>(i, j) = (float)i;
+                break;
+            case 3:
+                map_x.at<float>(i, j) = (float)(map_x.cols - j);
+                map_y.at<float>(i, j) = (float)(map_x.rows - i);
+                break;
+            default:
+                break;
+            } // end of switch
+        }
+    }
+
+    remap( src, dst, map_x, map_y, INTER_LINEAR, BORDER_CONSTANT, Scalar(0, 0, 0) );
+
+    return convertMat2QImage(dst);
+}

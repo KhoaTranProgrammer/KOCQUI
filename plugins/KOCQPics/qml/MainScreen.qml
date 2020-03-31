@@ -506,6 +506,8 @@ Rectangle {
             id_outputimage.image = dipObject.probabilisticHoughLines(inputimage, scene.p_trackbar, scene.min_threshold)
         } else if (current_feature == Common.HoughCircles) {
             id_outputimage.image = dipObject.houghCirclesDetection(inputimage, scene.cannyThreshold, scene.accumulatorThreshold)
+        } else if (current_feature == Common.Remapping) {
+            id_outputimage.image = dipObject.remapping(inputimage, scene.types)
         }
     }
 

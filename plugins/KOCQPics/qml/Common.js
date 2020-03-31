@@ -30,6 +30,7 @@ var CopyMakeBorder= "copyMakeBorder"
 var SobelDemo = "Sobel"
 var LaplaceDemo = "Laplace Demo"
 var CannyDetector = "CannyDetector Demo"
+var Remapping = "Remapping"
 
 // Hough Transforms
 var HoughLineStandard = "Line Standard"
@@ -101,6 +102,7 @@ var group_Transforms = [
     /* FeatureItem */ SobelDemo, "SobelControl.qml", "Sample code uses Sobel or Scharr OpenCV functions for edge detection",
     /* FeatureItem */ LaplaceDemo, "SobelControl.qml", "Sample code showing how to detect edges using the Laplace operator",
     /* FeatureItem */ CannyDetector, "CannyControl.qml", "Sample code showing how to detect edges using the Canny Detector",
+    /* FeatureItem */ Remapping, "RemappingControl.qml", "Use the OpenCV function cv::remap to implement simple remapping routines.\n0 - Reducing it to half the size and centering it \n1 - Turning it upside down \n2 - Reflecting it in the x direction \n3 - Reflecting it in both directions",
 ]
 
 // Group of Hough Transforms
