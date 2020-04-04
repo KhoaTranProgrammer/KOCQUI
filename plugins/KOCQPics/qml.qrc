@@ -23,5 +23,6 @@
         <file>qml/control/HoughLineProbabilisticControl.qml</file>
         <file>qml/control/HoughCirclesControl.qml</file>
         <file>qml/control/RemappingControl.qml</file>
+        <file>image/icon.png</file>
     </qresource>
 </RCC>
