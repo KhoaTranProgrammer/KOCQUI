@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,6 +37,8 @@
  ********************************************************************
  * 1.0.0: Apr-05-2020                                               *
  *        Initial version supports loading all of Plugins           *
+ * 1.0.1: Apr-17-2020                                               *
+ *        Modify to only load dll file                              *
  *******************************************************************/
 
 #include "KOCQPluginManager.h"
@@ -93,11 +95,14 @@ void KOCQPluginManager::loadAllPlugins()
             QString filePath = m_pluinPath + filename;
             try
             {
-                QLibrary library(filePath);
-                library.load();
-                CreateWidgetFunction newWidget = (CreateWidgetFunction) library.resolve("createNewPlugin");
-                m_pluginQLibrary.push_back(newWidget);
-                QMetaObject::invokeMethod(m_rootObject, "addPlugin");
+                if(filename.contains(".dll"))
+                {
+                    QLibrary library(filePath);
+                    library.load();
+                    CreateWidgetFunction newWidget = (CreateWidgetFunction) library.resolve("createNewPlugin");
+                    m_pluginQLibrary.push_back(newWidget);
+                    QMetaObject::invokeMethod(m_rootObject, "addPlugin");
+                }
             }
             catch(const std::bad_alloc &)
             {
