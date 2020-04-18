@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/MainScreen.qml</file>
+        <file>images/type_001.png</file>
+        <file>qml/Data.js</file>
+        <file>images/type_002.png</file>
+        <file>images/type_003.png</file>
+        <file>images/type_004.png</file>
+        <file>images/type_005.png</file>
+        <file>images/type_006.png</file>
+        <file>images/type_007.png</file>
+        <file>images/icon.png</file>
+    </qresource>
+</RCC>
