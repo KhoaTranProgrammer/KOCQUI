@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 #******************
-#* VERSION: 1.0.0 *
+#* VERSION: 1.1.0 *
 #******************
 
 #********************************************************************
@@ -19,6 +19,8 @@
 #********************************************************************
 #* 1.0.0: Apr-19-2020                                               *
 #*        Initial version supports build for Windows                *
+#* 1.1.0: Apr-24-2020                                               *
+#*        Support build for Android                                 *
 #********************************************************************
 
 QT       += qml quick
@@ -46,14 +48,27 @@ HEADERS += \
     KOCQPluginBase.h \
     KOCQCore_Global.h
 
-targetHeader.path += $$PWD/../../include
-targetHeader.files += $$PWD/*.h
-INSTALLS += targetHeader
-
-targetLibrary.path += $$PWD/../../lib
-CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/debug/*.dll
-CONFIG(release, debug|release):targetLibrary.files += $$OUT_PWD/release/*.dll
-INSTALLS += targetLibrary
-
 RESOURCES += \
     qml.qrc
+
+win32 {
+    targetHeader.path += $$PWD/../../include
+    targetHeader.files += $$PWD/*.h
+    INSTALLS += targetHeader
+
+    targetLibrary.path += $$PWD/../../lib
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/debug/*.dll
+    CONFIG(release, debug|release):targetLibrary.files += $$OUT_PWD/release/*.dll
+    INSTALLS += targetLibrary
+}
+
+# Copy the header to the folder as the plugin binary
+targetHeader.files += *.h
+targetHeader.path += $$PWD/../../include/
+COPIES += targetHeader
+
+android {
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
+    targetLibrary.path += $$PWD/../../lib/
+    INSTALLS += targetLibrary
+}
