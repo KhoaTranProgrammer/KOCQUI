@@ -1,3 +1,22 @@
+#******************
+#* VERSION: 1.1.0 *
+#******************
+
+#********************************************************************
+#* PURPOSE                                                          *
+#********************************************************************
+#* Project configuration                                            *
+#********************************************************************
+
+#********************************************************************
+#* VERSION HISTORY                                                  *
+#********************************************************************
+#* 1.0.0: Apr-19-2020                                               *
+#*        Initial version supports build for Windows                *
+#* 1.1.0: Apr-24-2020                                               *
+#*        Support build for Android                                 *
+#********************************************************************
+
 TEMPLATE = lib
 TARGET = KOCQCoreGUI
 QT += qml quick
@@ -6,7 +25,9 @@ CONFIG += plugin c++11
 TARGET = $$qtLibraryTarget($$TARGET)
 uri = com.kocqui.kocqcoregui
 
-DESTDIR = $$PWD/../../lib/KOCQCoreGUI
+win32 {
+    DESTDIR = $$PWD/../../lib/KOCQCoreGUI
+}
 
 # Input
 SOURCES += \
@@ -39,5 +60,11 @@ unix {
 
 # Copy the qmldir file to the same folder as the plugin binary
 cpqmldir.files = qmldir
-cpqmldir.path = $$DESTDIR
+cpqmldir.path = $$PWD/../../lib/KOCQCoreGUI
 COPIES += cpqmldir
+
+android {
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
+    targetLibrary.path += $$PWD/../../lib/KOCQCoreGUI
+    INSTALLS += targetLibrary
+}
