@@ -4,6 +4,25 @@
 #
 #-------------------------------------------------
 
+#******************
+#* VERSION: 1.1.0 *
+#******************
+
+#********************************************************************
+#* PURPOSE                                                          *
+#********************************************************************
+#* Project configuration                                            *
+#********************************************************************
+
+#********************************************************************
+#* VERSION HISTORY                                                  *
+#********************************************************************
+#* 1.0.0: Apr-19-2020                                               *
+#*        Initial version supports build for Windows                *
+#* 1.1.0: Apr-25-2020                                               *
+#*        Support build for Android                                 *
+#********************************************************************
+
 QT       += qml quick
 
 TARGET = KOCQDraw
@@ -29,17 +48,29 @@ HEADERS += \
         KOCQDraw.h \
     KOCQDraw_Global.h
 
-DESTDIR = $$PWD/../../lib/plugins
+win32 {
+    DESTDIR = $$PWD/../../lib/plugins
+}
 
 INCLUDEPATH += $$PWD/../../include
 DEPENDPATH += $$PWD/../../include
 LIBS += -L$$PWD/../../lib -lKOCQCore
 
-LIBS += -L$$PWD/../../lib/opencv \
-        libopencv_core411 \
-        libopencv_imgcodecs411 \
-        libopencv_imgproc411 \
-        libopencv_highgui411 \
+win32 {
+    LIBS += -L$$PWD/../../lib/opencv \
+            libopencv_core411 \
+            libopencv_imgcodecs411 \
+            libopencv_imgproc411 \
+            libopencv_highgui411 \
+}
+
+android {
+    LIBS += -L$$PWD/../../lib/opencv \
+            -lopencv_core \
+            -lopencv_imgcodecs \
+            -lopencv_imgproc \
+            -lopencv_highgui \
+}
 
 INCLUDEPATH += $$PWD/../../include/opencv/
 INCLUDEPATH += $$PWD/../../include/opencv/core/include
@@ -63,3 +94,9 @@ DEFINES += DEFAULT_PATH=\\\"$$PWD\\\"
 
 RESOURCES += \
     qml.qrc
+
+android {
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
+    targetLibrary.path += $$PWD/../../lib/plugins/
+    INSTALLS += targetLibrary
+}
