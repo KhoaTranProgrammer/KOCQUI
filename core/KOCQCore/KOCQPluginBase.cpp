@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -39,6 +39,9 @@
  * 1.0.0: Apr-04-2020                                               *
  *        Initial version implements method to manipulate KOCQ      *
  *        Plugin                                                    *
+ * 1.0.1: May-25-2020                                               *
+ *        Update the method to load icon and plugin screen by       *
+ *        resource instead of local file                            *
  *******************************************************************/
 
 #include "KOCQPluginBase.h"
@@ -98,7 +101,7 @@ void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
     {
         QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
         QString text = "\"" + getPluginName() + "\"";
-        QString iconUrl = "\"file:" + getDefaultPath() + "/" + icon + "\"";
+        QString iconUrl = "\"" + icon + "\"";
         QString data = "import QtQuick 2.0; "
                        "Item { "
                             "anchors.fill: parent; "
@@ -155,7 +158,7 @@ void KOCQPluginBase::loadPlugin(const QString qmlFile)
         case KOCQ_ICONLOAD:
         {
             m_contextPlugin = getEngine()->rootContext();
-            m_component = new QQmlComponent(getEngine(), QUrl::fromLocalFile(getDefaultPath() + "/" + qmlFile));
+            m_component = new QQmlComponent(getEngine(), QUrl(qmlFile));
             m_quickItemPlugin = qobject_cast<QQuickItem*>(m_component->create());
 
             m_loader = getRootObject()->findChild<QObject*>("PluginLoader");
