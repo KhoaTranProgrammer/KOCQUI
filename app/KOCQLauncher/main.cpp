@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.1.0 *
  *****************/
 
 /********************************************************************
@@ -39,6 +39,8 @@
  * 1.0.0: Apr-05-2020                                               *
  *        Initial version uses KOCQPluginManager to load all of     *
  *        Plugins                                                   *
+ * 1.1.0: May-25-2020                                               *
+ *        Support to load Plugins for Android: KOCQDraw, KOCQPics   *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -48,6 +50,7 @@
 #include <QQmlContext>
 #include <QtQuick>
 #include "KOCQPluginManager.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -58,15 +61,28 @@ int main(int argc, char *argv[])
     QObject::connect((QObject*)view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
     view.showFullScreen();
 
+    KOCQPluginManager::getInstance()->setQmlEngine(view.engine());
+    KOCQPluginManager::getInstance()->setRootObject(view.rootObject());
+    KOCQPluginManager::getInstance()->setSource(view.source());
+
+#if defined(Q_OS_ANDROID)
+    QDir dir;
+    dir.cdUp();
+    QString libLocation = dir.absolutePath() + "/lib";
+
+    // Load KOCQDraw
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQDraw.so");
+
+    // Load KOCQPics
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQPics.so");
+#else
     QString libLocation = LIBRARY_PATH;
     libLocation = libLocation.left(libLocation.size() - 16);
     libLocation += "lib/plugins/";
 
-    KOCQPluginManager::getInstance()->setQmlEngine(view.engine());
-    KOCQPluginManager::getInstance()->setRootObject(view.rootObject());
-    KOCQPluginManager::getInstance()->setSource(view.source());
-    KOCQPluginManager::getInstance()->setPluinPath(libLocation);
+    KOCQPluginManager::getInstance()->setPluinPath("/data/data/org.KOCQproject.KOCQLauncher/lib");
     KOCQPluginManager::getInstance()->loadAllPlugins();
+#endif
 
     return app.exec();
 }
