@@ -1,5 +1,5 @@
 #******************
-#* VERSION: 1.1.0 *
+#* VERSION: 1.1.1 *
 #******************
 
 #********************************************************************
@@ -15,6 +15,8 @@
 #*        Initial version supports build for Windows                *
 #* 1.1.0: Apr-24-2020                                               *
 #*        Support build for Android                                 *
+#* 1.1.1: May-24-2020                                               *
+#*        Copy output to QT_INSTALL_QML for Android build           *
 #********************************************************************
 
 TEMPLATE = lib
@@ -60,11 +62,16 @@ unix {
 
 # Copy the qmldir file to the same folder as the plugin binary
 cpqmldir.files = qmldir
-cpqmldir.path = $$PWD/../../lib/KOCQCoreGUI
+win32 {
+    cpqmldir.path = $$PWD/../../lib/KOCQCoreGUI
+}
+android {
+    cpqmldir.path = $$[QT_INSTALL_QML]/KOCQCoreGUI
+}
 COPIES += cpqmldir
 
 android {
     CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
-    targetLibrary.path += $$PWD/../../lib/KOCQCoreGUI
+    targetLibrary.path += $$[QT_INSTALL_QML]/KOCQCoreGUI
     INSTALLS += targetLibrary
 }
