@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -39,6 +39,8 @@
  *        Initial version supports loading all of Plugins           *
  * 1.0.1: Apr-17-2020                                               *
  *        Modify to only load dll file                              *
+ * 1.0.2: May-25-2020                                               *
+ *        Add loadPlugin method to load 1 Plugin                    *
  *******************************************************************/
 
 #include "KOCQPluginManager.h"
@@ -110,6 +112,15 @@ void KOCQPluginManager::loadAllPlugins()
             }
         }
     }
+}
+
+void KOCQPluginManager::loadPlugin(QString pluginLocation)
+{
+    QLibrary library(pluginLocation);
+    library.load();
+    CreateWidgetFunction newWidget = (CreateWidgetFunction) library.resolve("createNewPlugin");
+    m_pluginQLibrary.push_back(newWidget);
+    QMetaObject::invokeMethod(m_rootObject, "addPlugin");
 }
 
 void KOCQPluginManager::addIconSlot(const QVariant &v)

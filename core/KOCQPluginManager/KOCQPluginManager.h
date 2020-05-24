@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,6 +37,8 @@
  ********************************************************************
  * 1.0.0: Apr-05-2020                                               *
  *        Initial version supports loading all of Plugins           *
+ * 1.0.1: May-25-2020                                               *
+ *        Add loadPlugin method to load 1 Plugin                    *
  *******************************************************************/
 
 #ifndef KOCQPLUGINMANAGER_H
@@ -61,6 +63,7 @@ public:
     void setSource(QUrl source);
     void setPluinPath(QString pluinPath);
     void loadAllPlugins();
+    void loadPlugin(QString pluginLocation);
 
 public slots:
     void addIconSlot(const QVariant &v);
