@@ -1,14 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/MainScreen.qml</file>
-        <file>images/type_001.png</file>
-        <file>qml/Data.js</file>
-        <file>images/type_002.png</file>
-        <file>images/type_003.png</file>
-        <file>images/type_004.png</file>
-        <file>images/type_005.png</file>
-        <file>images/type_006.png</file>
-        <file>images/type_007.png</file>
-        <file>images/icon.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/images/icon.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/images/type_001.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/images/type_002.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/images/type_003.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/images/type_004.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/images/type_005.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/images/type_006.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/images/type_007.png</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/qml/Data.js</file>
+        <file>2bee89770f1ba487fc737a11ac02d0d4/qml/MainScreen.qml</file>
     </qresource>
 </RCC>

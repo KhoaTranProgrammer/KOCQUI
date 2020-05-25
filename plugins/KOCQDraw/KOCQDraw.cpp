@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,6 +37,8 @@
  ********************************************************************
  * 1.0.0: Apr-18-2020                                               *
  *        Initial version supports 8 drawing types                  *
+ * 1.0.1: May-26-2020                                               *
+ *        Copy resource into hash folder                            *
  *******************************************************************/
 
 #include "KOCQDraw.h"
@@ -65,12 +67,12 @@ KOCQDraw::KOCQDraw(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject
 
 void KOCQDraw::addIconSlot(const QVariant &v)
 {
-    addIcon(v, "images/icon.png");
+    addIcon(v, "2bee89770f1ba487fc737a11ac02d0d4/images/icon.png");
 }
 
 void KOCQDraw::iConClicked()
 {
-    loadPlugin("qml/MainScreen.qml");
+    loadPlugin("qrc:/2bee89770f1ba487fc737a11ac02d0d4/qml/MainScreen.qml");
 }
 
 void KOCQDraw::onPluginLoad()
