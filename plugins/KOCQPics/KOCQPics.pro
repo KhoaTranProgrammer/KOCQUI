@@ -4,6 +4,25 @@
 #
 #-------------------------------------------------
 
+#******************
+#* VERSION: 1.1.0 *
+#******************
+
+#********************************************************************
+#* PURPOSE                                                          *
+#********************************************************************
+#* Project configuration                                            *
+#********************************************************************
+
+#********************************************************************
+#* VERSION HISTORY                                                  *
+#********************************************************************
+#* 1.0.0: Apr-19-2020                                               *
+#*        Initial version supports build for Windows                *
+#* 1.1.0: Apr-28-2020                                               *
+#*        Support build for Android                                 *
+#********************************************************************
+
 QT       += qml quick
 
 TARGET = KOCQPics
@@ -33,11 +52,21 @@ INCLUDEPATH += $$PWD/../../include
 DEPENDPATH += $$PWD/../../include
 LIBS += -L$$PWD/../../lib -lKOCQCore
 
-LIBS += -L$$PWD/../../lib/opencv \
+win32 {
+    LIBS += -L$$PWD/../../lib/opencv \
         libopencv_core411 \
         libopencv_imgcodecs411 \
         libopencv_imgproc411 \
         libopencv_highgui411 \
+}
+
+android {
+    LIBS += -L$$PWD/../../lib/opencv \
+        -lopencv_core \
+        -lopencv_imgcodecs \
+        -lopencv_imgproc \
+        -lopencv_highgui \
+}
 
 INCLUDEPATH += $$PWD/../../include/opencv/
 INCLUDEPATH += $$PWD/../../include/opencv/core/include
@@ -57,12 +86,20 @@ DEPENDPATH += $$PWD/../../include/opencv/features2d/include
 DEPENDPATH += $$PWD/../../include/opencv/video/include
 DEPENDPATH += $$PWD/../../include/opencv/videoio/include
 
-targetLibrary.path += $$PWD/../../lib/plugins
-CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/debug/*.dll
-CONFIG(release, debug|release):targetLibrary.files += $$OUT_PWD/release/*.dll
-INSTALLS += targetLibrary
+win32 {
+    targetLibrary.path += $$PWD/../../lib/plugins
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/debug/*.dll
+    CONFIG(release, debug|release):targetLibrary.files += $$OUT_PWD/release/*.dll
+    INSTALLS += targetLibrary
+}
 
 RESOURCES += \
     qml.qrc
 
 DEFINES += DEFAULT_PATH=\\\"$$PWD\\\"
+
+android {
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
+    targetLibrary.path += $$PWD/../../lib/plugins/
+    INSTALLS += targetLibrary
+}

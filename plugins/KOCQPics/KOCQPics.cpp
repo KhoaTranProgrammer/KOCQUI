@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -41,6 +41,8 @@
  *        LinearTransforms, Negatives, GammaCorrection, Erosion,    *
  *        Dilation, Morphology, Drawing, Smoothing, Threshold,      *
  *        Transforms, Hough                                         *
+ * 1.0.1: May-28-2020                                               *
+ *        Copy resource into hash folder                            *
  *******************************************************************/
 
 #include "KOCQPics.h"
@@ -69,12 +71,12 @@ KOCQPics::KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject
 
 void KOCQPics::addIconSlot(const QVariant &v)
 {
-    addIcon(v, "image/icon.png");
+    addIcon(v, "e36c5bd2d754aa0013628ef3f63ae7a4/image/icon.png");
 }
 
 void KOCQPics::iConClicked()
 {
-    loadPlugin("qml/MainScreen.qml");
+    loadPlugin("qrc:/e36c5bd2d754aa0013628ef3f63ae7a4/qml/MainScreen.qml");
 }
 
 void KOCQPics::onPluginLoad()
