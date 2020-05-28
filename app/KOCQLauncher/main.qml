@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,10 +37,15 @@
  ********************************************************************
  * 1.0.0: Apr-05-2020                                               *
  *        Initial version uses GridView to store all of Plugins     *
+ * 1.0.1: May-29-2020                                               *
+ *        Support to load QtQuick.Dialogs, KOCQCoreGUI              *
+ *        Change the way to display home and exit button            *
  *******************************************************************/
 
 import QtQuick 2.6
 import QtQuick.Window 2.2
+import QtQuick.Dialogs 1.0
+import KOCQCoreGUI 1.0
 
 Rectangle {
     id: root
@@ -67,7 +72,7 @@ Rectangle {
                 top: parent.top
                 bottom: parent.bottom
             }
-            fillMode: Image.PreserveAspectFit
+            width: height
             source: "images/home.png"
 
             MouseArea {
@@ -84,7 +89,7 @@ Rectangle {
                 top: parent.top
                 bottom: parent.bottom
             }
-            fillMode: Image.PreserveAspectFit
+            width: height
             source: "images/close.png"
 
             MouseArea {

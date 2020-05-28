@@ -72,6 +72,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         $$PWD/../../lib/libKOCQPluginManager.so \
         $$PWD/../../lib/libKOCQCore.so \
         $$PWD/../../lib/plugins/libKOCQDraw.so \
+        $$PWD/../../lib/plugins/libKOCQPics.so \
         $$PWD/../../lib/opencv/libopencv_core.so \
         $$PWD/../../lib/opencv/libopencv_imgcodecs.so \
         $$PWD/../../lib/opencv/libopencv_imgproc.so \
