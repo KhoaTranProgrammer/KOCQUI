@@ -42,6 +42,8 @@
  * 1.0.1: May-25-2020                                               *
  *        Update the method to load icon and plugin screen by       *
  *        resource instead of local file                            *
+ *        May-30-2020                                               *
+ *        Change the size of font for Icon text                     *
  *******************************************************************/
 
 #include "KOCQPluginBase.h"
@@ -116,7 +118,7 @@ void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
                                 "Text {"
                                     "anchors.centerIn: parent; "
                                     "text: " + text + ";"
-                                    "font.pointSize: parent.height * 0.9; "
+                                    "font.pointSize: parent.height * 0.35; "
                                 "}"
                             "}"
                             "Image { "
