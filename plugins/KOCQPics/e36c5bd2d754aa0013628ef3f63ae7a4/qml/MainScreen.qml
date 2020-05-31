@@ -40,6 +40,8 @@
  *        LinearTransforms, Negatives, GammaCorrection, Erosion,    *
  *        Dilation, Morphology, Drawing, Smoothing, Threshold,      *
  *        Transforms, Hough                                         *
+ *        May-31-2020                                               *
+ *        Remove default input support                              *
  *******************************************************************/
 
 import QtQuick 2.0
@@ -66,7 +68,6 @@ Rectangle {
 
     // Default input image
     property string inputimage: ""
-    property bool isUsedDefaultInput: true
 
     QtObject {
         id: id_data
@@ -183,7 +184,7 @@ Rectangle {
                     leftMargin: parent.height * 0.2
                     verticalCenter: parent.verticalCenter
                 }
-                text: "../image/lena.jpg"
+                text: ""
                 font.pixelSize: parent.height * 0.3
                 color: "black"
                 wrapMode: Text.WordWrap
@@ -218,7 +219,7 @@ Rectangle {
             id: id_inputimage
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
-            source: "../image/lena.jpg"
+            source: ""
         }
     }
 
@@ -492,7 +493,6 @@ Rectangle {
             path = path.replace(/^(file:\/{3})/, "")
             // Update Input image location
             inputimage = decodeURIComponent(path)
-            isUsedDefaultInput = false
             id_inputimage.source = id_fileDialog.fileUrl
             id_inputlocation.text = inputimage
         }
@@ -500,58 +500,58 @@ Rectangle {
 
     // Function to call Digital Image Processing features
     function executeDIPFeatures() {
-        // In case of use default input image
-        if(isUsedDefaultInput){
-            inputimage = defaultinput + "/image/lena.jpg"
-        }
-
         // Variable to get input arguments for DIP features
         var scene = null
         scene = id_loaderControl.item
+        var input_Location = inputimage
+
+        if(Qt.platform.os === "android"){
+            input_Location = "/" + inputimage
+        }
 
         // The feature is decided by global property current_feature
         if(current_feature == Common.BaLiTrans){
-            id_outputimage.image = dipObject.basicLinearTransforms(inputimage, scene.alpha, scene.beta)
+            id_outputimage.image = dipObject.basicLinearTransforms(input_Location, scene.alpha, scene.beta)
         } else if (current_feature == Common.Negative) {
-            id_outputimage.image = dipObject.imageNegatives(inputimage)
+            id_outputimage.image = dipObject.imageNegatives(input_Location)
         } else if (current_feature == Common.GammaCor) {
-            id_outputimage.image = dipObject.gammaCorrection(inputimage, scene.gamma_cor)
+            id_outputimage.image = dipObject.gammaCorrection(input_Location, scene.gamma_cor)
         } else if (current_feature == Common.Erosion) {
-            id_outputimage.image = dipObject.erosion(inputimage, scene.erosion_elem, scene.erosion_size)
+            id_outputimage.image = dipObject.erosion(input_Location, scene.erosion_elem, scene.erosion_size)
         } else if (current_feature == Common.Dilation) {
-            id_outputimage.image = dipObject.dilation(inputimage, scene.dilation_elem, scene.dilation_size)
+            id_outputimage.image = dipObject.dilation(input_Location, scene.dilation_elem, scene.dilation_size)
         } else if (current_feature == Common.AdvMorpho) {
-            id_outputimage.image = dipObject.morphologyOperations(inputimage, scene.morph_elem, scene.morph_size, scene.morph_operator)
+            id_outputimage.image = dipObject.morphologyOperations(input_Location, scene.morph_elem, scene.morph_size, scene.morph_operator)
         } else if (current_feature == Common.Drawing1) {
             id_outputimage.image = dipObject.simpleDrawing1()
         } else if (current_feature == Common.Drawing2) {
             id_outputimage.image = dipObject.simpleDrawing2()
         } else if (current_feature == Common.HomogeneousBlur) {
-            id_outputimage.image = dipObject.homogeneousBlur(inputimage, scene.kernel_length)
+            id_outputimage.image = dipObject.homogeneousBlur(input_Location, scene.kernel_length)
         } else if (current_feature == Common.GaussianBlur) {
-            id_outputimage.image = dipObject.gaussianBlur(inputimage, scene.kernel_length)
+            id_outputimage.image = dipObject.gaussianBlur(input_Location, scene.kernel_length)
         } else if (current_feature == Common.MedianBlur) {
-            id_outputimage.image = dipObject.medianFilterBlur(inputimage, scene.kernel_length)
+            id_outputimage.image = dipObject.medianFilterBlur(input_Location, scene.kernel_length)
         } else if (current_feature == Common.BilateralFilter) {
-            id_outputimage.image = dipObject.bilateralFilterBlur(inputimage, scene.kernel_length)
+            id_outputimage.image = dipObject.bilateralFilterBlur(input_Location, scene.kernel_length)
         } else if (current_feature == Common.ThresholdDemo) {
-            id_outputimage.image = dipObject.threshold_Demo(inputimage, scene.threshold_value, scene.threshold_type)
+            id_outputimage.image = dipObject.threshold_Demo(input_Location, scene.threshold_value, scene.threshold_type)
         } else if (current_feature == Common.CopyMakeBorder) {
-            id_outputimage.image = dipObject.copyMakeBorder_Demo(inputimage, scene.borderType)
+            id_outputimage.image = dipObject.copyMakeBorder_Demo(input_Location, scene.borderType)
         } else if (current_feature == Common.SobelDemo) {
-            id_outputimage.image = dipObject.sobel_Demo(inputimage, scene.ksize, scene.scale, scene.delta)
+            id_outputimage.image = dipObject.sobel_Demo(input_Location, scene.ksize, scene.scale, scene.delta)
         } else if (current_feature == Common.LaplaceDemo) {
-            id_outputimage.image = dipObject.laplacian_Demo(inputimage, scene.ksize, scene.scale, scene.delta)
+            id_outputimage.image = dipObject.laplacian_Demo(input_Location, scene.ksize, scene.scale, scene.delta)
         } else if (current_feature == Common.CannyDetector) {
-            id_outputimage.image = dipObject.canny_Demo(inputimage, scene.threshold)
+            id_outputimage.image = dipObject.canny_Demo(input_Location, scene.threshold)
         } else if (current_feature == Common.HoughLineStandard) {
-            id_outputimage.image = dipObject.standardHoughLines(inputimage, scene.s_trackbar, scene.min_threshold)
+            id_outputimage.image = dipObject.standardHoughLines(input_Location, scene.s_trackbar, scene.min_threshold)
         } else if (current_feature == Common.HoughLineProbabilistic) {
-            id_outputimage.image = dipObject.probabilisticHoughLines(inputimage, scene.p_trackbar, scene.min_threshold)
+            id_outputimage.image = dipObject.probabilisticHoughLines(input_Location, scene.p_trackbar, scene.min_threshold)
         } else if (current_feature == Common.HoughCircles) {
-            id_outputimage.image = dipObject.houghCirclesDetection(inputimage, scene.cannyThreshold, scene.accumulatorThreshold)
+            id_outputimage.image = dipObject.houghCirclesDetection(input_Location, scene.cannyThreshold, scene.accumulatorThreshold)
         } else if (current_feature == Common.Remapping) {
-            id_outputimage.image = dipObject.remapping(inputimage, scene.types)
+            id_outputimage.image = dipObject.remapping(input_Location, scene.types)
         }
     }
 

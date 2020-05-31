@@ -38,6 +38,8 @@
  ********************************************************************
  * 1.0.0: Apr-05-2020                                               *
  *        Initial version                                           *
+ *        May-31-2020                                               *
+ *        Update Slider Height from quater to half of parent        *
  *******************************************************************/
 
 import QtQuick 2.0
@@ -51,7 +53,7 @@ Item {
     property int inputHeight: 0
 
     // The height of each control
-    property int sliderHeight: height / 4
+    property int sliderHeight: height / 2
 
     // Properties to update new value for property
     property double newValue: 0
