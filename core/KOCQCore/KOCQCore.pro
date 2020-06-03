@@ -21,7 +21,18 @@
 #*        Initial version supports build for Windows                *
 #* 1.1.0: Apr-24-2020                                               *
 #*        Support build for Android                                 *
+#*        June-04-2020                                              *
+#*        Update library version to 1.0.0                           *
 #********************************************************************
+
+# Library version
+VERSION_MAJOR = 1
+VERSION_MINOR = 0
+VERSION_BUILD = 0
+
+DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
+           "VERSION_MINOR=$$VERSION_MINOR"\
+           "VERSION_BUILD=$$VERSION_BUILD"
 
 QT       += qml quick
 
@@ -62,12 +73,12 @@ win32 {
     INSTALLS += targetLibrary
 }
 
-# Copy the header to the folder as the plugin binary
-targetHeader.files += *.h
-targetHeader.path += $$PWD/../../include/
-COPIES += targetHeader
-
 android {
+    # Copy the header to the folder as the plugin binary
+    targetHeader.files += *.h
+    targetHeader.path += $$PWD/../../include/
+    COPIES += targetHeader
+
     CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
     targetLibrary.path += $$PWD/../../lib/
     INSTALLS += targetLibrary
