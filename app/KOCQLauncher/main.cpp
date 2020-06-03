@@ -41,6 +41,8 @@
  *        Plugins                                                   *
  * 1.1.0: May-25-2020                                               *
  *        Support to load Plugins for Android: KOCQDraw, KOCQPics   *
+ *        June-04-2020                                              *
+ *        Fix library location for Windows                          *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -80,7 +82,7 @@ int main(int argc, char *argv[])
     libLocation = libLocation.left(libLocation.size() - 16);
     libLocation += "lib/plugins/";
 
-    KOCQPluginManager::getInstance()->setPluinPath("/data/data/org.KOCQproject.KOCQLauncher/lib");
+    KOCQPluginManager::getInstance()->setPluinPath(libLocation);
     KOCQPluginManager::getInstance()->loadAllPlugins();
 #endif
 
