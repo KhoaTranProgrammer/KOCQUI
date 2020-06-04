@@ -21,7 +21,18 @@
 #*        Initial version supports build for Windows                *
 #* 1.1.0: Apr-25-2020                                               *
 #*        Support build for Android                                 *
+#*        June-04-2020                                              *
+#*        Update Plugin version to 1.0.0                            *
 #********************************************************************
+
+# Application version
+VERSION_MAJOR = 1
+VERSION_MINOR = 0
+VERSION_BUILD = 0
+
+DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
+           "VERSION_MINOR=$$VERSION_MINOR"\
+           "VERSION_BUILD=$$VERSION_BUILD"
 
 QT       += qml quick
 
