@@ -17,7 +17,18 @@
 #*        Support build for Android                                 *
 #* 1.1.1: May-24-2020                                               *
 #*        Copy output to QT_INSTALL_QML for Android build           *
+#*        June-04-2020                                              *
+#*        Update plugin version to 1.0.0                            *
 #********************************************************************
+
+# plugin version
+VERSION_MAJOR = 1
+VERSION_MINOR = 0
+VERSION_BUILD = 0
+
+DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
+           "VERSION_MINOR=$$VERSION_MINOR"\
+           "VERSION_BUILD=$$VERSION_BUILD"
 
 TEMPLATE = lib
 TARGET = KOCQCoreGUI
