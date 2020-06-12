@@ -17,6 +17,8 @@
 #*        Support build for Android                                 *
 #*        June-04-2020                                              *
 #*        Update application version to 1.0.0                       *
+#*        June-13-2020                                              *
+#*        Support to load Plugins for Android: KOCQQrcode           *
 #********************************************************************
 
 # Application version
@@ -87,11 +89,16 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         $$PWD/../../lib/libKOCQCore.so \
         $$PWD/../../lib/plugins/libKOCQDraw.so \
         $$PWD/../../lib/plugins/libKOCQPics.so \
+        $$PWD/../../lib/plugins/libKOCQQrcode.so \
         $$PWD/../../lib/opencv/libopencv_core.so \
         $$PWD/../../lib/opencv/libopencv_imgcodecs.so \
         $$PWD/../../lib/opencv/libopencv_imgproc.so \
         $$PWD/../../lib/opencv/libopencv_highgui.so \
         $$PWD/../../lib/opencv/libopencv_videoio.so \
+        $$PWD/../../lib/opencv/libopencv_objdetect.so \
+        $$PWD/../../lib/opencv/libopencv_calib3d.so \
+        $$PWD/../../lib/opencv/libopencv_features2d.so \
+        $$PWD/../../lib/opencv/libopencv_flann.so \
 }
 
 android {

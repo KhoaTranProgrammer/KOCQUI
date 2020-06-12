@@ -43,6 +43,8 @@
  *        Support to load Plugins for Android: KOCQDraw, KOCQPics   *
  *        June-04-2020                                              *
  *        Fix library location for Windows                          *
+ *        June-13-2020                                              *
+ *        Support to load Plugins for Android: KOCQQrcode           *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -77,6 +79,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQPics
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQPics.so");
+
+    // Load KOCQQrcode
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQQrcode.so");
 #else
     QString libLocation = LIBRARY_PATH;
     libLocation = libLocation.left(libLocation.size() - 16);
