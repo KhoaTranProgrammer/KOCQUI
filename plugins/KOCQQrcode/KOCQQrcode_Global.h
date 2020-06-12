@@ -1,0 +1,12 @@
+#ifndef KOCQQRCODE_GLOBAL_H
+#define KOCQQRCODE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(KOCQQRCODE_LIBRARY)
+#  define KOCQQRCODESHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define KOCQQRCODESHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // KOCQQRCODE_GLOBAL_H
