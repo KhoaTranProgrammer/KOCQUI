@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -39,6 +39,10 @@
  * 1.0.0: Apr-04-2020                                               *
  *        Initial version supports KOCQPLUGINSTATE, method to       *
  *        manipulate KOCQ Plugin                                    *
+ * 1.0.1: Aug-08-2020                                               *
+ *        Provide methods to get plugin state: getPluginState,      *
+ *        getState_UNINIT, getState_INIT, getState_ICONLOAD,        *
+ *        getState_PLUGINLOAD, getState_PLUGINUNLOAD                *
  *******************************************************************/
 
 #ifndef KOCQPLUGINBASE_H
@@ -84,6 +88,12 @@ public slots:
     virtual void addIconSlot(const QVariant &v) = 0;
     virtual void iConClicked() = 0;
     void unloadPluginSlot();
+    KOCQPLUGINSTATE getPluginState() const;
+    KOCQPLUGINSTATE getState_UNINIT() const { return KOCQ_UNINIT; }
+    KOCQPLUGINSTATE getState_INIT() const { return KOCQ_INIT; }
+    KOCQPLUGINSTATE getState_ICONLOAD() const { return KOCQ_ICONLOAD; }
+    KOCQPLUGINSTATE getState_PLUGINLOAD() const { return KOCQ_PLUGINLOAD; }
+    KOCQPLUGINSTATE getState_PLUGINUNLOAD() const { return KOCQ_PLUGINUNLOAD; }
 
 private:
     KOCQPluginBase(); // private default constructor

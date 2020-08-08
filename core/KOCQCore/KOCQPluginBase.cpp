@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -44,6 +44,8 @@
  *        resource instead of local file                            *
  *        May-30-2020                                               *
  *        Change the size of font for Icon text                     *
+ * 1.0.2: Aug-08-2020                                               *
+ *        Provide methods to get plugin state: getPluginState       *
  *******************************************************************/
 
 #include "KOCQPluginBase.h"
@@ -95,6 +97,11 @@ QQuickItem* KOCQPluginBase::getPluginQuickItem() const
 QQmlContext* KOCQPluginBase::getPluginContext() const
 {
     return m_contextPlugin;
+}
+
+KOCQPluginBase::KOCQPLUGINSTATE KOCQPluginBase::getPluginState() const
+{
+    return m_pluginstate;
 }
 
 void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
