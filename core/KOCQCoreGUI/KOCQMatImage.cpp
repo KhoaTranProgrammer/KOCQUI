@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,6 +37,10 @@
  ********************************************************************
  * 1.0.0: Apr-04-2020                                               *
  *        Initial version supports setting and display QImage       *
+ * 1.0.1: Aug-09-2020                                               *
+ *        Add method clearImage to draw transparent when input image*
+ *        is not available                                          *
+ *        Emit signal drawingChanged for drawing new input image    *
  *******************************************************************/
 
 #include "KOCQMatImage.h"
@@ -58,10 +62,12 @@ void KOCQMatImage::paint(QPainter *painter)
         startY = this->height() / 2 - (m_image.height() * scale) / 2;
         QRectF r1(startX, startY, m_image.width() * scale, m_image.height() * scale);
         painter->drawImage(r1, m_image);
+        emit drawingChanged();
     }
     else
     {
-
+        QRectF r1(0, 0, this->width(), this->height());
+        painter->fillRect(r1, QColor("transparent"));
     }
 }
 
@@ -69,5 +75,11 @@ void KOCQMatImage::setImage(const QImage &image)
 {
     this->isImage = true;
     this->m_image = image;
+    update();
+}
+
+void KOCQMatImage::clearImage()
+{
+    this->isImage = false;
     update();
 }

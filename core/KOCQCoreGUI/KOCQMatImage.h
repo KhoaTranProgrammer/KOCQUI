@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,6 +37,10 @@
  ********************************************************************
  * 1.0.0: Apr-04-2020                                               *
  *        Initial version supports setting and display QImage       *
+ * 1.0.1: Aug-09-2020                                               *
+ *        Add method clearImage to draw transparent when input image*
+ *        is not available                                          *
+ *        Add signal drawingChanged for drawing new input image     *
  *******************************************************************/
 
 #ifndef KOCQMATIMAGE_H
@@ -58,6 +62,10 @@ public:
 
 public slots:
     void setImage(const QImage &image);
+    void clearImage();
+
+signals:
+    void drawingChanged();
 
 private:
     bool isImage;   // Image is available or not
