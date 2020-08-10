@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -41,6 +41,8 @@
  *        LinearTransforms, Negatives, GammaCorrection, Erosion,    *
  *        Dilation, Morphology, Drawing, Smoothing, Threshold,      *
  *        Transforms, Hough                                         *
+ * 1.0.1: Aug-10-2020                                               *
+ *        Support get default input image data/lena.jpg             *
  *******************************************************************/
 
 #ifndef KOCQPICS_H
@@ -83,6 +85,7 @@ public slots:
     void addIconSlot(const QVariant &v);
     void iConClicked();
     QImage convertMat2QImage(const QString &input);
+    QString defaultInput() const;
 
     QImage basicLinearTransforms(const QString &input, double alpha, int beta);
 

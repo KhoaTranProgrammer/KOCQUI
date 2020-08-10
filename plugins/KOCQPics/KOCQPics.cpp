@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -43,6 +43,8 @@
  *        Transforms, Hough                                         *
  * 1.0.1: May-28-2020                                               *
  *        Copy resource into hash folder                            *
+ * 1.0.2: Aug-10-2020                                               *
+ *        Support get default input image data/lena.jpg             *
  *******************************************************************/
 
 #include "KOCQPics.h"
@@ -110,6 +112,13 @@ QImage KOCQPics::convertMat2QImage(Mat image)
     cvtColor(image, temp, cv::COLOR_BGR2RGB); // cvtColor Makes a copt, that what i need
     QImage result((uchar*)temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
     return result.copy();
+}
+
+QString KOCQPics::defaultInput() const
+{
+    QDir dir;
+    QString defaultImage = dir.absolutePath() + "/data/lena.jpg";
+    return defaultImage;
 }
 
 QImage KOCQPics::basicLinearTransforms(const QString &input, double alpha, int beta)

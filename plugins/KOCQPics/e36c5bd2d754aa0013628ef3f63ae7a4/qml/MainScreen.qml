@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -42,6 +42,8 @@
  *        Transforms, Hough                                         *
  *        May-31-2020                                               *
  *        Remove default input support                              *
+ * 1.0.1: Aug-10-2020                                               *
+ *        Support get default input image data/lena.jpg             *
  *******************************************************************/
 
 import QtQuick 2.0
@@ -93,6 +95,17 @@ Rectangle {
             // Group status is closed as default
             id_data.groupstatus[id_data.numberofgroup] = false
             id_data.numberofgroup++
+        }
+    }
+
+    // Load default data
+    Timer {
+        interval: 5; running: true; repeat: false
+        onTriggered: {
+            inputimage = dipObject.defaultInput()
+            // Update Input image location
+            id_inputimage.source = "file:///" + inputimage
+            id_inputlocation.text = inputimage
         }
     }
 
