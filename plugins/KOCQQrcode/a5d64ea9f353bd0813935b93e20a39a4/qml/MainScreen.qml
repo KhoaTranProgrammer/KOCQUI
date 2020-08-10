@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,10 +37,14 @@
  ********************************************************************
  * 1.0.0: June-09-2020                                              *
  *        Initial version implements qrrcode detection from image   *
+ * 1.0.1: Aug-08-2020                                               *
+ *        Supports to detect QRCode using camera input in Windows   *
  *******************************************************************/
 
 import QtQuick 2.0
 import QtQuick.Dialogs 1.0
+import KOCQrcodeCamFilter 1.0
+import QtMultimedia 5.8
 import KOCQCoreGUI 1.0
 
 Rectangle {
@@ -49,6 +53,15 @@ Rectangle {
     property string inputFile: ""
     anchors.fill: parent
     color: "transparent"
+
+    Timer {
+        interval: 5; running: true; repeat: false
+        onTriggered: {
+            inputFile = kocqQrcodeObject.defaultInput()
+            id_imagetxt.text = inputFile
+            id_image.image = kocqQrcodeObject.imageQRCodeDetect(inputFile)
+        }
+    }
 
     // Area to display Image Select
     Item {
@@ -69,6 +82,7 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                id_Timer.stop()
                 id_fileDialog.visible = true
             }
         }
@@ -102,46 +116,25 @@ Rectangle {
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
             source: "../images/baseline_camera.png"
-        }
-    }
-
-    // Area to display Camera Select
-    Item {
-        id: id_detectQR
-        anchors {
-            top: id_diplayimagearea.bottom
-            bottom: root.bottom
-            horizontalCenter: root.horizontalCenter
-        }
-        width: height
-
-        Image {
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-            source: "../images/qr_code.png"
 
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    id_image.image = kocqQrcodeObject.imageQRCodeDetect(inputFile)
+                    id_image.clearImage()
+                    id_Timer.start()
+                    id_imagetxt.text = "Choose Input"
                 }
             }
         }
     }
 
     // Area to display image
-    Item {
-        id: id_diplayimagearea
-        anchors {
-            top: id_cameraselectarea.top
-            left: id_cameraselectarea.right
-            right: root.right
-        }
-        height: root.height * 0.8
+    KOCQMatImage {
+        id: id_image
+        anchors.fill: id_cameraArea
 
-        KOCQMatImage {
-            id: id_image
-            anchors.fill: parent
+        onDrawingChanged: {
+            id_textResult.text = kocqQrcodeObject.qrResult()
         }
     }
 
@@ -160,9 +153,64 @@ Rectangle {
                 inputFile = path
             }
 
+            id_kocqMat.clearImage()
+
             // Update Input image location
             id_imagetxt.text = inputFile
             id_image.image = kocqQrcodeObject.openImage(inputFile)
+            id_image.image = kocqQrcodeObject.imageQRCodeDetect(inputFile)
+        }
+    }
+
+    Rectangle {
+        id: id_cameraArea
+        anchors {
+            top: id_imageselectarea.bottom
+            bottom: id_resultArea.top
+            horizontalCenter: parent.horizontalCenter
+        }
+        width: parent.width * 0.8
+        color: "transparent"
+    }
+
+    Rectangle {
+        id: id_resultArea
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        height: parent.height * 0.1
+        color: "transparent"
+
+        Text {
+            id: id_textResult
+            anchors.centerIn: id_resultArea
+            text: ""
+            font.pixelSize: id_resultArea.height * 0.5
+            color: "black"
+            wrapMode: Text.WordWrap
+        }
+    }
+
+    KOCQrcodeCamFilter {
+        id: id_kocqMat
+        anchors.fill: id_cameraArea
+
+        onQrResultChanged: {
+            id_textResult.text = qrResult
+        }
+    }
+
+    Timer {
+        id: id_Timer
+        interval: 5; running: false; repeat: true
+        onTriggered: {
+            if (kocqQrcodeObject.getPluginState() === kocqQrcodeObject.getState_PLUGINLOAD()) {
+                id_kocqMat.getVideoFrame()
+            } else {
+                id_Timer.stop()
+            }
         }
     }
 }

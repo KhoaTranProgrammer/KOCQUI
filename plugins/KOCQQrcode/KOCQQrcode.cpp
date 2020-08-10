@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,9 +37,12 @@
  ********************************************************************
  * 1.0.0: June-07-2020                                              *
  *        Initial version supports to detect QRCode in image        *
+ * 1.0.1: Aug-08-2020                                               *
+ *        Load KOCQrcodeCamFilter inside addIconSlot                *
  *******************************************************************/
 
 #include "KOCQQrcode.h"
+#include "KOCQrcodeCamFilter.h"
 
 static KOCQQrcode *myPluginInstance = NULL;
 static QString pluginName = "KOCQ Qrcode";
@@ -65,6 +68,9 @@ KOCQQrcode::KOCQQrcode(QQmlEngine* engine, QObject* rootObject, QUrl source, QOb
 
 void KOCQQrcode::addIconSlot(const QVariant &v)
 {
+    // KOCQrcodeCamFilter
+    qmlRegisterType<KOCQrcodeCamFilter>("KOCQrcodeCamFilter", 1, 0, "KOCQrcodeCamFilter");
+
     addIcon(v, "a5d64ea9f353bd0813935b93e20a39a4/images/qr_code.png");
 }
 
@@ -155,17 +161,32 @@ QImage KOCQQrcode::imageQRCodeDetect(const QString& in_file)
     }
     double fps = count_experiments / transform_time;
     if (!result_detection)
-        cout << "QR code not found" << endl;
+    {
+        m_qrResult = "";
+    }
     if (decoded_info.empty())
-        cout << "QR code cannot be decoded" << endl;
+    {
+        m_qrResult = "";
+    }
+    else
+    {
+        m_qrResult = QString::fromStdString(decoded_info);
+    }
 
     drawQRCodeContour(color_src, transform);
     drawFPS(color_src, fps);
 
-//    cout << "Input  image file path: " << in_file  << endl;
-    cout << "Size: " << color_src.size() << endl;
-    cout << "FPS: " << fps << endl;
-    cout << "Decoded info: " << decoded_info << endl;
-
     return convertMat2QImage(color_src);
+}
+
+QString KOCQQrcode::qrResult() const
+{
+    return m_qrResult;
+}
+
+QString KOCQQrcode::defaultInput() const
+{
+    QDir dir;
+    QString defaultImage = dir.absolutePath() + "/data/1024px-QR_code.jpg";
+    return defaultImage;
 }

@@ -29,23 +29,25 @@
 /********************************************************************
  * PURPOSE                                                          *
  ********************************************************************
- * This class demonstrates OpenCV QRCodeDetect                      *
+ * This class demonstrates OpenCV QRCodeDetect using camera input   *
  *******************************************************************/
 
 /********************************************************************
  * VERSION HISTORY                                                  *
  ********************************************************************
- * 1.0.0: June-05-2020                                              *
- *        Initial version supports to detect QRCode in image        *
- * 1.0.1: Aug-09-2020                                               *
- *        Get qr decode result
+ * 1.0.0: Aug-08-2020                                               *
+ *        Initial version supports to detect QRCode using camera    *
+ *        input in Windows                                          *
  *******************************************************************/
 
-#ifndef KOCQQRCODE_H
-#define KOCQQRCODE_H
+#ifndef KOCQRCODECAMFILTER_H
+#define KOCQRCODECAMFILTER_H
 
-#include "KOCQPluginBase.h"
-#include "KOCQQrcode_Global.h"
+#include <QObject>
+#include <QtQuick/QQuickPaintedItem>
+#include <QColor>
+#include <QPainter>
+
 #include "opencv2/objdetect.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/highgui.hpp"
@@ -55,32 +57,35 @@
 using namespace std;
 using namespace cv;
 
-extern "C" KOCQQRCODESHARED_EXPORT void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
-
-class KOCQQRCODESHARED_EXPORT KOCQQrcode : public KOCQPluginBase
+class KOCQrcodeCamFilter : public QQuickPaintedItem
 {
     Q_OBJECT
+    Q_PROPERTY(QString qrResult READ qrResult NOTIFY qrResultChanged)
 public:
-    static void createInstance(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
-    void onPluginLoad();
+    KOCQrcodeCamFilter(QQuickItem *parent = 0);
 
-    void drawQRCodeContour(Mat &color_image, vector<Point> transform);
-    void drawFPS(Mat &color_image, double fps);
-    QImage convertMat2QImage(Mat image);
-
-public slots:
-    void addIconSlot(const QVariant &v);
-    void iConClicked();
-
-    QImage openImage(const QString& in_file);
-    QImage imageQRCodeDetect(const QString& in_file);
+    void paint(QPainter *painter);
 
     QString qrResult() const;
-    QString defaultInput() const;
+
+public slots:
+    void getVideoFrame();
+    void clearImage();
+
+signals:
+    void qrResultChanged();
 
 private:
-    KOCQQrcode(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject);
+    bool isImage;   // Image is available or not
+    QImage m_image; // QImage image content
+    VideoCapture cap;
     QString m_qrResult;
+
+    void liveQRCodeDetect();
+    void setImage(const QImage &image);
+    QImage convertMat2QImage(Mat image);
+    void drawQRCodeContour(Mat &color_image, vector<Point> transform);
+    void drawFPS(Mat &color_image, double fps);
 };
 
-#endif // KOCQQRCODE_H
+#endif // KOCQRCODECAMFILTER_H

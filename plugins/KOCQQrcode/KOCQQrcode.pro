@@ -20,6 +20,8 @@
 #* 1.0.0: June-07-2020                                              *
 #*        Initial version supports build for Windows                *
 #*        Update Plugin version to 1.0.0                            *
+#* 1.0.1: Aug-08-2020                                               *
+#*        Support KOCQrcodeCamFilter for Qrcode Camera detect       *
 #********************************************************************
 
 # Application version
@@ -50,11 +52,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        KOCQQrcode.cpp
+        KOCQQrcode.cpp \
+    KOCQrcodeCamFilter.cpp
 
 HEADERS += \
         KOCQQrcode.h \
-    KOCQQrcode_Global.h
+    KOCQQrcode_Global.h \
+    KOCQrcodeCamFilter.h
 
 win32 {
     DESTDIR = $$PWD/../../lib/plugins
@@ -71,6 +75,7 @@ win32 {
             libopencv_imgproc411 \
             libopencv_highgui411 \
             libopencv_objdetect411 \
+            libopencv_videoio411 \
 }
 
 android {
