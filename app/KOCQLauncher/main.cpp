@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.1.0 *
+ * VERSION: 1.1.1 *
  *****************/
 
 /********************************************************************
@@ -45,6 +45,9 @@
  *        Fix library location for Windows                          *
  *        June-13-2020                                              *
  *        Support to load Plugins for Android: KOCQQrcode           *
+ * 1.1.1: Aug-10-2020                                               *
+ *        Support to load Plugins for Windows by setting correct    *
+ *        plugin name                                               *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -83,12 +86,19 @@ int main(int argc, char *argv[])
     // Load KOCQQrcode
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQQrcode.so");
 #else
-    QString libLocation = LIBRARY_PATH;
-    libLocation = libLocation.left(libLocation.size() - 16);
-    libLocation += "lib/plugins/";
+    QDir dir;
+    dir.cdUp();
+    QString libLocation = dir.absolutePath() + "/lib/plugins/";
 
-    KOCQPluginManager::getInstance()->setPluinPath(libLocation);
-    KOCQPluginManager::getInstance()->loadAllPlugins();
+    // Load KOCQDraw
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQDraw.dll");
+
+    // Load KOCQPics
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQPics.dll");
+
+    // Load KOCQQrcode
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQQrcode.dll");
+
 #endif
 
     return app.exec();
