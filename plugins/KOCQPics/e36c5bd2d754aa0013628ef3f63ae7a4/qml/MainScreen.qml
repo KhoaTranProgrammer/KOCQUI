@@ -55,6 +55,7 @@ import "control"
 Rectangle {
     id: root
     anchors.fill: parent
+    color: "transparent"
 
     // Current feature is selected by user
     property string current_feature: ""
@@ -107,14 +108,6 @@ Rectangle {
             id_inputimage.source = "file:///" + inputimage
             id_inputlocation.text = inputimage
         }
-    }
-
-    // Background
-    gradient: Gradient {
-        GradientStop { position: 0.00; color: "#78909C" }
-        GradientStop { position: 0.33; color: "#607D8B" }
-        GradientStop { position: 0.66; color: "#546E7A" }
-        GradientStop { position: 1.00; color: "#455A64" }
     }
 
     // Area for application name
