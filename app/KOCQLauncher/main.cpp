@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.1.1 *
+ * VERSION: 1.1.2 *
  *****************/
 
 /********************************************************************
@@ -48,6 +48,8 @@
  * 1.1.1: Aug-10-2020                                               *
  *        Support to load Plugins for Windows by setting correct    *
  *        plugin name                                               *
+ * 1.1.2: Aug-17-2020                                               *
+ *        Support to load Plugins KOCQSegmentation for Windows      *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -98,6 +100,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQQrcode
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQQrcode.dll");
+
+    // Load KOCQSegmentation
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQSegmentation.dll");
 
 #endif
 
