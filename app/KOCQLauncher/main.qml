@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -40,6 +40,8 @@
  * 1.0.1: May-29-2020                                               *
  *        Support to load QtQuick.Dialogs, KOCQCoreGUI              *
  *        Change the way to display home and exit button            *
+ * 1.0.2: Aug-23-2020                                               *
+ *        Support 5 icons per line instead of 6                     *
  *******************************************************************/
 
 import QtQuick 2.6
@@ -169,12 +171,11 @@ Rectangle {
     GridView {
         id: id_gridView
         anchors.fill: id_pluginArea
-        cellWidth: id_pluginArea.width / 6
+        cellWidth: id_pluginArea.width / 5
         cellHeight: id_pluginArea.height / 4
 
         model: id_listPlugins
         delegate: id_displayPlugins
-        //highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
         focus: true
     }
 

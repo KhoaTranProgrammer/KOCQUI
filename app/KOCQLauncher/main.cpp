@@ -50,6 +50,8 @@
  *        plugin name                                               *
  * 1.1.2: Aug-17-2020                                               *
  *        Support to load Plugins KOCQSegmentation for Windows      *
+ * 1.1.3: Aug-22-2020                                               *
+ *        Support to load Plugins KOCQAKAZE for Windows             *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -103,6 +105,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQSegmentation
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQSegmentation.dll");
+
+    // Load KOCQSegmentation
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQAKAZE.dll");
 
 #endif
 
