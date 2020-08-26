@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>51d10313b94bf790c0a46129c3d0d6bf/images/icon.png</file>
+        <file>51d10313b94bf790c0a46129c3d0d6bf/qml/MainScreen.qml</file>
+        <file>51d10313b94bf790c0a46129c3d0d6bf/images/baseline_image.png</file>
+    </qresource>
+</RCC>
