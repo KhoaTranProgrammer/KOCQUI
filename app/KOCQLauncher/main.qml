@@ -41,7 +41,7 @@
  *        Support to load QtQuick.Dialogs, KOCQCoreGUI              *
  *        Change the way to display home and exit button            *
  * 1.0.2: Aug-23-2020                                               *
- *        Support 5 icons per line instead of 6                     *
+ *        Support 4 icons per line instead of 6                     *
  *******************************************************************/
 
 import QtQuick 2.6
@@ -171,8 +171,8 @@ Rectangle {
     GridView {
         id: id_gridView
         anchors.fill: id_pluginArea
-        cellWidth: id_pluginArea.width / 5
-        cellHeight: id_pluginArea.height / 4
+        cellWidth: id_pluginArea.width / 4
+        cellHeight: id_pluginArea.height / 3
 
         model: id_listPlugins
         delegate: id_displayPlugins

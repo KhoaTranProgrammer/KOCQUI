@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.1.2 *
+ * VERSION: 1.1.4 *
  *****************/
 
 /********************************************************************
@@ -52,6 +52,8 @@
  *        Support to load Plugins KOCQSegmentation for Windows      *
  * 1.1.3: Aug-22-2020                                               *
  *        Support to load Plugins KOCQAKAZE for Windows             *
+ * 1.1.4: Aug-25-2020                                               *
+ *        Support to load Plugins KOCQHISTOGRAM for Windows         *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -108,6 +110,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQSegmentation
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQAKAZE.dll");
+
+    // Load KOCQHISTOGRAM
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQHISTOGRAM.dll");
 
 #endif
 
