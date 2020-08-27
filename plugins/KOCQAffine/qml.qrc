@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>aa17a8646814c323f69cbf4cb54f3065/images/icon.png</file>
+        <file>aa17a8646814c323f69cbf4cb54f3065/qml/MainScreen.qml</file>
+        <file>aa17a8646814c323f69cbf4cb54f3065/images/baseline_image.png</file>
+        <file>aa17a8646814c323f69cbf4cb54f3065/qml/BasicControl.qml</file>
+        <file>aa17a8646814c323f69cbf4cb54f3065/qml/CustomSlider.qml</file>
+        <file>aa17a8646814c323f69cbf4cb54f3065/qml/WarpControl.qml</file>
+    </qresource>
+</RCC>
