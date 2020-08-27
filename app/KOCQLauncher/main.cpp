@@ -54,6 +54,8 @@
  *        Support to load Plugins KOCQAKAZE for Windows             *
  * 1.1.4: Aug-25-2020                                               *
  *        Support to load Plugins KOCQHISTOGRAM for Windows         *
+ * 1.1.5: Aug-26-2020                                               *
+ *        Support to load Plugins KOCQAffine for Windows            *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -113,6 +115,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQHISTOGRAM
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQHISTOGRAM.dll");
+
+    // Load KOCQAffine
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQAffine.dll");
 
 #endif
 
