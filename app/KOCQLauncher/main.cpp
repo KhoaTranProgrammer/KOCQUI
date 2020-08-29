@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.1.4 *
+ * VERSION: 1.1.6 *
  *****************/
 
 /********************************************************************
@@ -56,6 +56,8 @@
  *        Support to load Plugins KOCQHISTOGRAM for Windows         *
  * 1.1.5: Aug-26-2020                                               *
  *        Support to load Plugins KOCQAffine for Windows            *
+ * 1.1.6: Aug-29-2020                                               *
+ *        Support to load Plugins KOCQFaceDetection for Windows     *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -119,6 +121,8 @@ int main(int argc, char *argv[])
     // Load KOCQAffine
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQAffine.dll");
 
+    // Load KOCQFaceDetection
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "KOCQFaceDetection.dll");
 #endif
 
     return app.exec();
