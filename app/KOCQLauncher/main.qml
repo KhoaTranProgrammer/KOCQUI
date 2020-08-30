@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.2 *
+ * VERSION: 1.0.3 *
  *****************/
 
 /********************************************************************
@@ -42,6 +42,8 @@
  *        Change the way to display home and exit button            *
  * 1.0.2: Aug-23-2020                                               *
  *        Support 4 icons per line instead of 6                     *
+ * 1.0.3: Aug-30-2020                                               *
+ *        Separate GridView display to KOCQGridView.qml             *
  *******************************************************************/
 
 import QtQuick 2.6
@@ -56,6 +58,16 @@ Rectangle {
 
     signal addIconSignal(var anObject)
     signal homeSignal()
+
+    Component.onCompleted: {
+        id_viewControl.source = "qml/KOCQGridView.qml"
+
+        var scene = null
+        scene = id_viewControl.item
+        scene.parent = root
+        scene.anchors.fill = id_pluginArea
+        scene.initDisplay(id_listPlugins, id_displayPlugins)
+    }
 
     Rectangle {
         id: id_menuArea
@@ -131,12 +143,16 @@ Rectangle {
         objectName: "PluginLoader"
 
         onLoaded: {
-            id_gridView.visible = false
+            var scene = null
+            scene = id_viewControl.item
+            scene.show(false)
         }
 
         onStatusChanged: {
             if (status == Loader.Null) {
-                id_gridView.visible = true
+                var scene = null
+                scene = id_viewControl.item
+                scene.show(true)
             }
         }
     }
@@ -151,8 +167,8 @@ Rectangle {
         id: id_displayPlugins
 
         Item {
-            height: id_gridView.cellHeight
-            width: id_gridView.cellWidth
+            width: id_pluginArea.width / 4
+            height: id_pluginArea.height / 3
 
             Rectangle {
 
@@ -168,17 +184,6 @@ Rectangle {
         }
     }
 
-    GridView {
-        id: id_gridView
-        anchors.fill: id_pluginArea
-        cellWidth: id_pluginArea.width / 4
-        cellHeight: id_pluginArea.height / 3
-
-        model: id_listPlugins
-        delegate: id_displayPlugins
-        focus: true
-    }
-
     function addPlugin() {
         id_listPlugins.append({"name": ""})
     }
@@ -186,4 +191,10 @@ Rectangle {
     function quitPlugin() {
         
     }
+
+    // Using to open view control
+    Loader {
+        id: id_viewControl
+    }
+
 }

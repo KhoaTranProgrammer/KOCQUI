@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>images/home.png</file>
         <file>images/close.png</file>
+        <file>qml/KOCQGridView.qml</file>
     </qresource>
 </RCC>
