@@ -29,14 +29,14 @@
 /********************************************************************
  * PURPOSE                                                          *
  ********************************************************************
- * This file implements GridView display                            *
+ * This file implements PathView display                            *
  *******************************************************************/
 
 /********************************************************************
  * VERSION HISTORY                                                  *
  ********************************************************************
- * 1.0.0: Aug-30-2020                                               *
- *        Separate GridView display to KOCQGridView.qml             *
+ * 1.0.0: Sep-08-2020                                               *
+ *        Support PathView                                          *
  *******************************************************************/
 
 import QtQuick 2.0
@@ -62,27 +62,29 @@ Item {
                 color: "transparent"
 
                 Component.onCompleted: {
-                    addIconSignal(parent, "gridview")
+                    addIconSignal(parent, "pathview")
                 }
             }
         }
     }
 
-    GridView {
-        id: id_gridView
+    PathView {
+        id: id_pathView
         anchors.fill: parent
-        cellWidth: itemWidth
-        cellHeight: itemHeight
-
-        focus: true
+        path: Path {
+            startX: 0
+            startY: id_pathView.height * 0.2
+            PathQuad { x: id_pathView.width / 2; y: id_pathView.height * 0.8; controlX: 50; controlY: 50 }
+            PathQuad { x: id_pathView.width; y: id_pathView.height * 0.2; controlX: 50; controlY: 50 }
+        }
     }
 
     function initDisplay(inputModel) {
-        id_gridView.model = inputModel
-        id_gridView.delegate = id_displayPlugins
+        id_pathView.model = inputModel
+        id_pathView.delegate = id_displayPlugins
     }
 
     function show(status) {
-        id_gridView.visible = status
+        id_pathView.visible = status
     }
 }

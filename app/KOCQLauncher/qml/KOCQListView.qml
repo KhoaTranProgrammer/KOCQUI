@@ -35,8 +35,8 @@
 /********************************************************************
  * VERSION HISTORY                                                  *
  ********************************************************************
- * 1.0.0: Aug-30-2020                                               *
- *        Separate GridView display to KOCQGridView.qml             *
+ * 1.0.0: Aug-31-2020                                               *
+ *        Support ListView                                          *
  *******************************************************************/
 
 import QtQuick 2.0
@@ -44,14 +44,12 @@ import QtQuick 2.0
 Item {
 
     property int itemHeight: parent.height / 3
-    property int itemWidth: parent.width / 4
-
     // Display the list of Plugins
     Component {
         id: id_displayPlugins
 
         Item {
-            width: itemWidth
+            width: parent.width
             height: itemHeight
 
             Rectangle {
@@ -62,27 +60,32 @@ Item {
                 color: "transparent"
 
                 Component.onCompleted: {
-                    addIconSignal(parent, "gridview")
+                    addIconSignal(parent, "listview")
                 }
             }
         }
     }
 
-    GridView {
-        id: id_gridView
+    Flickable {
+        id: id_listView
         anchors.fill: parent
-        cellWidth: itemWidth
-        cellHeight: itemHeight
+        clip: true
 
-        focus: true
+        Column {
+            anchors.fill: parent
+            Repeater {
+                id: id_repeater
+            }
+        }
     }
 
     function initDisplay(inputModel) {
-        id_gridView.model = inputModel
-        id_gridView.delegate = id_displayPlugins
+        id_repeater.model = inputModel
+        id_repeater.delegate = id_displayPlugins
+        id_listView.contentHeight = inputModel.count * itemHeight
     }
 
     function show(status) {
-        id_gridView.visible = status
+        id_listView.visible = status
     }
 }

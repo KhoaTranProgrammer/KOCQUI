@@ -4,5 +4,10 @@
         <file>images/home.png</file>
         <file>images/close.png</file>
         <file>qml/KOCQGridView.qml</file>
+        <file>images/gridview.png</file>
+        <file>images/listview.png</file>
+        <file>images/pathview.png</file>
+        <file>qml/KOCQListView.qml</file>
+        <file>qml/KOCQPathView.qml</file>
     </qresource>
 </RCC>

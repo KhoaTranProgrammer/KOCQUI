@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.3 *
+ * VERSION: 1.0.4 *
  *****************/
 
 /********************************************************************
@@ -44,6 +44,8 @@
  *        Support 4 icons per line instead of 6                     *
  * 1.0.3: Aug-30-2020                                               *
  *        Separate GridView display to KOCQGridView.qml             *
+ * 1.0.4: Sep-09-2020                                               *
+ *        Supports ListView and PathView                            *
  *******************************************************************/
 
 import QtQuick 2.6
@@ -56,17 +58,21 @@ Rectangle {
     anchors.fill: parent
     color: "black"
 
-    signal addIconSignal(var anObject)
+    signal addIconSignal(var anObject, string type)
     signal homeSignal()
 
     Component.onCompleted: {
+        // Display as gridview
         id_viewControl.source = "qml/KOCQGridView.qml"
+        id_gridviewOption.color = "white"
 
         var scene = null
         scene = id_viewControl.item
         scene.parent = root
         scene.anchors.fill = id_pluginArea
-        scene.initDisplay(id_listPlugins, id_displayPlugins)
+        scene.initDisplay(id_listPlugins)
+        scene.show(true)
+
     }
 
     Rectangle {
@@ -116,13 +122,131 @@ Rectangle {
     }
 
     Rectangle {
-        id: id_pluginArea
+        id: id_optionArea
         color: "transparent"
 
         anchors {
             left: parent.left
             right: parent.right
             top: id_menuArea.bottom
+        }
+        height: parent.height * 0.05
+
+        // Gridview Option
+        Rectangle {
+            id: id_gridviewOption
+            color: "transparent"
+
+            anchors {
+                right: parent.right
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: height
+
+            Image {
+                anchors.fill: parent
+                source: "images/gridview.png"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    id_gridviewOption.color = "white"
+                    id_listviewOption.color = "transparent"
+                    id_pathviewOption.color = "transparent"
+
+                    id_viewControl.source = "qml/KOCQGridView.qml"
+                    id_gridviewOption.color = "white"
+
+                    var scene = null
+                    scene = id_viewControl.item
+                    scene.parent = root
+                    scene.anchors.fill = id_pluginArea
+                    scene.initDisplay(id_listPlugins)
+                }
+            }
+        }
+
+        // Listview Option
+        Rectangle {
+            id: id_listviewOption
+            color: "transparent"
+
+            anchors {
+                right: id_gridviewOption.left
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: height
+
+            Image {
+                anchors.fill: parent
+                source: "images/listview.png"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    id_gridviewOption.color = "transparent"
+                    id_listviewOption.color = "white"
+                    id_pathviewOption.color = "transparent"
+
+                    id_viewControl.source = ""
+                    id_viewControl.source = "qml/KOCQListView.qml"
+                    var scene = null
+                    scene = id_viewControl.item
+                    scene.parent = root
+                    scene.anchors.fill = id_pluginArea
+                    scene.initDisplay(id_listPlugins)
+                }
+            }
+        }
+
+        // Pathview Option
+        Rectangle {
+            id: id_pathviewOption
+            color: "transparent"
+
+            anchors {
+                right: id_listviewOption.left
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: height
+
+            Image {
+                anchors.fill: parent
+                source: "images/pathview.png"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    id_gridviewOption.color = "transparent"
+                    id_listviewOption.color = "transparent"
+                    id_pathviewOption.color = "white"
+
+                    id_viewControl.source = ""
+                    id_viewControl.source = "qml/KOCQPathView.qml"
+                    var scene = null
+                    scene = id_viewControl.item
+                    scene.parent = root
+                    scene.anchors.fill = id_pluginArea
+                    scene.initDisplay(id_listPlugins)
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        id: id_pluginArea
+        color: "transparent"
+
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: id_optionArea.bottom
             bottom: parent.bottom
         }
     }
@@ -146,6 +270,7 @@ Rectangle {
             var scene = null
             scene = id_viewControl.item
             scene.show(false)
+            id_optionArea.visible = false
         }
 
         onStatusChanged: {
@@ -153,6 +278,7 @@ Rectangle {
                 var scene = null
                 scene = id_viewControl.item
                 scene.show(true)
+                id_optionArea.visible = true
             }
         }
     }
@@ -160,28 +286,6 @@ Rectangle {
     // Store the list of Plugins
     ListModel {
         id: id_listPlugins
-    }
-
-    // Display the list of Features
-    Component {
-        id: id_displayPlugins
-
-        Item {
-            width: id_pluginArea.width / 4
-            height: id_pluginArea.height / 3
-
-            Rectangle {
-
-                anchors {
-                    fill: parent
-                }
-                color: "transparent"
-
-                Component.onCompleted: {
-                    addIconSignal(parent)
-                }
-            }
-        }
     }
 
     function addPlugin() {
@@ -196,5 +300,4 @@ Rectangle {
     Loader {
         id: id_viewControl
     }
-
 }
