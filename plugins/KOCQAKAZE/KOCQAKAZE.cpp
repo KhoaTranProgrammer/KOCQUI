@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -38,6 +38,10 @@
  ********************************************************************
  * 1.0.0: Aug-22-2020                                               *
  *        Initial version supports for Windows                      *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot.         *
+ *        setupIconConnection in case of plugin is created.         *
+ *        Add plugin detail description.                            *
  *******************************************************************/
 
 #include "KOCQAKAZE.h"
@@ -47,6 +51,7 @@ const float nn_match_ratio = 0.8f;   // Nearest neighbor matching ratio
 
 static KOCQAKAZE *myPluginInstance = NULL;
 static QString pluginName = "KOCQ AKAZE";
+static QString pluginDetail = "This plugin demonstrates how to use AKAZE [5] local features to detect and match keypoints on two images";
 
 void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject)
 {
@@ -59,6 +64,10 @@ void KOCQAKAZE::createInstance(QQmlEngine* engine, QObject* rootObject, QUrl sou
     {
         myPluginInstance = new KOCQAKAZE(engine, rootObject, source, pluginManagerObject);
     }
+    else
+    {
+        myPluginInstance->setupIconConnection();
+    }
 }
 
 KOCQAKAZE::KOCQAKAZE(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject) :
@@ -67,9 +76,9 @@ KOCQAKAZE::KOCQAKAZE(QQmlEngine* engine, QObject* rootObject, QUrl source, QObje
     m_matchingResults = "";
 }
 
-void KOCQAKAZE::addIconSlot(const QVariant &v)
+void KOCQAKAZE::addIconSlot(const QVariant &v, const QString &type)
 {
-    addIcon(v, "0eae55bd85a730b806f6d05778f434dc/images/icon.png");
+    addIcon(v, "0eae55bd85a730b806f6d05778f434dc/images/icon.png", type, pluginDetail);
 }
 
 void KOCQAKAZE::iConClicked()

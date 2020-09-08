@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -38,6 +38,8 @@
  ********************************************************************
  * 1.0.0: Aug-22-2020                                               *
  *        Initial version supports for Windows                      *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot          *
  *******************************************************************/
 
 #ifndef KOCQAKAZE_H
@@ -67,7 +69,7 @@ public:
     QImage convertMat2QImage(Mat image);
 
 public slots:
-    void addIconSlot(const QVariant &v);
+    void addIconSlot(const QVariant &v, const QString &type);
     void iConClicked();
     QString defaultInputImage_1() const;
     QString defaultInputImage_2() const;
