@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -39,6 +39,9 @@
  *        Initial version supports loading all of Plugins           *
  * 1.0.1: May-25-2020                                               *
  *        Add loadPlugin method to load 1 Plugin                    *
+ * 1.0.2: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot,         *
+ *        addIconSignal. Update algorithm to load plugins via index *
  *******************************************************************/
 
 #ifndef KOCQPLUGINMANAGER_H
@@ -66,14 +69,15 @@ public:
     void loadPlugin(QString pluginLocation);
 
 public slots:
-    void addIconSlot(const QVariant &v);
+    void addIconSlot(const QVariant &v, const QString & type);
 
 signals:
-    void addIconSignal(QVariant);
+    void addIconSignal(QVariant, QString);
 
 private:
     KOCQPluginManager();
 
+    int m_currentIndex;
     QVector<CreateWidgetFunction> m_pluginQLibrary;
 
     QQmlEngine* m_engine;

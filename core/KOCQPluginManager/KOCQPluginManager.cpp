@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.2 *
+ * VERSION: 1.0.3 *
  *****************/
 
 /********************************************************************
@@ -41,6 +41,9 @@
  *        Modify to only load dll file                              *
  * 1.0.2: May-25-2020                                               *
  *        Add loadPlugin method to load 1 Plugin                    *
+ * 1.0.3: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot,         *
+ *        addIconSignal. Update algorithm to load plugins via index *
  *******************************************************************/
 
 #include "KOCQPluginManager.h"
@@ -63,6 +66,7 @@ KOCQPluginManager::KOCQPluginManager()
     m_engine = NULL;
     m_rootObject = NULL;
     m_source = NULL;
+    m_currentIndex = 0;
 }
 
 void KOCQPluginManager::setQmlEngine(QQmlEngine* engine)
@@ -73,8 +77,8 @@ void KOCQPluginManager::setQmlEngine(QQmlEngine* engine)
 void KOCQPluginManager::setRootObject(QObject* rootObject)
 {
     this->m_rootObject = rootObject;
-    QObject::connect(m_rootObject, SIGNAL(addIconSignal(QVariant)),
-                        this, SLOT(addIconSlot(QVariant)));
+    QObject::connect(m_rootObject, SIGNAL(addIconSignal(QVariant, QString)),
+                        this, SLOT(addIconSlot(QVariant, QString)));
 }
 
 void KOCQPluginManager::setSource(QUrl source)
@@ -123,11 +127,14 @@ void KOCQPluginManager::loadPlugin(QString pluginLocation)
     QMetaObject::invokeMethod(m_rootObject, "addPlugin");
 }
 
-void KOCQPluginManager::addIconSlot(const QVariant &v)
+void KOCQPluginManager::addIconSlot(const QVariant &v, const QString & type)
 {
-    CreateWidgetFunction newWidget = m_pluginQLibrary.first();
+    if (m_currentIndex >= m_pluginQLibrary.count())
+        m_currentIndex = 0;
+
+    CreateWidgetFunction newWidget = m_pluginQLibrary.at(m_currentIndex);
     newWidget(m_engine, m_rootObject, m_source, this);
-    emit addIconSignal(v);
-    m_pluginQLibrary.pop_front();
+    emit addIconSignal(v, type);
+    m_currentIndex++;
 }
 
