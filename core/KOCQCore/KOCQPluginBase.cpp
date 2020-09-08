@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.2 *
+ * VERSION: 1.0.3 *
  *****************/
 
 /********************************************************************
@@ -46,6 +46,10 @@
  *        Change the size of font for Icon text                     *
  * 1.0.2: Aug-08-2020                                               *
  *        Provide methods to get plugin state: getPluginState       *
+ * 1.0.3: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot, addIcon.*
+ *        Add method to load plugin in Grid/List/Path view.         *
+ *        setupIconConnection when icon view type change.           *
  *******************************************************************/
 
 #include "KOCQPluginBase.h"
@@ -60,8 +64,8 @@ KOCQPluginBase::KOCQPluginBase(QQmlEngine* engine, QObject* rootObject, QUrl sou
     m_pluginManagerObject = pluginManagerObject;
     m_pluginstate = KOCQ_INIT;
     m_defaultPath = defaultPath;
-    QObject::connect(m_pluginManagerObject, SIGNAL(addIconSignal(QVariant)),
-                       this, SLOT(addIconSlot(QVariant)));
+    QObject::connect(m_pluginManagerObject, SIGNAL(addIconSignal(QVariant, QString)),
+                       this, SLOT(addIconSlot(QVariant, QString)));
 }
 
 QObject* KOCQPluginBase::getRootObject() const
@@ -104,60 +108,156 @@ KOCQPluginBase::KOCQPLUGINSTATE KOCQPluginBase::getPluginState() const
     return m_pluginstate;
 }
 
-void KOCQPluginBase::addIcon(const QVariant &v, const QString icon)
+void KOCQPluginBase::setupIconConnection()
+{
+    QObject::connect(m_pluginManagerObject, SIGNAL(addIconSignal(QVariant, QString)),
+                       this, SLOT(addIconSlot(QVariant, QString)));
+}
+
+void KOCQPluginBase::addIcon(const QVariant &v, const QString icon, const QString type, const QString pluginDetail)
 {
     if(m_pluginstate == KOCQ_INIT) // First time load Icon
     {
-        QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
-        QString text = "\"" + getPluginName() + "\"";
-        QString iconUrl = "\"" + icon + "\"";
-        QString data = "import QtQuick 2.0; "
-                       "Item { "
-                            "anchors.fill: parent; "
-                            "signal iConClicked(); "
-                            "Rectangle { "
-                                "id: id_name; "
-                                "color: \"transparent\";"
-                                "anchors.bottom: parent.bottom; "
-                                "anchors.left: parent.left; "
-                                "anchors.right: parent.right; "
-                                "height: parent.height * 0.15; "
-                                "Text {"
-                                    "anchors.centerIn: parent; "
-                                    "text: " + text + ";"
-                                    "font.pointSize: parent.height * 0.35; "
-                                "}"
-                            "}"
-                            "Image { "
-                                 "anchors.top: parent.top; "
-                                 "anchors.left: parent.left; "
-                                 "anchors.right: parent.right; "
-                                 "anchors.bottom: id_name.top; "
-                                 "anchors.margins: parent.height * 0.01; "
-                                 "fillMode: Image.PreserveAspectFit; "
-                                 "source: " + iconUrl + "; "
-                                 "onStatusChanged: { "
-                                    "if (status == Image.Error) {"
-                                        "source = \"image/380d597942266fe55226d719d98070a8.png\""
-                                    "}"
-                                 "}"
-                                 "MouseArea {"
-                                    "anchors.fill: parent; "
-                                    "onClicked: { iConClicked() }"
-                                 "}"
-                            "}"
-                       "}";
-
-        QQmlComponent *component = new QQmlComponent(getEngine());
-        component->setData(data.toUtf8(), getUrlSource());
-        m_quickItemIcon = qobject_cast<QQuickItem*>(component->create());
-        m_quickItemIcon->setParentItem(parent);
-        QObject::connect(m_quickItemIcon, SIGNAL(iConClicked()),
-                           this, SLOT(iConClicked()));
-        m_pluginManagerObject->disconnect(this);
-
         m_pluginstate = KOCQ_ICONLOAD;
     }
+
+    if (type == "gridview")
+    {
+        addIcon4GridView(v, icon);
+    }
+    else if (type == "listview")
+    {
+        addIcon4ListView(v, icon, pluginDetail);
+    }
+    else if (type == "pathview")
+    {
+        addIcon4GridView(v, icon);
+    }
+}
+
+void KOCQPluginBase::addIcon4GridView(const QVariant &v, const QString icon)
+{
+    QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
+    QString text = "\"" + getPluginName() + "\"";
+    QString iconUrl = "\"" + icon + "\"";
+    QString data = "import QtQuick 2.0; "
+                   "Item { "
+                        "anchors.fill: parent; "
+                        "signal iConClicked(); "
+                        "Rectangle { "
+                            "id: id_name; "
+                            "color: \"transparent\";"
+                            "anchors.bottom: parent.bottom; "
+                            "anchors.left: parent.left; "
+                            "anchors.right: parent.right; "
+                            "height: parent.height * 0.15; "
+                            "Text {"
+                                "anchors.centerIn: parent; "
+                                "text: " + text + ";"
+                                "font.pointSize: parent.height * 0.35; "
+                            "}"
+                        "}"
+                        "Image { "
+                             "anchors.top: parent.top; "
+                             "anchors.left: parent.left; "
+                             "anchors.right: parent.right; "
+                             "anchors.bottom: id_name.top; "
+                             "anchors.margins: parent.height * 0.01; "
+                             "fillMode: Image.PreserveAspectFit; "
+                             "source: " + iconUrl + "; "
+                             "onStatusChanged: { "
+                                "if (status == Image.Error) {"
+                                    "source = \"image/380d597942266fe55226d719d98070a8.png\""
+                                "}"
+                             "}"
+                             "MouseArea {"
+                                "anchors.fill: parent; "
+                                "onClicked: { iConClicked() }"
+                             "}"
+                        "}"
+                   "}";
+
+    QQmlComponent *component = new QQmlComponent(getEngine());
+    component->setData(data.toUtf8(), getUrlSource());
+    m_quickItemIcon = qobject_cast<QQuickItem*>(component->create());
+    m_quickItemIcon->setParentItem(parent);
+    QObject::connect(m_quickItemIcon, SIGNAL(iConClicked()),
+                       this, SLOT(iConClicked()));
+    m_pluginManagerObject->disconnect(this);
+}
+
+void KOCQPluginBase::addIcon4ListView(const QVariant &v, const QString icon, const QString pluginDetail)
+{
+    QQuickItem *parent = qobject_cast<QQuickItem*>(v.value<QObject*>());
+    QString text = "\"" + getPluginName() + "\"";
+    QString pluginDet = "\"" + pluginDetail + "\"";
+    QString iconUrl = "\"" + icon + "\"";
+    QString data = "import QtQuick 2.0; "
+                   "Item { "
+                        "anchors.fill: parent; "
+                        "signal iConClicked(); "
+                        "Rectangle { "
+                            "id: id_name; "
+                            "color: \"transparent\";"
+                            "anchors.bottom: parent.bottom; "
+                            "anchors.left: parent.left; "
+                            "height: parent.height * 0.15; "
+                            "width: parent.width * 0.15; "
+                            "Text {"
+                                "anchors.centerIn: parent; "
+                                "text: " + text + ";"
+                                "font.pointSize: parent.height * 0.35; "
+                            "}"
+                        "}"
+                        "Image { "
+                             "anchors.top: parent.top; "
+                             "anchors.left: parent.left; "
+                             "anchors.right: id_name.right; "
+                             "anchors.bottom: id_name.top; "
+                             "anchors.margins: parent.height * 0.01; "
+                             "fillMode: Image.PreserveAspectFit; "
+                             "source: " + iconUrl + "; "
+                             "onStatusChanged: { "
+                                "if (status == Image.Error) {"
+                                    "source = \"image/380d597942266fe55226d719d98070a8.png\""
+                                "}"
+                             "}"
+                             "MouseArea {"
+                                "anchors.fill: parent; "
+                                "onClicked: { iConClicked() }"
+                             "}"
+                        "}"
+                        "Rectangle { "
+                            "id: id_pluginDetail; "
+                            "color: \"white\";"
+                            "anchors.bottom: parent.bottom; "
+                            "anchors.left: id_name.right; "
+                            "anchors.top: parent.top; "
+                            "anchors.right: parent.right; "
+                            "anchors.margins: height * 0.01; "
+                            "radius: height * 0.1;"
+                            "Text {"
+                                "anchors.fill: parent; "
+                                "anchors.margins: height * 0.01; "
+                                "text: " + pluginDet + ";"
+                                "font.pointSize: parent.height * 0.1; "
+                                "wrapMode: Text.WordWrap; "
+                            "}"
+                        "}"
+                   "}";
+
+    QQmlComponent *component = new QQmlComponent(getEngine());
+    component->setData(data.toUtf8(), getUrlSource());
+    m_quickItemIcon = qobject_cast<QQuickItem*>(component->create());
+    m_quickItemIcon->setParentItem(parent);
+    QObject::connect(m_quickItemIcon, SIGNAL(iConClicked()),
+                       this, SLOT(iConClicked()));
+    m_pluginManagerObject->disconnect(this);
+}
+
+void KOCQPluginBase::addIcon4PathView(const QVariant &v, const QString icon)
+{
+
 }
 
 void KOCQPluginBase::loadPlugin(const QString qmlFile)

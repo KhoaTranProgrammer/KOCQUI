@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -43,6 +43,10 @@
  *        Provide methods to get plugin state: getPluginState,      *
  *        getState_UNINIT, getState_INIT, getState_ICONLOAD,        *
  *        getState_PLUGINLOAD, getState_PLUGINUNLOAD                *
+ * 1.0.2: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot, addIcon.*
+ *        Add method to load plugin in Grid/List/Path view.         *
+ *        setupIconConnection when icon view type change.           *
  *******************************************************************/
 
 #ifndef KOCQPLUGINBASE_H
@@ -79,13 +83,17 @@ public:
     QString getDefaultPath() const;
     QQuickItem* getPluginQuickItem() const;
     QQmlContext* getPluginContext() const;
+    void setupIconConnection();
 
-    void addIcon(const QVariant &v, const QString icon);
+    void addIcon(const QVariant &v, const QString icon, const QString type, const QString pluginDetail);
+    void addIcon4GridView(const QVariant &v, const QString icon);
+    void addIcon4ListView(const QVariant &v, const QString icon, const QString pluginDetail);
+    void addIcon4PathView(const QVariant &v, const QString icon);
     void loadPlugin(const QString qmlFile);
     virtual void onPluginLoad() = 0;
 
 public slots:
-    virtual void addIconSlot(const QVariant &v) = 0;
+    virtual void addIconSlot(const QVariant &v, const QString &type) = 0;
     virtual void iConClicked() = 0;
     void unloadPluginSlot();
     KOCQPLUGINSTATE getPluginState() const;
