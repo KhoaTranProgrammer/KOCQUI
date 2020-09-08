@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,6 +37,8 @@
  ********************************************************************
  * 1.0.0: Aug-26-2020                                               *
  *        Initial version demo Affine Transform                     *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot          *
  *******************************************************************/
 
 #ifndef KOCQAFFINE_H
@@ -64,7 +66,7 @@ public:
     QImage convertMat2QImage(Mat image);
 
 public slots:
-    void addIconSlot(const QVariant &v);
+    void addIconSlot(const QVariant &v, const QString &type);
     void iConClicked();
     QString defaultInput() const;
     void affineTransforms(const QString& in_file, double point1, double point2, double point3);

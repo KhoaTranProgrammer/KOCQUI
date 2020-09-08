@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,12 +37,17 @@
  ********************************************************************
  * 1.0.0: Aug-26-2020                                               *
  *        Initial version demo Affine Transform                     *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot.         *
+ *        setupIconConnection in case of plugin is created.         *
+ *        Add plugin detail description.                            *
  *******************************************************************/
 
 #include "KOCQAffine.h"
 
 static KOCQAffine *myPluginInstance = NULL;
 static QString pluginName = "KOCQ Affine";
+static QString pluginDetail = "This plugin demonstrates OpenCV Affine Transform";
 
 void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject)
 {
@@ -55,6 +60,10 @@ void KOCQAffine::createInstance(QQmlEngine* engine, QObject* rootObject, QUrl so
     {
         myPluginInstance = new KOCQAffine(engine, rootObject, source, pluginManagerObject);
     }
+    else
+    {
+        myPluginInstance->setupIconConnection();
+    }
 }
 
 KOCQAffine::KOCQAffine(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject) :
@@ -63,9 +72,9 @@ KOCQAffine::KOCQAffine(QQmlEngine* engine, QObject* rootObject, QUrl source, QOb
 
 }
 
-void KOCQAffine::addIconSlot(const QVariant &v)
+void KOCQAffine::addIconSlot(const QVariant &v, const QString &type)
 {
-    addIcon(v, "aa17a8646814c323f69cbf4cb54f3065/images/icon.png");
+    addIcon(v, "aa17a8646814c323f69cbf4cb54f3065/images/icon.png", type, pluginDetail);
 }
 
 void KOCQAffine::iConClicked()
