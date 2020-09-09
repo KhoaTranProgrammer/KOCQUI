@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -43,6 +43,8 @@
  *        Transforms, Hough                                         *
  * 1.0.1: Aug-10-2020                                               *
  *        Support get default input image data/lena.jpg             *
+ * 1.0.2: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot          *
  *******************************************************************/
 
 #ifndef KOCQPICS_H
@@ -82,7 +84,7 @@ public:
     void MyFilledCircle(Mat img, Point center);
 
 public slots:
-    void addIconSlot(const QVariant &v);
+    void addIconSlot(const QVariant &v, const QString &type);
     void iConClicked();
     QImage convertMat2QImage(const QString &input);
     QString defaultInput() const;

@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.2 *
+ * VERSION: 1.0.3 *
  *****************/
 
 /********************************************************************
@@ -45,12 +45,17 @@
  *        Copy resource into hash folder                            *
  * 1.0.2: Aug-10-2020                                               *
  *        Support get default input image data/lena.jpg             *
+ * 1.0.3: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot.         *
+ *        setupIconConnection in case of plugin is created.         *
+ *        Add plugin detail description.                            *
  *******************************************************************/
 
 #include "KOCQPics.h"
 
 static KOCQPics *myPluginInstance = NULL;
 static QString pluginName = "KOCQ Pics";
+static QString pluginDetail = "This plugin implements digital image processing algorithm by using OpenCV";
 
 void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject)
 {
@@ -63,6 +68,10 @@ void KOCQPics::createInstance(QQmlEngine* engine, QObject* rootObject, QUrl sour
     {
         myPluginInstance = new KOCQPics(engine, rootObject, source, pluginManagerObject);
     }
+    else
+    {
+        myPluginInstance->setupIconConnection();
+    }
 }
 
 KOCQPics::KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject) :
@@ -71,9 +80,9 @@ KOCQPics::KOCQPics(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject
 
 }
 
-void KOCQPics::addIconSlot(const QVariant &v)
+void KOCQPics::addIconSlot(const QVariant &v, const QString &type)
 {
-    addIcon(v, "e36c5bd2d754aa0013628ef3f63ae7a4/image/icon.png");
+    addIcon(v, "e36c5bd2d754aa0013628ef3f63ae7a4/image/icon.png", type, pluginDetail);
 }
 
 void KOCQPics::iConClicked()
