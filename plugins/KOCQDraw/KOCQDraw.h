@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,6 +37,8 @@
  ********************************************************************
  * 1.0.0: Apr-18-2020                                               *
  *        Initial version supports 8 drawing types                  *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot          *
  *******************************************************************/
 
 #ifndef KOCQDRAW_H
@@ -63,7 +65,7 @@ public:
     QImage convertMat2QImage(Mat image);
 
 public slots:
-    void addIconSlot(const QVariant &v);
+    void addIconSlot(const QVariant &v, const QString &type);
     void iConClicked();
 
     QImage drawingType001(int NUMBER);

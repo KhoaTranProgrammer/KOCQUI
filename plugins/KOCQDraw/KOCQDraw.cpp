@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -39,12 +39,17 @@
  *        Initial version supports 8 drawing types                  *
  * 1.0.1: May-26-2020                                               *
  *        Copy resource into hash folder                            *
+ * 1.0.2: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot.         *
+ *        setupIconConnection in case of plugin is created.         *
+ *        Add plugin detail description.                            *
  *******************************************************************/
 
 #include "KOCQDraw.h"
 
 static KOCQDraw *myPluginInstance = NULL;
 static QString pluginName = "KOCQ Draw";
+static QString pluginDetail = "This plugin demonstrates OpenCV drawing and text output functions";
 
 void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject)
 {
@@ -57,6 +62,10 @@ void KOCQDraw::createInstance(QQmlEngine* engine, QObject* rootObject, QUrl sour
     {
         myPluginInstance = new KOCQDraw(engine, rootObject, source, pluginManagerObject);
     }
+    else
+    {
+        myPluginInstance->setupIconConnection();
+    }
 }
 
 KOCQDraw::KOCQDraw(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject) :
@@ -65,9 +74,9 @@ KOCQDraw::KOCQDraw(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject
 
 }
 
-void KOCQDraw::addIconSlot(const QVariant &v)
+void KOCQDraw::addIconSlot(const QVariant &v, const QString &type)
 {
-    addIcon(v, "2bee89770f1ba487fc737a11ac02d0d4/images/icon.png");
+    addIcon(v, "2bee89770f1ba487fc737a11ac02d0d4/images/icon.png", type, pluginDetail);
 }
 
 void KOCQDraw::iConClicked()
