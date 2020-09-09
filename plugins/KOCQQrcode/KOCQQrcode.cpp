@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -39,6 +39,10 @@
  *        Initial version supports to detect QRCode in image        *
  * 1.0.1: Aug-08-2020                                               *
  *        Load KOCQrcodeCamFilter inside addIconSlot                *
+ * 1.0.2: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot.         *
+ *        setupIconConnection in case of plugin is created.         *
+ *        Add plugin detail description.                            *
  *******************************************************************/
 
 #include "KOCQQrcode.h"
@@ -46,6 +50,7 @@
 
 static KOCQQrcode *myPluginInstance = NULL;
 static QString pluginName = "KOCQ Qrcode";
+static QString pluginDetail = "This plugin demonstrates OpenCV QRCodeDetect using image or camera input";
 
 void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject)
 {
@@ -58,6 +63,10 @@ void KOCQQrcode::createInstance(QQmlEngine* engine, QObject* rootObject, QUrl so
     {
         myPluginInstance = new KOCQQrcode(engine, rootObject, source, pluginManagerObject);
     }
+    else
+    {
+        myPluginInstance->setupIconConnection();
+    }
 }
 
 KOCQQrcode::KOCQQrcode(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject) :
@@ -66,12 +75,12 @@ KOCQQrcode::KOCQQrcode(QQmlEngine* engine, QObject* rootObject, QUrl source, QOb
 
 }
 
-void KOCQQrcode::addIconSlot(const QVariant &v)
+void KOCQQrcode::addIconSlot(const QVariant &v, const QString &type)
 {
     // KOCQrcodeCamFilter
     qmlRegisterType<KOCQrcodeCamFilter>("KOCQrcodeCamFilter", 1, 0, "KOCQrcodeCamFilter");
 
-    addIcon(v, "a5d64ea9f353bd0813935b93e20a39a4/images/qr_code.png");
+    addIcon(v, "a5d64ea9f353bd0813935b93e20a39a4/images/qr_code.png", type, pluginDetail);
 }
 
 void KOCQQrcode::iConClicked()

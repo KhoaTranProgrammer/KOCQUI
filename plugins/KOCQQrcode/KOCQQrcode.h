@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -38,7 +38,9 @@
  * 1.0.0: June-05-2020                                              *
  *        Initial version supports to detect QRCode in image        *
  * 1.0.1: Aug-09-2020                                               *
- *        Get qr decode result
+ *        Get qr decode result                                      *
+ * 1.0.2: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot          *
  *******************************************************************/
 
 #ifndef KOCQQRCODE_H
@@ -69,7 +71,7 @@ public:
     QImage convertMat2QImage(Mat image);
 
 public slots:
-    void addIconSlot(const QVariant &v);
+    void addIconSlot(const QVariant &v, const QString &type);
     void iConClicked();
 
     QImage openImage(const QString& in_file);
