@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -39,6 +39,8 @@
  ********************************************************************
  * 1.0.0: Aug-17-2020                                               *
  *        Initial version supports for Windows                      *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot          *
  *******************************************************************/
 
 #ifndef KOCQSEGMENTATION_H
@@ -67,7 +69,7 @@ public:
     QImage convertMat2QImage(Mat image);
 
 public slots:
-    void addIconSlot(const QVariant &v);
+    void addIconSlot(const QVariant &v, const QString &type);
     void iConClicked();
     QString defaultInput() const;
 

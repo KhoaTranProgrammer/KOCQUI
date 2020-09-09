@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -39,13 +39,17 @@
  ********************************************************************
  * 1.0.0: Aug-17-2020                                               *
  *        Initial version supports for Windows                      *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot.         *
+ *        setupIconConnection in case of plugin is created.         *
+ *        Add plugin detail description.                            *
  *******************************************************************/
 
 #include "KOCQSegmentation.h"
 
 static KOCQSegmentation *myPluginInstance = NULL;
 static QString pluginName = "KOCQ Segment";
-
+static QString pluginDetail = "This plugin demonstrates how to segment overlapping objects using Laplacian filtering, in addition to Watershed and Distance Transformation";
 
 void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject)
 {
@@ -58,6 +62,10 @@ void KOCQSegmentation::createInstance(QQmlEngine* engine, QObject* rootObject, Q
     {
         myPluginInstance = new KOCQSegmentation(engine, rootObject, source, pluginManagerObject);
     }
+    else
+    {
+        myPluginInstance->setupIconConnection();
+    }
 }
 
 KOCQSegmentation::KOCQSegmentation(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject) :
@@ -66,9 +74,9 @@ KOCQSegmentation::KOCQSegmentation(QQmlEngine* engine, QObject* rootObject, QUrl
 
 }
 
-void KOCQSegmentation::addIconSlot(const QVariant &v)
+void KOCQSegmentation::addIconSlot(const QVariant &v, const QString &type)
 {
-    addIcon(v, "8bfe92de8d0582459ef196ce3938fc6b/images/icon.png");
+    addIcon(v, "8bfe92de8d0582459ef196ce3938fc6b/images/icon.png", type, pluginDetail);
 }
 
 void KOCQSegmentation::iConClicked()
