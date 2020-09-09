@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -37,12 +37,17 @@
  ********************************************************************
  * 1.0.0: Aug-25-2020                                               *
  *        Initial version calculate Histogram using calcHist        *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot.         *
+ *        setupIconConnection in case of plugin is created.         *
+ *        Add plugin detail description.                            *
  *******************************************************************/
 
 #include "KOCQHISTOGRAM.h"
 
 static KOCQHISTOGRAM *myPluginInstance = NULL;
 static QString pluginName = "KOCQ Histogram";
+static QString pluginDetail = "This plugin demonstrates OpenCV Histogram Calculation";
 
 void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject)
 {
@@ -55,6 +60,10 @@ void KOCQHISTOGRAM::createInstance(QQmlEngine* engine, QObject* rootObject, QUrl
     {
         myPluginInstance = new KOCQHISTOGRAM(engine, rootObject, source, pluginManagerObject);
     }
+    else
+    {
+        myPluginInstance->setupIconConnection();
+    }
 }
 
 KOCQHISTOGRAM::KOCQHISTOGRAM(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject) :
@@ -63,9 +72,9 @@ KOCQHISTOGRAM::KOCQHISTOGRAM(QQmlEngine* engine, QObject* rootObject, QUrl sourc
 
 }
 
-void KOCQHISTOGRAM::addIconSlot(const QVariant &v)
+void KOCQHISTOGRAM::addIconSlot(const QVariant &v, const QString &type)
 {
-    addIcon(v, "51d10313b94bf790c0a46129c3d0d6bf/images/icon.png");
+    addIcon(v, "51d10313b94bf790c0a46129c3d0d6bf/images/icon.png", type, pluginDetail);
 }
 
 void KOCQHISTOGRAM::iConClicked()
