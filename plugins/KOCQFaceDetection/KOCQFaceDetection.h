@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -39,6 +39,8 @@
  * 1.0.0: Aug-29-2020                                               *
  *        Initial version supports to detect Face and eyes from     *
  *        camera                                                    *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot          *
  *******************************************************************/
 
 #ifndef KOCQFACEDETECTION_H
@@ -66,7 +68,7 @@ public:
     void onPluginLoad();
 
 public slots:
-    void addIconSlot(const QVariant &v);
+    void addIconSlot(const QVariant &v, const QString &type);
     void iConClicked();
 
 private:

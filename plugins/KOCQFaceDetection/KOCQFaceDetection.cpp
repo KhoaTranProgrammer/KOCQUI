@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.0.1 *
  *****************/
 
 /********************************************************************
@@ -38,6 +38,10 @@
  * 1.0.0: Aug-29-2020                                               *
  *        Initial version supports to detect Face and eyes from     *
  *        camera                                                    *
+ * 1.0.1: Sep-09-2020                                               *
+ *        Add option to get icon view type for addIconSlot.         *
+ *        setupIconConnection in case of plugin is created.         *
+ *        Add plugin detail description.                            *
  *******************************************************************/
 
 #include "KOCQFaceDetection.h"
@@ -45,6 +49,7 @@
 
 static KOCQFaceDetection *myPluginInstance = NULL;
 static QString pluginName = "KOCQ FaceDetection";
+static QString pluginDetail = "This plugin demonstrates the use of cv::CascadeClassifier class to detect objects (Face + eyes)";
 
 void createNewPlugin(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject)
 {
@@ -57,6 +62,10 @@ void KOCQFaceDetection::createInstance(QQmlEngine* engine, QObject* rootObject, 
     {
         myPluginInstance = new KOCQFaceDetection(engine, rootObject, source, pluginManagerObject);
     }
+    else
+    {
+        myPluginInstance->setupIconConnection();
+    }
 }
 
 KOCQFaceDetection::KOCQFaceDetection(QQmlEngine* engine, QObject* rootObject, QUrl source, QObject* pluginManagerObject) :
@@ -65,12 +74,12 @@ KOCQFaceDetection::KOCQFaceDetection(QQmlEngine* engine, QObject* rootObject, QU
 
 }
 
-void KOCQFaceDetection::addIconSlot(const QVariant &v)
+void KOCQFaceDetection::addIconSlot(const QVariant &v, const QString &type)
 {
     // KOCQrcodeCamFilter
     qmlRegisterType<KOCQFaceDetectionCamFilter>("KOCQFaceDetectionCamFilter", 1, 0, "KOCQFaceDetectionCamFilter");
 
-    addIcon(v, "524b8a9c91a48c16544e57b8e826a84d/images/icon.png");
+    addIcon(v, "524b8a9c91a48c16544e57b8e826a84d/images/icon.png", type, pluginDetail);
 }
 
 void KOCQFaceDetection::iConClicked()
