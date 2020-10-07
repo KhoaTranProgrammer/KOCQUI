@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -44,6 +44,8 @@
  *        Remove default input support                              *
  * 1.0.1: Aug-10-2020                                               *
  *        Support get default input image data/lena.jpg             *
+ * 1.0.2: Oct-07-2020                                               *
+ *        Support for Android. Set default input image lena.jpg     *
  *******************************************************************/
 
 import QtQuick 2.0
@@ -499,6 +501,11 @@ Rectangle {
             path = path.replace(/^(file:\/{3})/, "")
             // Update Input image location
             inputimage = decodeURIComponent(path)
+
+            if(Qt.platform.os === "android"){
+                inputimage = "/" + inputimage
+            }
+
             id_inputimage.source = id_fileDialog.fileUrl
             id_inputlocation.text = inputimage
         }
@@ -510,10 +517,6 @@ Rectangle {
         var scene = null
         scene = id_loaderControl.item
         var input_Location = inputimage
-
-        if(Qt.platform.os === "android"){
-            input_Location = "/" + inputimage
-        }
 
         // The feature is decided by global property current_feature
         if(current_feature == Common.BaLiTrans){

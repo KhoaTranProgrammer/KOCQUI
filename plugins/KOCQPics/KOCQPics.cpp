@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.3 *
+ * VERSION: 1.0.4 *
  *****************/
 
 /********************************************************************
@@ -49,6 +49,8 @@
  *        Add option to get icon view type for addIconSlot.         *
  *        setupIconConnection in case of plugin is created.         *
  *        Add plugin detail description.                            *
+ * 1.0.4: Oct-07-2020                                               *
+ *        Support for Android. Set default input image lena.jpg     *
  *******************************************************************/
 
 #include "KOCQPics.h"
@@ -125,8 +127,18 @@ QImage KOCQPics::convertMat2QImage(Mat image)
 
 QString KOCQPics::defaultInput() const
 {
+    QString defaultImage = "";
     QDir dir;
-    QString defaultImage = dir.absolutePath() + "/data/lena.jpg";
+#if defined(Q_OS_ANDROID)
+    QFile dfile("assets:/data/lena.jpg");
+    if (dfile.exists())
+    {
+        defaultImage = dir.absolutePath() + "/lena.jpg";
+        dfile.copy(defaultImage);
+    }
+#else
+    defaultImage = dir.absolutePath() + "/data/lena.jpg";
+#endif
     return defaultImage;
 }
 
