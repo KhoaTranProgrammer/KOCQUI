@@ -1,5 +1,5 @@
 #******************
-#* VERSION: 1.1.0 *
+#* VERSION: 1.1.1 *
 #******************
 
 #********************************************************************
@@ -19,6 +19,8 @@
 #*        Update application version to 1.0.0                       *
 #*        June-13-2020                                              *
 #*        Support to load Plugins for Android: KOCQQrcode           *
+#* 1.1.1: Oct-07-2020                                               *
+#*        Support to load default data for Android                  *
 #********************************************************************
 
 # Application version
@@ -103,4 +105,8 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+    assets.files = $$PWD/../../lib/data/*
+    assets.path = /assets/data/
+    assets.depends += FORCE
+    INSTALLS += assets
 }
