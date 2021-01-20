@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.2 *
+ * VERSION: 1.1.0 *
  *****************/
 
 /********************************************************************
@@ -43,6 +43,8 @@
  *        Add option to get icon view type for addIconSlot.         *
  *        setupIconConnection in case of plugin is created.         *
  *        Add plugin detail description.                            *
+ * 1.1.0: Jan-20-2021                                               *
+ *        Support for Android                                       *
  *******************************************************************/
 
 #include "KOCQQrcode.h"
@@ -85,7 +87,11 @@ void KOCQQrcode::addIconSlot(const QVariant &v, const QString &type)
 
 void KOCQQrcode::iConClicked()
 {
+#if defined(Q_OS_ANDROID)
+    loadPlugin("qrc:/a5d64ea9f353bd0813935b93e20a39a4/qml/MainScreen_ANDROID.qml");
+#else
     loadPlugin("qrc:/a5d64ea9f353bd0813935b93e20a39a4/qml/MainScreen.qml");
+#endif
 }
 
 void KOCQQrcode::onPluginLoad()
@@ -195,7 +201,17 @@ QString KOCQQrcode::qrResult() const
 
 QString KOCQQrcode::defaultInput() const
 {
+    QString defaultImage = "";
     QDir dir;
-    QString defaultImage = dir.absolutePath() + "/data/1024px-QR_code.jpg";
+#if defined(Q_OS_ANDROID)
+    QFile dfile("assets:/data/1024px-QR_code.jpg");
+    if (dfile.exists())
+    {
+        defaultImage = dir.absolutePath() + "/1024px-QR_code.jpg";
+        dfile.copy(defaultImage);
+    }
+#else
+    defaultImage = dir.absolutePath() + "/data/1024px-QR_code.jpg";
+#endif
     return defaultImage;
 }

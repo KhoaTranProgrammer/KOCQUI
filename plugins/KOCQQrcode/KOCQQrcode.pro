@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 #******************
-#* VERSION: 1.0.0 *
+#* VERSION: 1.1.0 *
 #******************
 
 #********************************************************************
@@ -22,6 +22,8 @@
 #*        Update Plugin version to 1.0.0                            *
 #* 1.0.1: Aug-08-2020                                               *
 #*        Support KOCQrcodeCamFilter for Qrcode Camera detect       *
+#* 1.1.0: Jan-20-2021                                               *
+#*        Support for Android                                       *
 #********************************************************************
 
 # Application version
@@ -33,7 +35,7 @@ DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
            "VERSION_MINOR=$$VERSION_MINOR"\
            "VERSION_BUILD=$$VERSION_BUILD"
 
-QT       += qml quick
+QT       += qml quick multimedia multimedia-private gui
 
 TARGET = KOCQQrcode
 TEMPLATE = lib

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.1.0 *
  *****************/
 
 /********************************************************************
@@ -38,6 +38,8 @@
  * 1.0.0: Aug-08-2020                                               *
  *        Initial version supports to detect QRCode using camera    *
  *        input in Windows                                          *
+ * 1.1.0: Jan-20-2021                                               *
+ *        Support for Android                                       *
  *******************************************************************/
 
 #ifndef KOCQRCODECAMFILTER_H
@@ -47,6 +49,7 @@
 #include <QtQuick/QQuickPaintedItem>
 #include <QColor>
 #include <QPainter>
+#include <QVideoFilterRunnable>
 
 #include "opencv2/objdetect.hpp"
 #include "opencv2/imgproc.hpp"
@@ -57,6 +60,7 @@
 using namespace std;
 using namespace cv;
 
+#ifdef Q_OS_WIN
 class KOCQrcodeCamFilter : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -87,5 +91,48 @@ private:
     void drawQRCodeContour(Mat &color_image, vector<Point> transform);
     void drawFPS(Mat &color_image, double fps);
 };
+#elif defined(Q_OS_ANDROID)
+#include "private/qvideoframe_p.h"
+#include "opencv2/objdetect.hpp"
+#include "opencv2/core.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/highgui.hpp"
+
+class KOCQrcodeCamFilterRunable;
+
+class KOCQrcodeCamFilter : public QAbstractVideoFilter
+{
+    Q_OBJECT
+    Q_PROPERTY(QString qrResult READ qrResult NOTIFY qrResultChanged)
+
+public:
+    KOCQrcodeCamFilter();
+    QVideoFilterRunnable *createFilterRunnable();
+    QString qrResult() const;
+    void qrResultReceived(QString);
+
+signals:
+    void qrResultChanged();
+
+private:
+    KOCQrcodeCamFilterRunable *rfr;
+    QString m_qrResult;
+};
+
+class KOCQrcodeCamFilterRunable : public QVideoFilterRunnable
+{
+public:
+    KOCQrcodeCamFilterRunable(KOCQrcodeCamFilter *filter);
+    QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags);
+    bool isBGRvideoFrame(QVideoFrame f);
+
+private:
+    KOCQrcodeCamFilter *m_filter;
+
+    QImage convertMat2QImage(Mat image);
+    void drawQRCodeContour(Mat &color_image, vector<Point> transform);
+    void drawFPS(Mat &color_image, double fps);
+};
+#endif
 
 #endif // KOCQRCODECAMFILTER_H

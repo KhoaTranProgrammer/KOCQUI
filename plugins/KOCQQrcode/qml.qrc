@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>a5d64ea9f353bd0813935b93e20a39a4/qml/MainScreen.qml</file>
+        <file>a5d64ea9f353bd0813935b93e20a39a4/qml/MainScreen_ANDROID.qml</file>
         <file>a5d64ea9f353bd0813935b93e20a39a4/images/baseline_camera.png</file>
         <file>a5d64ea9f353bd0813935b93e20a39a4/images/baseline_image.png</file>
         <file>a5d64ea9f353bd0813935b93e20a39a4/images/qr_code.png</file>
