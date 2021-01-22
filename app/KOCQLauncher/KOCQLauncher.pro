@@ -1,5 +1,5 @@
 #******************
-#* VERSION: 1.1.1 *
+#* VERSION: 1.1.2 *
 #******************
 
 #********************************************************************
@@ -21,6 +21,8 @@
 #*        Support to load Plugins for Android: KOCQQrcode           *
 #* 1.1.1: Oct-07-2020                                               *
 #*        Support to load default data for Android                  *
+#* 1.1.2: Jan-23-2021                                               *
+#         Load Qt Multimedia                                        *
 #********************************************************************
 
 # Application version
@@ -35,7 +37,7 @@ DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
 # Target version
 VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}.$${VERSION_BUILD}
 
-QT += quick
+QT += qml quick multimedia multimedia-private gui
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use

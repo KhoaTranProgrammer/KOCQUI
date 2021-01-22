@@ -1,7 +1,7 @@
 /*
  * MIT License
  * 
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.4 *
+ * VERSION: 1.0.5 *
  *****************/
 
 /********************************************************************
@@ -46,12 +46,15 @@
  *        Separate GridView display to KOCQGridView.qml             *
  * 1.0.4: Sep-09-2020                                               *
  *        Supports ListView and PathView                            *
+ * 1.0.5: Jan-23-2021                                               *
+ *        Load Qt Multimedia                                        *
  *******************************************************************/
 
 import QtQuick 2.6
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.0
 import KOCQCoreGUI 1.0
+import QtMultimedia 5.0
 
 Rectangle {
     id: root
