@@ -1,5 +1,5 @@
 #******************
-#* VERSION: 1.1.2 *
+#* VERSION: 1.1.3 *
 #******************
 
 #********************************************************************
@@ -23,6 +23,8 @@
 #*        Support to load default data for Android                  *
 #* 1.1.2: Jan-23-2021                                               *
 #         Load Qt Multimedia                                        *
+#* 1.1.3: Jan-24-2021                                               *
+#*        Support to load Plugins KOCQSegmentation for Android      *
 #********************************************************************
 
 # Application version
@@ -94,6 +96,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         $$PWD/../../lib/plugins/libKOCQDraw.so \
         $$PWD/../../lib/plugins/libKOCQPics.so \
         $$PWD/../../lib/plugins/libKOCQQrcode.so \
+        $$PWD/../../lib/plugins/libKOCQSegmentation.so \
         $$PWD/../../lib/opencv/libopencv_core.so \
         $$PWD/../../lib/opencv/libopencv_imgcodecs.so \
         $$PWD/../../lib/opencv/libopencv_imgproc.so \

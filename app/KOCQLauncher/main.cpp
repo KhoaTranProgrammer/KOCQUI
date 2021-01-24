@@ -1,7 +1,7 @@
 /*
  * MIT License
  * 
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.1.6 *
+ * VERSION: 1.1.7 *
  *****************/
 
 /********************************************************************
@@ -58,6 +58,8 @@
  *        Support to load Plugins KOCQAffine for Windows            *
  * 1.1.6: Aug-29-2020                                               *
  *        Support to load Plugins KOCQFaceDetection for Windows     *
+ * 1.1.7: Jan-24-2021                                               *
+ *        Support to load Plugins KOCQSegmentation for Android      *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -95,6 +97,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQQrcode
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQQrcode.so");
+
+    // Load KOCQSegmentation
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQSegmentation.so");
 #else
     QDir dir;
     dir.cdUp();
