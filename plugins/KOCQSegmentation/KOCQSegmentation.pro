@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 #******************
-#* VERSION: 1.0.0 *
+#* VERSION: 1.0.1 *
 #******************
 
 #********************************************************************
@@ -19,6 +19,8 @@
 #********************************************************************
 #* 1.0.0: Aug-17-2020                                               *
 #*        Initial version supports build for Windows                *
+#* 1.0.1: Jan-24-2021                                               *
+#*        Support for Android                                       *
 #********************************************************************
 
 # Library version
@@ -73,6 +75,16 @@ win32 {
             libopencv_videoio411 \
 }
 
+android {
+    LIBS += -L$$PWD/../../lib/opencv \
+            -lopencv_core \
+            -lopencv_imgcodecs \
+            -lopencv_imgproc \
+            -lopencv_highgui \
+            -lopencv_objdetect \
+            -lopencv_videoio \
+}
+
 INCLUDEPATH += $$PWD/../../include/opencv/
 INCLUDEPATH += $$PWD/../../include/opencv/core/include
 INCLUDEPATH += $$PWD/../../include/opencv/highgui/include
@@ -97,3 +109,9 @@ DEFINES += DEFAULT_PATH=\\\"$$PWD\\\"
 
 RESOURCES += \
     qml.qrc
+
+android {
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
+    targetLibrary.path += $$PWD/../../lib/plugins/
+    INSTALLS += targetLibrary
+}

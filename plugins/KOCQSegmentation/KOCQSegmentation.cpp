@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.0.2 *
  *****************/
 
 /********************************************************************
@@ -43,6 +43,8 @@
  *        Add option to get icon view type for addIconSlot.         *
  *        setupIconConnection in case of plugin is created.         *
  *        Add plugin detail description.                            *
+ * 1.0.2: Jan-24-2021                                               *
+ *        Support to load default data for Android                  *
  *******************************************************************/
 
 #include "KOCQSegmentation.h"
@@ -283,7 +285,17 @@ QImage KOCQSegmentation::getResultImage()
 
 QString KOCQSegmentation::defaultInput() const
 {
+    QString defaultImage = "";
     QDir dir;
-    QString defaultImage = dir.absolutePath() + "/data/cards.png";
+#if defined(Q_OS_ANDROID)
+    QFile dfile("assets:/data/cards.png");
+    if (dfile.exists())
+    {
+        defaultImage = dir.absolutePath() + "/cards.png";
+        dfile.copy(defaultImage);
+    }
+#else
+    defaultImage = dir.absolutePath() + "/data/cards.png";
+#endif
     return defaultImage;
 }
