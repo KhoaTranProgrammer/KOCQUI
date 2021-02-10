@@ -25,6 +25,8 @@
 #         Load Qt Multimedia                                        *
 #* 1.1.3: Jan-24-2021                                               *
 #*        Support to load Plugins KOCQSegmentation for Android      *
+#* 1.1.4: Feb-09-2021                                               *
+#*        Support to load Plugins KOCQAKAZE for Android             *
 #********************************************************************
 
 # Application version
@@ -97,6 +99,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         $$PWD/../../lib/plugins/libKOCQPics.so \
         $$PWD/../../lib/plugins/libKOCQQrcode.so \
         $$PWD/../../lib/plugins/libKOCQSegmentation.so \
+        $$PWD/../../lib/plugins/libKOCQAKAZE.so \
         $$PWD/../../lib/opencv/libopencv_core.so \
         $$PWD/../../lib/opencv/libopencv_imgcodecs.so \
         $$PWD/../../lib/opencv/libopencv_imgproc.so \

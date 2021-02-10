@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.1.7 *
+ * VERSION: 1.1.8 *
  *****************/
 
 /********************************************************************
@@ -60,6 +60,8 @@
  *        Support to load Plugins KOCQFaceDetection for Windows     *
  * 1.1.7: Jan-24-2021                                               *
  *        Support to load Plugins KOCQSegmentation for Android      *
+ * 1.1.8: Feb-09-2021                                               *
+ *        Support to load Plugins KOCQAKAZE for Android             *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -100,6 +102,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQSegmentation
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQSegmentation.so");
+
+    // Load KOCQAKAZE
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQAKAZE.so");
 #else
     QDir dir;
     dir.cdUp();
