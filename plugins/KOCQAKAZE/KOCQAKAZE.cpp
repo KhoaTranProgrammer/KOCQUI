@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.1.0 *
  *****************/
 
 /********************************************************************
@@ -42,6 +42,8 @@
  *        Add option to get icon view type for addIconSlot.         *
  *        setupIconConnection in case of plugin is created.         *
  *        Add plugin detail description.                            *
+ * 1.1.0: Feb-09-2021                                               *
+ *        Support build for Android                                 *
  *******************************************************************/
 
 #include "KOCQAKAZE.h"
@@ -94,21 +96,51 @@ void KOCQAKAZE::onPluginLoad()
 QString KOCQAKAZE::defaultInputImage_1() const
 {
     QDir dir;
-    QString defaultData = dir.absolutePath() + "/data/graf1.png";
+    QString defaultData = "";
+#if defined(Q_OS_ANDROID)
+    QFile dfile("assets:/data/graf1.png");
+    if (dfile.exists())
+    {
+        defaultData = dir.absolutePath() + "/graf1.png";
+        dfile.copy(defaultData);
+    }
+#else
+    defaultData = dir.absolutePath() + "/data/graf1.png";
+#endif
     return defaultData;
 }
 
 QString KOCQAKAZE::defaultInputImage_2() const
 {
     QDir dir;
-    QString defaultData = dir.absolutePath() + "/data/graf3.png";
+    QString defaultData = "";
+#if defined(Q_OS_ANDROID)
+    QFile dfile("assets:/data/graf3.png");
+    if (dfile.exists())
+    {
+        defaultData = dir.absolutePath() + "/graf3.png";
+        dfile.copy(defaultData);
+    }
+#else
+    defaultData = dir.absolutePath() + "/data/graf3.png";
+#endif
     return defaultData;
 }
 
 QString KOCQAKAZE::defaultHomography() const
 {
     QDir dir;
-    QString defaultData = dir.absolutePath() + "/data/H1to3p.xml";
+    QString defaultData = "";
+#if defined(Q_OS_ANDROID)
+    QFile dfile("assets:/data/H1to3p.xml");
+    if (dfile.exists())
+    {
+        defaultData = dir.absolutePath() + "/H1to3p.xml";
+        dfile.copy(defaultData);
+    }
+#else
+    defaultData = dir.absolutePath() + "/data/H1to3p.xml";
+#endif
     return defaultData;
 }
 

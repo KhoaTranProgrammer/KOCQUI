@@ -6,7 +6,7 @@
 
 
 #******************
-#* VERSION: 1.0.0 *
+#* VERSION: 1.1.0 *
 #******************
 
 #********************************************************************
@@ -20,6 +20,8 @@
 #********************************************************************
 #* 1.0.0: Aug-22-2020                                               *
 #*        Initial version supports build for Windows                *
+#* 1.1.0: Feb-09-2021                                               *
+#*        Support build for Android                                 *
 #********************************************************************
 
 # Library version
@@ -76,6 +78,18 @@ win32 {
             libopencv_calib3d411
 }
 
+android {
+    LIBS += -L$$PWD/../../lib/opencv \
+        -lopencv_core \
+        -lopencv_imgcodecs \
+        -lopencv_imgproc \
+        -lopencv_highgui \
+        -lopencv_objdetect \
+        -lopencv_videoio \
+        -lopencv_features2d \
+        -lopencv_calib3d
+}
+
 INCLUDEPATH += $$PWD/../../include/opencv/
 INCLUDEPATH += $$PWD/../../include/opencv/core/include
 INCLUDEPATH += $$PWD/../../include/opencv/highgui/include
@@ -100,8 +114,20 @@ DEPENDPATH += $$PWD/../../include/opencv/objdetect/include
 DEPENDPATH += $$PWD/../../include/opencv/flann/include
 DEPENDPATH += $$PWD/../../include/opencv/calib3d/include
 
+win32 {
+    targetLibrary.path += $$PWD/../../lib/plugins
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/debug/*.dll
+    CONFIG(release, debug|release):targetLibrary.files += $$OUT_PWD/release/*.dll
+    INSTALLS += targetLibrary
+}
+
 DEFINES += DEFAULT_PATH=\\\"$$PWD\\\"
 
 RESOURCES += \
     qml.qrc
 
+android {
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
+    targetLibrary.path += $$PWD/../../lib/plugins/
+    INSTALLS += targetLibrary
+}
