@@ -19,6 +19,8 @@
 #********************************************************************
 #* 1.0.0: Apr-19-2020                                               *
 #*        Initial version supports build for Windows                *
+#* 1.1.0: Feb-10-2021                                               *
+#*        Support build for Android                                 *
 #********************************************************************
 
 # Application version
@@ -74,6 +76,14 @@ win32 {
             libopencv_highgui411 \
 }
 
+android {
+    LIBS += -L$$PWD/../../lib/opencv \
+        -lopencv_core \
+        -lopencv_imgcodecs \
+        -lopencv_imgproc \
+        -lopencv_highgui \
+}
+
 INCLUDEPATH += $$PWD/../../include/opencv/
 INCLUDEPATH += $$PWD/../../include/opencv/core/include
 INCLUDEPATH += $$PWD/../../include/opencv/highgui/include
@@ -92,4 +102,17 @@ DEPENDPATH += $$PWD/../../include/opencv/features2d/include
 DEPENDPATH += $$PWD/../../include/opencv/video/include
 DEPENDPATH += $$PWD/../../include/opencv/videoio/include
 
+win32 {
+    targetLibrary.path += $$PWD/../../lib/plugins
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/debug/*.dll
+    CONFIG(release, debug|release):targetLibrary.files += $$OUT_PWD/release/*.dll
+    INSTALLS += targetLibrary
+}
+
 DEFINES += DEFAULT_PATH=\\\"$$PWD\\\"
+
+android {
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
+    targetLibrary.path += $$PWD/../../lib/plugins/
+    INSTALLS += targetLibrary
+}
