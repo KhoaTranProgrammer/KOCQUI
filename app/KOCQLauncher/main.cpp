@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.1.8 *
+ * VERSION: 1.1.9 *
  *****************/
 
 /********************************************************************
@@ -62,6 +62,8 @@
  *        Support to load Plugins KOCQSegmentation for Android      *
  * 1.1.8: Feb-09-2021                                               *
  *        Support to load Plugins KOCQAKAZE for Android             *
+ * 1.1.9: Feb-10-2021                                               *
+ *        Support to load Plugins KOCQHISTOGRAM for Android         *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -105,6 +107,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQAKAZE
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQAKAZE.so");
+
+    // Load KOCQHISTOGRAM
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQHISTOGRAM.so");
 #else
     QDir dir;
     dir.cdUp();
