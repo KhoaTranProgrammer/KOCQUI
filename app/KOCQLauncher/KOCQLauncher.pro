@@ -1,5 +1,5 @@
 #******************
-#* VERSION: 1.1.5 *
+#* VERSION: 1.1.6 *
 #******************
 
 #********************************************************************
@@ -29,6 +29,8 @@
 #*        Support to load Plugins KOCQAKAZE for Android             *
 #* 1.1.5: Feb-10-2021                                               *
 #*        Support to load Plugins KOCQHISTOGRAM for Android         *
+#* 1.1.6: Feb-12-2021                                               *
+#*        Support to load Plugins KOCQAffine for Android            *
 #********************************************************************
 
 # Application version
@@ -103,6 +105,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         $$PWD/../../lib/plugins/libKOCQSegmentation.so \
         $$PWD/../../lib/plugins/libKOCQAKAZE.so \
         $$PWD/../../lib/plugins/libKOCQHISTOGRAM.so \
+        $$PWD/../../lib/plugins/libKOCQAffine.so \
         $$PWD/../../lib/opencv/libopencv_core.so \
         $$PWD/../../lib/opencv/libopencv_imgcodecs.so \
         $$PWD/../../lib/opencv/libopencv_imgproc.so \

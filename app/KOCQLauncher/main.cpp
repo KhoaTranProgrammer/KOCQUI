@@ -64,6 +64,8 @@
  *        Support to load Plugins KOCQAKAZE for Android             *
  * 1.1.9: Feb-10-2021                                               *
  *        Support to load Plugins KOCQHISTOGRAM for Android         *
+ * 1.1.10: Feb-12-2021                                              *
+ *        Support to load Plugins KOCQAffine for Android            *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -110,6 +112,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQHISTOGRAM
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQHISTOGRAM.so");
+
+    // Load KOCQAffine
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQAffine.so");
 #else
     QDir dir;
     dir.cdUp();
