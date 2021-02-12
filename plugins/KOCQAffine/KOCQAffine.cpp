@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.1.0 *
  *****************/
 
 /********************************************************************
@@ -41,6 +41,8 @@
  *        Add option to get icon view type for addIconSlot.         *
  *        setupIconConnection in case of plugin is created.         *
  *        Add plugin detail description.                            *
+ * 1.1.0: Feb-12-2021                                               *
+ *        Support build for Android                                 *
  *******************************************************************/
 
 #include "KOCQAffine.h"
@@ -98,7 +100,17 @@ QImage KOCQAffine::convertMat2QImage(Mat image)
 QString KOCQAffine::defaultInput() const
 {
     QDir dir;
-    QString defaultImage = dir.absolutePath() + "/data/lena.jpg";
+    QString defaultImage = "";
+#if defined(Q_OS_ANDROID)
+    QFile dfile("assets:/data/lena.jpg");
+    if (dfile.exists())
+    {
+        defaultImage = dir.absolutePath() + "/lena.jpg";
+        dfile.copy(defaultImage);
+    }
+#else
+    defaultImage = dir.absolutePath() + "/data/lena.jpg";
+#endif
     return defaultImage;
 }
 
