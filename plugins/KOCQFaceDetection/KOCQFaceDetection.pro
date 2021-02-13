@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 #******************
-#* VERSION: 1.0.0 *
+#* VERSION: 1.1.0 *
 #******************
 
 #********************************************************************
@@ -20,6 +20,8 @@
 #* 1.0.0: Aug-29-2020                                               *
 #*        Initial version supports build for Windows                *
 #*        Update Plugin version to 1.0.0                            *
+#* 1.1.0: Feb-13-2021                                               *
+#*        Support build for Android                                 *
 #********************************************************************
 
 # Library version
@@ -31,7 +33,7 @@ DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
            "VERSION_MINOR=$$VERSION_MINOR"\
            "VERSION_BUILD=$$VERSION_BUILD"
 
-QT       += qml quick
+QT       += qml quick multimedia multimedia-private gui
 
 TARGET = KOCQFaceDetection
 TEMPLATE = lib
@@ -76,6 +78,16 @@ win32 {
             libopencv_videoio411 \
 }
 
+android {
+    LIBS += -L$$PWD/../../lib/opencv \
+        -lopencv_core \
+        -lopencv_imgcodecs \
+        -lopencv_imgproc \
+        -lopencv_highgui \
+        -lopencv_objdetect \
+        -lopencv_videoio \
+}
+
 INCLUDEPATH += $$PWD/../../include/opencv/
 INCLUDEPATH += $$PWD/../../include/opencv/core/include
 INCLUDEPATH += $$PWD/../../include/opencv/highgui/include
@@ -96,7 +108,20 @@ DEPENDPATH += $$PWD/../../include/opencv/video/include
 DEPENDPATH += $$PWD/../../include/opencv/videoio/include
 DEPENDPATH += $$PWD/../../include/opencv/objdetect/include
 
+win32 {
+    targetLibrary.path += $$PWD/../../lib/plugins
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/debug/*.dll
+    CONFIG(release, debug|release):targetLibrary.files += $$OUT_PWD/release/*.dll
+    INSTALLS += targetLibrary
+}
+
 DEFINES += DEFAULT_PATH=\\\"$$PWD\\\"
 
 RESOURCES += \
     qml.qrc
+
+android {
+    CONFIG(debug, debug|release):targetLibrary.files += $$OUT_PWD/*.so
+    targetLibrary.path += $$PWD/../../lib/plugins/
+    INSTALLS += targetLibrary
+}

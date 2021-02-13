@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>524b8a9c91a48c16544e57b8e826a84d/qml/MainScreen.qml</file>
         <file>524b8a9c91a48c16544e57b8e826a84d/images/icon.png</file>
+        <file>524b8a9c91a48c16544e57b8e826a84d/qml/MainScreen_ANDROID.qml</file>
     </qresource>
 </RCC>

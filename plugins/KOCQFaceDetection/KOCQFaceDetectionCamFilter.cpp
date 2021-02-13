@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.0 *
+ * VERSION: 1.1.0 *
  *****************/
 
 /********************************************************************
@@ -38,11 +38,14 @@
  * 1.0.0: Aug-29-2020                                               *
  *        Initial version supports to detect face&eye using camera  *
  *        input in Windows                                          *
+ * 1.1.0: Feb-13-2021                                               *
+ *        Support for Android                                       *
  *******************************************************************/
 
 #include "KOCQFaceDetectionCamFilter.h"
 #include <QDir>
 
+#ifdef Q_OS_WIN
 KOCQFaceDetectionCamFilter::KOCQFaceDetectionCamFilter(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
@@ -215,3 +218,175 @@ void KOCQFaceDetectionCamFilter::detectAndDraw( Mat& img, CascadeClassifier& cas
 
     setImage(convertMat2QImage(img));
 }
+#elif defined(Q_OS_ANDROID)
+
+KOCQFaceDetectionCamFilter::KOCQFaceDetectionCamFilter()
+{
+
+}
+
+QVideoFilterRunnable *KOCQFaceDetectionCamFilter::createFilterRunnable()
+{
+    rfr = new KOCQFaceDetectionCamFilterRunable(this);
+    return rfr;
+}
+
+KOCQFaceDetectionCamFilterRunable::KOCQFaceDetectionCamFilterRunable(KOCQFaceDetectionCamFilter *filter)
+{
+    m_filter = filter;
+
+    QDir dir;
+
+    QFile dfile_haarcascade("assets:/data/haarcascades/haarcascade_frontalface_alt.xml");
+    QFile dfile_nestedCascade("assets:/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml");
+    QString cascadeName = dir.absolutePath() + "/haarcascade_frontalface_alt.xml";
+    QString nestedCascadeName = dir.absolutePath() + "/haarcascade_eye_tree_eyeglasses.xml";
+
+    dfile_haarcascade.copy(cascadeName);
+    dfile_nestedCascade.copy(nestedCascadeName);
+
+    scale = 1.5;
+    if (scale < 1)
+        scale = 1;
+    tryflip = true;
+
+    QByteArray byteArr_nestedCascadeName = nestedCascadeName.toLocal8Bit();
+    if (!nestedCascade.load(samples::findFileOrKeep(byteArr_nestedCascadeName.data())))
+        qDebug() << "WARNING: Could not load classifier cascade for nested objects";
+
+    QByteArray byteArr_cascadeName = cascadeName.toLocal8Bit();
+    if (!cascade.load(samples::findFile(byteArr_cascadeName.data())))
+    {
+        qDebug() << "ERROR: Could not load classifier cascade";
+        return;
+    }
+}
+
+bool KOCQFaceDetectionCamFilterRunable::isBGRvideoFrame(QVideoFrame f)
+{
+    return f.pixelFormat() == QVideoFrame::Format_BGRA32 ||
+           f.pixelFormat() == QVideoFrame::Format_BGRA32_Premultiplied ||
+           f.pixelFormat() == QVideoFrame::Format_BGR32  ||
+           f.pixelFormat() == QVideoFrame::Format_BGR24  ||
+           f.pixelFormat() == QVideoFrame::Format_BGR565 ||
+           f.pixelFormat() == QVideoFrame::Format_BGR555 ||
+           f.pixelFormat() == QVideoFrame::Format_BGRA5658_Premultiplied;
+}
+
+QVideoFrame KOCQFaceDetectionCamFilterRunable::run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags)
+{
+    Q_UNUSED(surfaceFormat);
+    Q_UNUSED(flags);
+    QImage img;
+    bool mirrorHorizontal;
+    bool mirrorVertical = false;
+
+    if(input->isValid())
+    {
+        bool BGRVideoFrame = isBGRvideoFrame(*input);
+        if (BGRVideoFrame)
+        {
+            input->map(QAbstractVideoBuffer::ReadOnly);
+            img = QImage(input->bits(),input->width(),input->height(),QImage::Format_ARGB32).copy();
+            input->unmap();
+            mirrorVertical = true;
+        }
+        else img = qt_imageFromVideoFrame(*input);
+
+        // Check if mirroring is needed
+        if (!mirrorVertical) mirrorVertical = surfaceFormat.isMirrored();
+        mirrorHorizontal = surfaceFormat.scanLineDirection() == QVideoSurfaceFormat::BottomToTop;
+        img = img.mirrored(mirrorHorizontal,mirrorVertical);
+
+        // NOTE: for BGR images loaded as RGB
+        if (BGRVideoFrame) img = img.rgbSwapped();
+
+        cv::Mat mat = Mat(img.height(), img.width(), CV_8UC4, img.bits(), img.bytesPerLine());
+
+        vector<Rect> faces, faces2;
+        const static Scalar colors[] =
+        {
+            Scalar(255,0,0),
+            Scalar(255,128,0),
+            Scalar(255,255,0),
+            Scalar(0,255,0),
+            Scalar(0,128,255),
+            Scalar(0,255,255),
+            Scalar(0,0,255),
+            Scalar(255,0,255)
+        };
+        Mat gray, smallImg;
+
+        cvtColor( mat, gray, COLOR_BGR2GRAY );
+        double fx = 1 / scale;
+        resize( gray, smallImg, Size(), fx, fx, INTER_LINEAR_EXACT );
+        equalizeHist( smallImg, smallImg );
+
+        cascade.detectMultiScale( smallImg, faces,
+            1.1, 2, 0
+            //|CASCADE_FIND_BIGGEST_OBJECT
+            //|CASCADE_DO_ROUGH_SEARCH
+            |CASCADE_SCALE_IMAGE,
+            Size(30, 30) );
+        if( tryflip )
+        {
+            flip(smallImg, smallImg, 1);
+            cascade.detectMultiScale( smallImg, faces2,
+                                     1.1, 2, 0
+                                     //|CASCADE_FIND_BIGGEST_OBJECT
+                                     //|CASCADE_DO_ROUGH_SEARCH
+                                     |CASCADE_SCALE_IMAGE,
+                                     Size(30, 30) );
+            for( vector<Rect>::const_iterator r = faces2.begin(); r != faces2.end(); ++r )
+            {
+                faces.push_back(Rect(smallImg.cols - r->x - r->width, r->y, r->width, r->height));
+            }
+        }
+
+        for ( size_t i = 0; i < faces.size(); i++ )
+        {
+            Rect r = faces[i];
+            Mat smallImgROI;
+            vector<Rect> nestedObjects;
+            Point center;
+            Scalar color = colors[i%8];
+            int radius;
+
+            double aspect_ratio = (double)r.width/r.height;
+            if( 0.75 < aspect_ratio && aspect_ratio < 1.3 )
+            {
+                center.x = cvRound((r.x + r.width*0.5)*scale);
+                center.y = cvRound((r.y + r.height*0.5)*scale);
+                radius = cvRound((r.width + r.height)*0.25*scale);
+                circle( mat, center, radius, color, 3, 8, 0 );
+            }
+            else
+                rectangle( mat, Point(cvRound(r.x*scale), cvRound(r.y*scale)),
+                           Point(cvRound((r.x + r.width-1)*scale), cvRound((r.y + r.height-1)*scale)),
+                           color, 3, 8, 0);
+            if( nestedCascade.empty() )
+                continue;
+            smallImgROI = smallImg( r );
+            nestedCascade.detectMultiScale( smallImgROI, nestedObjects,
+                1.1, 2, 0
+                //|CASCADE_FIND_BIGGEST_OBJECT
+                //|CASCADE_DO_ROUGH_SEARCH
+                //|CASCADE_DO_CANNY_PRUNING
+                |CASCADE_SCALE_IMAGE,
+                Size(30, 30) );
+            for ( size_t j = 0; j < nestedObjects.size(); j++ )
+            {
+                Rect nr = nestedObjects[j];
+                center.x = cvRound((r.x + nr.x + nr.width*0.5)*scale);
+                center.y = cvRound((r.y + nr.y + nr.height*0.5)*scale);
+                radius = cvRound((nr.width + nr.height)*0.25*scale);
+                circle( mat, center, radius, color, 3, 8, 0 );
+            }
+        }
+    }
+
+    // Return video frame from img
+    return  QVideoFrame(img);
+}
+
+#endif

@@ -38,6 +38,8 @@
  * 1.0.0: Aug-29-2020                                               *
  *        Initial version supports to detect face&eye using camera  *
  *        input in Windows                                          *
+ * 1.1.0: Feb-13-2021                                               *
+ *        Support for Android                                       *
  *******************************************************************/
 
 #ifndef KOCQFACEDETECTIONCAMFILTER_H
@@ -57,6 +59,7 @@
 using namespace std;
 using namespace cv;
 
+#ifdef Q_OS_WIN
 class KOCQFaceDetectionCamFilter : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -85,5 +88,42 @@ private:
     bool tryflip;
     double scale;
 };
+#elif defined(Q_OS_ANDROID)
+#include "private/qvideoframe_p.h"
+#include <QVideoFilterRunnable>
 
+class KOCQFaceDetectionCamFilterRunable;
+
+class KOCQFaceDetectionCamFilter : public QAbstractVideoFilter
+{
+    Q_OBJECT
+
+public:
+    KOCQFaceDetectionCamFilter();
+    QVideoFilterRunnable *createFilterRunnable();
+
+private:
+    KOCQFaceDetectionCamFilterRunable *rfr;
+};
+
+class KOCQFaceDetectionCamFilterRunable : public QVideoFilterRunnable
+{
+public:
+    KOCQFaceDetectionCamFilterRunable(KOCQFaceDetectionCamFilter *filter);
+    QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags);
+    bool isBGRvideoFrame(QVideoFrame f);
+
+private:
+    KOCQFaceDetectionCamFilter *m_filter;
+
+    void faceDetect();
+    void detectAndDraw( Mat& img, CascadeClassifier& cascade,
+                        CascadeClassifier& nestedCascade,
+                        double scale, bool tryflip );
+
+    CascadeClassifier cascade, nestedCascade;
+    bool tryflip;
+    double scale;
+};
+#endif
 #endif // KOCQFACEDETECTIONCAMFILTER_H

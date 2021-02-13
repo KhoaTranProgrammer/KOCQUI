@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 KhoaTran Programmer
+ * Copyright (c) 2020-2021 KhoaTran Programmer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.1 *
+ * VERSION: 1.1.0 *
  *****************/
 
 /********************************************************************
@@ -42,6 +42,8 @@
  *        Add option to get icon view type for addIconSlot.         *
  *        setupIconConnection in case of plugin is created.         *
  *        Add plugin detail description.                            *
+ * 1.1.0: Feb-13-2021                                               *
+ *        Support for Android                                       *
  *******************************************************************/
 
 #include "KOCQFaceDetection.h"
@@ -84,7 +86,11 @@ void KOCQFaceDetection::addIconSlot(const QVariant &v, const QString &type)
 
 void KOCQFaceDetection::iConClicked()
 {
+#if defined(Q_OS_ANDROID)
+    loadPlugin("qrc:/524b8a9c91a48c16544e57b8e826a84d/qml/MainScreen_ANDROID.qml");
+#else
     loadPlugin("qrc:/524b8a9c91a48c16544e57b8e826a84d/qml/MainScreen.qml");
+#endif
 }
 
 void KOCQFaceDetection::onPluginLoad()
