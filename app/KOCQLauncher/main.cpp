@@ -66,6 +66,8 @@
  *        Support to load Plugins KOCQHISTOGRAM for Android         *
  * 1.1.10: Feb-12-2021                                              *
  *        Support to load Plugins KOCQAffine for Android            *
+ * 1.1.11: Feb-13-2021                                              *
+ *        Support to load Plugins KOCQFaceDetection for Android     *
  *******************************************************************/
 
 #include <QGuiApplication>
@@ -115,6 +117,9 @@ int main(int argc, char *argv[])
 
     // Load KOCQAffine
     KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQAffine.so");
+
+    // Load KOCQFaceDetection
+    KOCQPluginManager::getInstance()->loadPlugin(libLocation + "/libKOCQFaceDetection.so");
 #else
     QDir dir;
     dir.cdUp();
