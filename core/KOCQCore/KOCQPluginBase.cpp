@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.3 *
+ * VERSION: 1.0.4 *
  *****************/
 
 /********************************************************************
@@ -50,6 +50,8 @@
  *        Add option to get icon view type for addIconSlot, addIcon.*
  *        Add method to load plugin in Grid/List/Path view.         *
  *        setupIconConnection when icon view type change.           *
+ * 1.0.4: May-06-2021                                               *
+ *        Change ListView display in addIcon4ListView               *
  *******************************************************************/
 
 #include "KOCQPluginBase.h"
@@ -229,13 +231,12 @@ void KOCQPluginBase::addIcon4ListView(const QVariant &v, const QString icon, con
                         "}"
                         "Rectangle { "
                             "id: id_pluginDetail; "
-                            "color: \"white\";"
+                            "color: \"#43A047\";"
                             "anchors.bottom: parent.bottom; "
                             "anchors.left: id_name.right; "
                             "anchors.top: parent.top; "
                             "anchors.right: parent.right; "
                             "anchors.margins: height * 0.01; "
-                            "radius: height * 0.1;"
                             "Text {"
                                 "anchors.fill: parent; "
                                 "anchors.margins: height * 0.01; "
