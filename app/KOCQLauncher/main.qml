@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.5 *
+ * VERSION: 1.0.6 *
  *****************/
 
 /********************************************************************
@@ -48,6 +48,8 @@
  *        Supports ListView and PathView                            *
  * 1.0.5: Jan-23-2021                                               *
  *        Load Qt Multimedia                                        *
+ * 1.0.6: May-08-2021                                               *
+ *        Support Title                                             *
  *******************************************************************/
 
 import QtQuick 2.6
@@ -121,6 +123,15 @@ Rectangle {
                     Qt.quit()
                 }
             }
+        }
+
+        Text {
+            id: id_titleMsg
+            anchors.centerIn: parent
+            text: ""
+            font.family: "Helvetica"
+            font.pointSize: parent.height
+            color: "Black"
         }
     }
 
@@ -297,6 +308,11 @@ Rectangle {
 
     function quitPlugin() {
         
+    }
+
+    // Function use to update title
+    function setTitle(msgTitle) {
+        id_titleMsg.text = msgTitle
     }
 
     // Using to open view control
