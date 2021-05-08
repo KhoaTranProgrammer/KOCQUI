@@ -23,7 +23,7 @@
  */
 
 /******************
- * VERSION: 1.0.4 *
+ * VERSION: 1.0.5 *
  *****************/
 
 /********************************************************************
@@ -52,6 +52,9 @@
  *        setupIconConnection when icon view type change.           *
  * 1.0.4: May-06-2021                                               *
  *        Change ListView display in addIcon4ListView               *
+ * 1.0.5: May-08-2021                                               *
+ *        InvokeMethod setTitle method in loadPlugin and            *
+ *        unloadPluginSlot                                          *
  *******************************************************************/
 
 #include "KOCQPluginBase.h"
@@ -279,6 +282,10 @@ void KOCQPluginBase::loadPlugin(const QString qmlFile)
                 QObject::connect(getRootObject(), SIGNAL(homeSignal()),
                                    this, SLOT(unloadPluginSlot()));
                 onPluginLoad();
+
+                // Set title
+                QMetaObject::invokeMethod(getRootObject(), "setTitle",
+                        Q_ARG(QVariant, getPluginName()));
             }
             break;
         }
@@ -291,6 +298,10 @@ void KOCQPluginBase::loadPlugin(const QString qmlFile)
                 QObject::connect(getRootObject(), SIGNAL(homeSignal()),
                                    this, SLOT(unloadPluginSlot()));
                 onPluginLoad();
+
+                // Set title
+                QMetaObject::invokeMethod(getRootObject(), "setTitle",
+                        Q_ARG(QVariant, getPluginName()));
             }
             break;
         }
@@ -304,4 +315,8 @@ void KOCQPluginBase::unloadPluginSlot()
     m_loader->setProperty("sourceComponent", QVariant::fromValue<QQmlComponent*>(NULL));
     QObject::disconnect(getRootObject(), SIGNAL(homeSignal()), 0, 0);
     m_pluginstate = KOCQ_PLUGINUNLOAD;
+
+    // Set title
+    QMetaObject::invokeMethod(getRootObject(), "setTitle",
+            Q_ARG(QVariant, ""));
 }
